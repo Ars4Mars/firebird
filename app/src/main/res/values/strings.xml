@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FireBird5</string>
+
+    <string name="wheel">Steering Wheel</string>
+    <string name="ground">The Ground</string>
+    <string name="window">Window Frame</string>
+    <string name="sun">The Sun</string>
+    <string name="cloud">A Cloud</string>
+    <string name="bird">Bird</string>
+    <string name="evening">#BB584F</string>
+    <string name="night">#20242B</string>
+    <string name="day">#769CDD</string>
+    <string name="spacegrey">#BFC5D1</string>
+
+    <string name="title_activity_maps">Map</string>
+</resources>

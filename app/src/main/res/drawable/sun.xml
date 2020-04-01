@@ -1,0 +1,23 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+	android:dither="true"
+	android:shape="oval">
+	<corners android:radius="10dp"/>
+
+	<rotate
+		android:fromDegrees="45"
+		android:toDegrees="45"
+		android:pivotX="-60%"
+		android:pivotY="87%" />
+
+	<gradient
+		android:endColor="#ffff6600"
+		android:gradientRadius="150"
+		android:startColor="#ffffcc00"
+		android:type="linear"
+		android:useLevel="false" />
+
+	<size
+		android:height="100dp"
+		android:width="100dp" />
+
+</shape>

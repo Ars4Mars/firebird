@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ForwardBlack">#06010E</color>
+    <color name="MiddleBLue">#003185</color>
+    <color name="EndWhite">#727EC1</color>
+    <color name="colorPrimary">#06010E</color>
+    <color name="colorPrimaryDark">#475CAA</color>
+    <color name="colorAccent">#1B80D8</color>
+    <color name="anthracite">#2B292E</color>
+
+    <color name="FireBirdtheme">#C12020</color>
+
+    <color name="TextOnDashboard">#B7D8EA</color>
+</resources>
