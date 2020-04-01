@@ -1,4 +1,4 @@
-package com.revolve44.firebird5;
+package com.revolve44.firebird5.animation;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

@@ -81,6 +81,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="07:40"
+                android:fontFamily="@font/montserrat"
                 android:textColor="#5B67D5"
                 android:textSize="20sp">
 
@@ -104,6 +105,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="18:43"
+                android:fontFamily="@font/montserrat"
                 android:textColor="#5B67D5"
                 android:textSize="20sp">
 
@@ -136,7 +138,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="100"
+            android:hint="100"
             android:textColor="#B7D8EA"
             android:textSize="70sp"
             android:textStyle="bold" />
@@ -149,7 +151,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="194dp"
             android:text="Watts"
-            android:textColor="#3A5061" />
+            android:textColor="#5A7D98" />
 
         <TextView
             android:id="@+id/textView3"
@@ -159,6 +161,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="214dp"
             android:text="London"
+            android:fontFamily="@font/montserrat"
             android:textColor="#B7D8EA"
             android:textSize="24sp" />
 
@@ -237,6 +240,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Now you may use:"
+                    android:fontFamily="@font/montserrat"
                     android:textColor="#3F4DCA">
                 </TextView>
 
@@ -301,11 +305,10 @@
 
 
             <Button
-                android:id="@+id/button9"
+                android:id="@+id/refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="nine"
                 android:text="refresh" />
 
         </LinearLayout>
@@ -317,7 +320,7 @@
             android:visibility="invisible"
             android:layout_below="@id/dashboard3">
 
-            <com.revolve44.firebird5.MovingCircleLoader
+            <com.revolve44.firebird5.animation.MovingCircleLoader
                 android:id="@+id/circleLoader"
                 android:layout_width="300dp"
                 android:layout_height="50dp"

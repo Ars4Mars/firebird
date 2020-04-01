@@ -55,7 +55,7 @@
 
             </TextView>
 
-            <com.revolve44.firebird5.MovingCircleLoader
+            <com.revolve44.firebird5.animation.MovingCircleLoader
                 android:id="@+id/circleLoader"
                 android:layout_width="200dp"
                 android:layout_height="90dp"

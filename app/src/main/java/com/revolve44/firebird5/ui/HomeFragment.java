@@ -3,10 +3,13 @@ package com.revolve44.firebird5.ui;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +20,14 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +35,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.revolve44.firebird5.MainActivity;
 import com.revolve44.firebird5.R;
+
+import java.util.Objects;
 import java.util.Random;
 
 public class HomeFragment extends Fragment {
@@ -74,9 +82,15 @@ public class HomeFragment extends Fragment {
 //    }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+//        realOutputTextView.setText("" + currentPower + " Watts");
+//        cityTextView.setText(city);
 
 //        RelativeLayout SkyLayout = getView().findViewById(R.id.SkyLayout);
 //        // or  (ImageView) view.findViewById(R.id.foo);
@@ -90,15 +104,60 @@ public class HomeFragment extends Fragment {
 //        skyAnim.setEvaluator(new ArgbEvaluator());
 //        skyAnim.start();
 
-        Toast.makeText(getActivity(),"Starting fragment"+width,Toast.LENGTH_SHORT).show();
-        //MasterCloud();
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_home, container, false); //added View root
+
+        ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
+        ((MainActivity)getActivity()).runforecast();
+        MainActivity activity = (MainActivity) getActivity();
+        final Float currentPower2 = activity.getCurrentPowerData();
+        String city = activity.getCityData();
+
+
+        //((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
+        final TextView CurrentPower = root.findViewById(R.id.Forecast_number);
+        final LinearLayout mainLoader = root.findViewById(R.id.mainloader);
+        CurrentPower.setText(""+currentPower2);
+
+
+
+
+        Button button = root.findViewById(R.id.refresh);
+//        Toast.makeText(getActivity(),"Starting fragment "+city,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(),"stay starting "+currentPower,Toast.LENGTH_SHORT).show();
+        //MasterCloud();
+
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v)
+            {
+                ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
+                CurrentPower.setText(""+currentPower2);
+                mainLoader.setVisibility(View.VISIBLE);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+
+                        MainActivity activity = (MainActivity) getActivity();
+                        final Float currentPower2 = activity.getCurrentPowerData();
+                        CurrentPower.setText(""+currentPower2);
+                        mainLoader.setVisibility(View.INVISIBLE);
+                    }
+                }, 5000);
+            }
+        });
+        //CurrentPower.setText(""+a);
+
 
 //        ivSun = (ImageView) findViewById(R.id.ivSun);
 //        SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
@@ -125,7 +184,7 @@ public class HomeFragment extends Fragment {
 
         Random r = new Random();
         random_num = r.nextInt(max - min + 1) + min;
-        Toast.makeText(getActivity(),"Text!"+width,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"Text!"+width,Toast.LENGTH_SHORT).show();
         //Random end
 
         //sunny day
@@ -137,6 +196,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
+
 
 
 
@@ -189,6 +252,7 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void firstsection() {
 
     }
