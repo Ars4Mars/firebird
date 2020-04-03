@@ -15,10 +15,10 @@ import retrofit2.http.Query;
 public interface WeatherService {
     @GET("data/2.5/weather?")
         // закомиченный запрос норм
-//    Call<WeatherResponse> getCurrentWeatherData(@Query("lat") String lat, @Query("lon") String lon, @Query("units") String metric,
-//                                                @Query("APPID") String app_id);
-    Call<WeatherResponse> getCurrentWeatherData(@Query("q") String CITY, @Query("units") String metric,
+    Call<WeatherResponse> getCurrentWeatherData(@Query("lat") String lat, @Query("lon") String lon, @Query("units") String metric,
                                                 @Query("APPID") String app_id);
+  //  Call<WeatherResponse> getCurrentWeatherData(@Query("q") String CITY, @Query("units") String metric,
+  //                                              @Query("APPID") String app_id);
 
 
     @GET("data/2.5/forecast?")

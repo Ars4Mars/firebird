@@ -1,7 +1,12 @@
 package com.revolve44.firebird5;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,14 +30,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker marker;
     double latitude;
     double longitude;
+    int NominalPower;
+
+    String Latitude;
+    String Longitude;
+
+
+
+
+    LatLng MYLOCATION =  new LatLng (latitude, longitude);
+
+    public static final String SHARED_PREFS = "sharedPrefs";
+
+
     LinearLayout Loader;
 
     TextView textView;
+
+    EditText inputnominalpower;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        loadData();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -40,6 +61,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //textView = findViewById(R.id.LOLIK);
         Toast.makeText(this,"lol",Toast.LENGTH_LONG).show();
         Loader = (LinearLayout) findViewById(R.id.loader);
+        inputnominalpower = findViewById(R.id.nominalpower);
+
+
 
 
     }
@@ -55,16 +79,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        loadData();
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        //LatLng sydney = new LatLng(-34, 151);
 
         marker = googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
+                .position(MYLOCATION)
                 .draggable(true)
                 );
         mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(sydney)); // move camera to current position
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -126,9 +151,62 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public void ClickButton(View view) {
-        Loader.setVisibility(View.VISIBLE);
+        //Loader.setVisibility(View.VISIBLE);
+        //NominalPower = Integer.parseInt(inputnominalpower.getText().toString());
+        Latitude = String.valueOf(latitude);
+        Latitude = Latitude.substring(0,6);
+
+        Longitude = String.valueOf(longitude);
+        Longitude = Longitude.substring(0,6);
+
+        Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP,0,250);
+        toast.show();
+        saveData();
+
+
+
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        intent.putExtra("FROM_MAPS1", Latitude);
+        intent.putExtra("FROM_MAPS2", Longitude);
+        startActivity(intent);
+
+
+        ////////////////////////////////////////////////////////////////////
+//        Intent intent3 = new Intent(getBaseContext(), MapsActivity.class);
+//        intent3.putExtra("FROM_MAPS3", NominalPower);
+//        startActivity(intent3);
+
+
 
     }
+
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putFloat("latitudeF",(float)latitude);
+        editor.putFloat("longitudeF",(float)longitude);
+
+//        editor.putString(TEXT, textView.getText().toString());
+//        editor.putBoolean(SWITCH1, switch1.isChecked());
+
+        editor.apply();
+
+        Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
+        latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
+        longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
+
+//        text = sharedPreferences.getString(TEXT, "");
+//        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
+    }
+
+
 }
 
 

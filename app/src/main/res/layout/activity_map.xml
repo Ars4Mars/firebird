@@ -24,8 +24,10 @@
 
 
         <EditText
+            android:id="@+id/nominalpower"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:inputType="number"
             android:hint="Max output of my solar panels (Watts)">
 
         </EditText>
@@ -61,6 +63,8 @@
                 android:layout_height="90dp"
                 android:layout_gravity="center"
                 android:foregroundGravity="center" />
+
+
 
         </LinearLayout>
 

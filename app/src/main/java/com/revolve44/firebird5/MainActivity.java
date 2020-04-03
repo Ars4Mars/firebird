@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String BaseUrl = "https://api.openweathermap.org/";
     public static String CITY;
+
     public static String AppId = "1b87fee17221ed7893aa488cff08bfa2";
     public static String MC = "&units=metric&appid=";
 
@@ -103,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lat = getIntent().getStringExtra("FROM_MAPS1");
+        lon = getIntent().getStringExtra("FROM_MAPS2");
 //        if (NominalPower>0){
 //            getCurrentData();
 //        }
@@ -129,14 +132,17 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void getCurrentData() {
-        CITY = "Mexico";
-        NominalPower = 100;
+
+
+        //CITY = "Mexico";
+        NominalPower = 1000;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         WeatherService service = retrofit.create(WeatherService.class);
-        Call<WeatherResponse> call = service.getCurrentWeatherData(CITY, metric, AppId);
+        //Call<WeatherResponse> call = service.getCurrentWeatherData(CITY, metric, AppId);
+        Call<WeatherResponse> call = service.getCurrentWeatherData(lat, lon, metric, AppId);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
@@ -222,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
         String sunset = formaten.format(date);
 
         //mainoutput.setText("Curr pow is "+ CurrentPower);
-        Toast.makeText(this,"Nominal is "+NominalPower+" Current power is "+ CurrentPower, LENGTH_LONG).show();
-
+        Toast.makeText(this,"Nominal is "+NominalPower+" Current power is "+ CurrentPower, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, " Lat is "+lat+" "+ lon, Toast.LENGTH_SHORT).show();
     }
 
     public Float getCurrentPowerData() {
