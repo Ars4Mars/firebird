@@ -2,6 +2,7 @@ package com.revolve44.firebird5;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.Gravity;
@@ -35,6 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String Latitude;
     String Longitude;
 
+    Boolean check = false;
+
 
 
 
@@ -53,20 +56,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        loadData();
+
+        if (latitude-longitude>0) {
+            loadData();
+        }else if(latitude-longitude<0){
+            loadData();
+        }else{
+            Toast.makeText(this,"first start",Toast.LENGTH_LONG).show();
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //textView = findViewById(R.id.LOLIK);
-        Toast.makeText(this,"lol",Toast.LENGTH_LONG).show();
+
         Loader = (LinearLayout) findViewById(R.id.loader);
         inputnominalpower = findViewById(R.id.nominalpower);
+
+        //marker.setPosition(latitude,longitude);
+        //lol = marker.setPosition(lol);
 
 
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -78,18 +99,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
+        latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
+        longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
+        check = sharedPreferences.getBoolean("CHECK_SAVINGS",check);
         mMap = googleMap;
-        loadData();
 
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
 
-        marker = googleMap.addMarker(new MarkerOptions()
-                .position(MYLOCATION)
-                .draggable(true)
-                );
-        mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
+        if(check = true){
+            LatLng resumedPosition = new LatLng(latitude,longitude);
+
+            marker = googleMap.addMarker(new MarkerOptions()
+                    .position(resumedPosition)
+                    .draggable(true)
+            );
+            mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(resumedPosition)); // move camera to current position
+        }else{
+            marker = googleMap.addMarker(new MarkerOptions()
+                    .position(MYLOCATION)
+                    .draggable(true)
+            );
+            mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
+
+        }
+//        mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
+//        mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -122,11 +159,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                  //Placing a marker on the touched position
                 mMap.addMarker(markerOptions);
-
+                // get coord
                 latitude = latLng.latitude;
                 longitude = latLng.longitude;
 
                 Toast.makeText(MapsActivity.this, ""+latitude+" "+longitude, Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -144,20 +182,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        lol = marker.getPosition();
+        MYLOCATION = marker.getPosition();
         textView.setText(lol+"");
         Toast.makeText(MapsActivity.this, ""+lol, Toast.LENGTH_SHORT).show();
     }
 
 
+
+
+
     public void ClickButton(View view) {
-        //Loader.setVisibility(View.VISIBLE);
-        //NominalPower = Integer.parseInt(inputnominalpower.getText().toString());
+
+
         Latitude = String.valueOf(latitude);
-        Latitude = Latitude.substring(0,6);
+        Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
 
         Longitude = String.valueOf(longitude);
-        Longitude = Longitude.substring(0,6);
+        Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
 
         Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP,0,250);
@@ -165,20 +206,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         saveData();
 
 
-
+        // send coordination to MainActivity
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.putExtra("FROM_MAPS1", Latitude);
         intent.putExtra("FROM_MAPS2", Longitude);
         startActivity(intent);
-
-
-        ////////////////////////////////////////////////////////////////////
-//        Intent intent3 = new Intent(getBaseContext(), MapsActivity.class);
-//        intent3.putExtra("FROM_MAPS3", NominalPower);
-//        startActivity(intent3);
-
-
-
     }
 
     public void saveData() {
@@ -187,26 +219,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         editor.putFloat("latitudeF",(float)latitude);
         editor.putFloat("longitudeF",(float)longitude);
+        editor.putBoolean("CHECK_SAVINGS",check);
 
 //        editor.putString(TEXT, textView.getText().toString());
 //        editor.putBoolean(SWITCH1, switch1.isChecked());
 
-        editor.apply();
+        editor.apply();// change from .commit()
 
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
 
     public void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//
+//        latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
+//        longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
+//        check = sharedPreferences.getBoolean("CHECK_SAVINGS",check);
+//
+//        LatLng resumedPosition = new LatLng(latitude,longitude);
+//
+//        mMap.clear();
+//        mMap.addMarker(new MarkerOptions().position(resumedPosition).draggable(false));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(resumedPosition));
+//        //marker.setPosition(MYLOCATION);
+//
+//        Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();
 
-        latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
-        longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
 
 //        text = sharedPreferences.getString(TEXT, "");
 //        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
     }
 
 
+    public void testMEM(View view) {
+        loadData();
+        //onMapReady();
+        marker.setPosition(MYLOCATION);
+        Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();
+    }
 }
 
 
