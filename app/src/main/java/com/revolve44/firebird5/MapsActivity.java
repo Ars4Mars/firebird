@@ -38,9 +38,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     Boolean check = false;
 
-
-
-
     LatLng MYLOCATION =  new LatLng (latitude, longitude);
 
     public static final String SHARED_PREFS = "sharedPrefs";
@@ -57,14 +54,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        if (latitude-longitude>0) {
-            loadData();
-        }else if(latitude-longitude<0){
-            loadData();
-        }else{
-            Toast.makeText(this,"first start",Toast.LENGTH_LONG).show();
-        }
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,22 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Loader = (LinearLayout) findViewById(R.id.loader);
         inputnominalpower = findViewById(R.id.nominalpower);
-
-        //marker.setPosition(latitude,longitude);
-        //lol = marker.setPosition(lol);
-
-
-
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    /**
+    /** ШАБЛОННЫЙ ГУГОЛОВСКИЙ КОМЕНТАРИЙ ПО ПОВОДУ ИХ КАРТ, РЕЛАКС. донт ворри
+     *
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -125,8 +102,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
 
         }
-//        mMap.setOnMarkerDragListener(this); // bridge for connect marker with methods located below
-//        mMap.animateCamera(CameraUpdateFactory.newLatLng(MYLOCATION)); // move camera to current position
 
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -168,6 +143,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+
+
     }
 
     @Override
@@ -187,12 +164,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(MapsActivity.this, ""+lol, Toast.LENGTH_SHORT).show();
     }
 
-
-
-
-
     public void ClickButton(View view) {
 
+        // Float Coordination ==> String Coordination
+        // its need for Retrofit request
 
         Latitude = String.valueOf(latitude);
         Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
@@ -205,11 +180,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         toast.show();
         saveData();
 
-
         // send coordination to MainActivity
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.putExtra("FROM_MAPS1", Latitude);
         intent.putExtra("FROM_MAPS2", Longitude);
+        intent.putExtra("CHECK_SAVINGS",check);
         startActivity(intent);
     }
 
@@ -220,6 +195,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         editor.putFloat("latitudeF",(float)latitude);
         editor.putFloat("longitudeF",(float)longitude);
         editor.putBoolean("CHECK_SAVINGS",check);
+        editor.putString("lati",Latitude);
+        editor.putString("long",Longitude);
 
 //        editor.putString(TEXT, textView.getText().toString());
 //        editor.putBoolean(SWITCH1, switch1.isChecked());
@@ -229,32 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
 
-    public void loadData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-//
-//        latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
-//        longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
-//        check = sharedPreferences.getBoolean("CHECK_SAVINGS",check);
-//
-//        LatLng resumedPosition = new LatLng(latitude,longitude);
-//
-//        mMap.clear();
-//        mMap.addMarker(new MarkerOptions().position(resumedPosition).draggable(false));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(resumedPosition));
-//        //marker.setPosition(MYLOCATION);
-//
-//        Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();
-
-
-//        text = sharedPreferences.getString(TEXT, "");
-//        switchOnOff = sharedPreferences.getBoolean(SWITCH1, false);
-    }
-
-
     public void testMEM(View view) {
-        loadData();
-        //onMapReady();
-        marker.setPosition(MYLOCATION);
         Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();
     }
 }

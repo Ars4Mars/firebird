@@ -112,14 +112,15 @@
             </TextView>
 
         </LinearLayout>
+
         <ImageView
             android:id="@+id/fan"
-            android:layout_width="80dp"
-            android:layout_height="84dp"
+            android:layout_width="61dp"
+            android:layout_height="66dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="164dp"
+            android:layout_marginTop="183dp"
             map:srcCompat="@drawable/fan" />
 
         <TextView
@@ -154,14 +155,15 @@
             android:textColor="#5A7D98" />
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:id="@+id/cityView"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="214dp"
-            android:text="London"
+
             android:fontFamily="@font/montserrat"
+            android:textAlignment="center"
             android:textColor="#B7D8EA"
             android:textSize="24sp" />
 
@@ -171,8 +173,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="97dp"
-            android:layout_marginTop="195dp"
+            android:layout_marginStart="77dp"
+            android:layout_marginTop="196dp"
             android:text="5"
             android:textColor="#93ADE3"
             android:textSize="24sp" />
@@ -183,8 +185,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="91dp"
-            android:layout_marginTop="225dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="226dp"
             android:text="m/s" />
 
         <ImageView

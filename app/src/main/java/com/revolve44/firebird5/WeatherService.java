@@ -21,6 +21,6 @@ public interface WeatherService {
   //                                              @Query("APPID") String app_id);
 
 
-    @GET("data/2.5/forecast?")
-    Call<WeatherForecastResponse> getDailyData(@Query("q") String CITY, @Query("APPID") String app_id);
+//    @GET("data/2.5/forecast?")
+//    Call<WeatherForecastResponse> getDailyData(@Query("q") String CITY, @Query("APPID") String app_id);
 }

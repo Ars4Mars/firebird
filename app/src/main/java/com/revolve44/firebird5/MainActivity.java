@@ -14,9 +14,11 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -70,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
     public TextView temperatureText;
     public TextView windText;
 
-    public static String lat = "80.75";
-    public static String lon = "35.61";
+    public static String lat;
+    public static String lon;
     public static String metric = "metric";
 
 
@@ -84,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
 
     public long UnixSunrise;
     public long UnixSunset;
+
+    public String city;
+    public String country;
 
     //public String
 
@@ -99,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView mainoutput;
 
+    Boolean check = false;
+
+    Context context;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +115,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lat = getIntent().getStringExtra("FROM_MAPS1");
         lon = getIntent().getStringExtra("FROM_MAPS2");
+        check = getIntent().getBooleanExtra("CHECK_SAVINGS",check);
 //        if (NominalPower>0){
 //            getCurrentData();
 //        }
+
+
         RelativeLayout SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
 
 //        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -134,6 +146,12 @@ public class MainActivity extends AppCompatActivity {
     void getCurrentData() {
 
 
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        lat = sharedPreferences.getString("lati",lat);
+        lon = sharedPreferences.getString("long",lon);
+
+
+
         //CITY = "Mexico";
         NominalPower = 1000;
         Retrofit retrofit = new Retrofit.Builder()
@@ -155,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
                     cloud = weatherResponse.clouds.all;
                     temp = weatherResponse.main.temp;
                     wind = weatherResponse.wind.speed;
+                    country = weatherResponse.sys.country;
+                    city = weatherResponse.name; // i added two variable and this work, before i dont see this in Toast.
 
                     // time of sunrise and sunset
                     UnixSunrise = weatherResponse.sys.sunrise;
@@ -181,32 +201,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // FOR GRAPHICS on 5 days
-        Call<WeatherForecastResponse> forecastCall = service.getDailyData(CITY, MainActivity.AppId);
-        forecastCall.enqueue(new Callback<WeatherForecastResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Response<WeatherForecastResponse> response) {
-                if (response.code() == 200) {
-                    WeatherForecastResponse weatherResponse = response.body();
-                    assert weatherResponse != null;
-                    ArrayList<WeatherResponse> list = weatherResponse.list;
-                    if (dataMap.size() == 0){
-                        for(WeatherResponse wr: list){
-                            dataMap.put((long)wr.dt * 1000, NominalPower * wr.clouds.all / 100);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Throwable t) {
-                Context context = getApplicationContext();
-                CharSequence text = "Fail in Response"+t.getMessage();
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        });
+//        Call<WeatherForecastResponse> forecastCall = service.getDailyData(CITY, MainActivity.AppId);
+//        forecastCall.enqueue(new Callback<WeatherForecastResponse>() {
+//            @Override
+//            public void onResponse(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Response<WeatherForecastResponse> response) {
+//                if (response.code() == 200) {
+//                    WeatherForecastResponse weatherResponse = response.body();
+//                    assert weatherResponse != null;
+//                    ArrayList<WeatherResponse> list = weatherResponse.list;
+//                    if (dataMap.size() == 0){
+//                        for(WeatherResponse wr: list){
+//                            dataMap.put((long)wr.dt * 1000, NominalPower * wr.clouds.all / 100);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Throwable t) {
+//                Context context = getApplicationContext();
+//                CharSequence text = "Fail in Response"+t.getMessage();
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
+//            }
+//        });
         Context context = getApplicationContext();
 //        CharSequence text = "Hello toast! " + cloud + " and "+ temp;
 //        int duration = Toast.LENGTH_SHORT;
@@ -227,17 +247,29 @@ public class MainActivity extends AppCompatActivity {
         formaten.setTimeZone(TimeZone.getTimeZone("GMT"));
         String sunset = formaten.format(date);
 
-        //mainoutput.setText("Curr pow is "+ CurrentPower);
-        Toast.makeText(this,"Nominal is "+NominalPower+" Current power is "+ CurrentPower, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, " Lat is "+lat+" "+ lon, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, city+country, Toast.LENGTH_SHORT).show();
+
+//        if (check=true) {
+//            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//            editor.putString("latitude", lat);
+//            editor.putString("longitude", lon);
+//            //editor.putBoolean("CHECK_SAVINGS",check);
+//        }
     }
 
     public Float getCurrentPowerData() {
         return CurrentPower;
     }
-    public String getCityData() {
-        return CITY;
+//    public String getCityData() {
+//        return CITY;
+//    }
+    public String getСityData() {
+        return city;
     }
+
+
     public Float getTempData() {
         return temp;
     }

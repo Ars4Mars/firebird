@@ -117,21 +117,19 @@ public class HomeFragment extends Fragment {
         ((MainActivity)getActivity()).runforecast();
         MainActivity activity = (MainActivity) getActivity();
         final Float currentPower2 = activity.getCurrentPowerData();
-        String city = activity.getCityData();
-
+        final String city = activity.getСityData();
 
         //((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
         final TextView CurrentPower = root.findViewById(R.id.Forecast_number);
+        final TextView CityView = root.findViewById(R.id.cityView);
+
         final LinearLayout mainLoader = root.findViewById(R.id.mainloader);
+
         CurrentPower.setText(""+currentPower2);
-
-
-
+        CityView.setText(city);
 
         Button button = root.findViewById(R.id.refresh);
 //        Toast.makeText(getActivity(),"Starting fragment "+city,Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(),"stay starting "+currentPower,Toast.LENGTH_SHORT).show();
-        //MasterCloud();
 
         button.setOnClickListener(new View.OnClickListener()
         {
@@ -150,18 +148,14 @@ public class HomeFragment extends Fragment {
 
                         MainActivity activity = (MainActivity) getActivity();
                         final Float currentPower2 = activity.getCurrentPowerData();
+                        final String city = activity.getСityData();
                         CurrentPower.setText(""+currentPower2);
+                        CityView.setText(""+city);
                         mainLoader.setVisibility(View.INVISIBLE);
                     }
-                }, 5000);
+                }, 5500);
             }
         });
-        //CurrentPower.setText(""+a);
-
-
-//        ivSun = (ImageView) findViewById(R.id.ivSun);
-//        SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
-//        ivRoof = (ImageView) findViewById(R.id.ivRoof);
 
         final ImageView sun= root.findViewById(R.id.ivSun);
         //final RelativeLayout SkyLayout= root.findViewById(R.id.SkyLayout);
