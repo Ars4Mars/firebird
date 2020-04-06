@@ -30,7 +30,7 @@
             android:layout_height="100dp"
             android:visibility="gone"
 
-            android:src="@drawable/clouds" />
+            android:src="@drawable/cloud1" />
 
         <ImageView
             android:id="@+id/cloud2"
@@ -38,7 +38,7 @@
             android:layout_height="100dp"
             android:visibility="gone"
 
-            android:src="@drawable/clouds" />
+            android:src="@drawable/cloud2" />
 
         <ImageView
             android:id="@+id/cloud3"
@@ -46,14 +46,14 @@
             android:layout_height="100dp"
             android:visibility="gone"
 
-            android:src="@drawable/clouds" />
+            android:src="@drawable/cloud3" />
 
         <ImageView
             android:id="@+id/cloud4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:visibility="gone"
-            android:src="@drawable/clouds" />
+            android:src="@drawable/cloud4" />
 
         <ImageView
             android:id="@+id/ivRoof"
@@ -80,7 +80,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="07:40"
+
                 android:fontFamily="@font/montserrat"
                 android:textColor="#5B67D5"
                 android:textSize="20sp">
@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:text="8 hours"
+
                 android:textColor="#5B67D5"
                 android:textSize="30sp">
             </TextView>
@@ -115,12 +115,13 @@
 
         <ImageView
             android:id="@+id/fan"
-            android:layout_width="61dp"
-            android:layout_height="66dp"
+            android:layout_width="38dp"
+            android:layout_height="43dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="183dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="200dp"
+
             map:srcCompat="@drawable/fan" />
 
         <TextView
@@ -168,7 +169,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/WindSpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -190,7 +191,7 @@
             android:text="m/s" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/HotView"
             android:layout_width="26dp"
             android:layout_height="29dp"
             android:layout_alignParentTop="true"
@@ -201,7 +202,7 @@
             gauge:srcCompat="@drawable/hot2" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/CloudView"
             android:layout_width="27dp"
             android:layout_height="29dp"
             android:layout_alignParentTop="true"
@@ -212,7 +213,7 @@
             gauge:srcCompat="@drawable/rain1" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/NominalView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -317,15 +318,15 @@
         <LinearLayout
             android:id="@+id/mainloader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:gravity="center"
             android:visibility="invisible"
             android:layout_below="@id/dashboard3">
 
             <com.revolve44.firebird5.animation.MovingCircleLoader
                 android:id="@+id/circleLoader"
-                android:layout_width="300dp"
-                android:layout_height="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:foregroundGravity="center" />
 

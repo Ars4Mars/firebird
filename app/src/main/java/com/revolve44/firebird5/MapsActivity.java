@@ -36,6 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     String Latitude;
     String Longitude;
 
+    String currentTimezone = "GMT+0";
+
     Boolean check = false;
 
     LatLng MYLOCATION =  new LatLng (latitude, longitude);
@@ -205,6 +207,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
+
+
 
     public void testMEM(View view) {
         Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();

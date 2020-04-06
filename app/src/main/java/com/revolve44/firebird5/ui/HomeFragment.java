@@ -87,8 +87,6 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
 //        realOutputTextView.setText("" + currentPower + " Watts");
 //        cityTextView.setText(city);
 
@@ -103,7 +101,6 @@ public class HomeFragment extends Fragment {
 //        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
 //        skyAnim.setEvaluator(new ArgbEvaluator());
 //        skyAnim.start();
-
 
     }
 
@@ -122,6 +119,8 @@ public class HomeFragment extends Fragment {
         //((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
         final TextView CurrentPower = root.findViewById(R.id.Forecast_number);
         final TextView CityView = root.findViewById(R.id.cityView);
+        final TextView SunriseView = root.findViewById(R.id.timesunrise);
+        final TextView SolarHoursView = root.findViewById(R.id.solardayhr);
 
         final LinearLayout mainLoader = root.findViewById(R.id.mainloader);
 
@@ -145,13 +144,52 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         // Do something after 5s = 5000ms
+                        ((MainActivity) Objects.requireNonNull(getActivity())).TimeManipulations();
 
                         MainActivity activity = (MainActivity) getActivity();
                         final Float currentPower2 = activity.getCurrentPowerData();
                         final String city = activity.getСityData();
+                        final String sunrise = activity.getSunrisetime();
+                        final String solarhoursString = activity.getSolarHours();
+                        final int SunPeriod = activity.getSunPeriod();
+
                         CurrentPower.setText(""+currentPower2);
                         CityView.setText(""+city);
+                        SunriseView.setText(""+sunrise);
+                        SolarHoursView.setText(solarhoursString+ " hr");
                         mainLoader.setVisibility(View.INVISIBLE);
+
+
+                        //MasterCloud();
+                        //sunrise();
+                        DisplayMetrics displaymetrics = new DisplayMetrics();
+                        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                        height = displaymetrics.heightPixels;
+                        width = displaymetrics.widthPixels;
+
+                        if (SunPeriod==1){
+                            sunrise();
+                        }else if (SunPeriod == 2){
+                            deg45();
+                        }else if (SunPeriod == 3){
+                            deg90();
+                        }else if (SunPeriod == 4){
+                            deg135();
+                        }else if (SunPeriod == 5){
+                            sunset();
+                        }else{
+                            night();
+                        }
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Do something after 5s = 5000ms
+
+                                rotateFan();
+                            }
+                        }, 4500);
                     }
                 }, 5500);
             }
@@ -169,8 +207,8 @@ public class HomeFragment extends Fragment {
 
         final ImageView imageX= root.findViewById(R.id.fan);
 
-        final int width = getResources().getConfiguration().screenWidthDp;
-        final int height = getResources().getConfiguration().screenHeightDp;
+//        final int width = getResources().getConfiguration().screenWidthDp;
+//        final int height = getResources().getConfiguration().screenHeightDp;
 
         //Random
         int min = 1;
@@ -190,32 +228,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //        ImageView sun= getView().findViewById(R.id.ivSun);
 //
@@ -246,26 +258,27 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void firstsection() {
+
+    public void rotateFan() {
+        ImageView imageX= (ImageView) Objects.requireNonNull(getView()).findViewById(R.id.fan);
+        RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        //rotate.setDuration(Animation.INFINITE);
+//        rotate.setInterpolator(new LinearInterpolator());
+        rotate.setDuration(1500);
+        rotate.setRepeatCount(Animation.INFINITE);
+
+        rotate.setInterpolator(new LinearInterpolator());
+        imageX.startAnimation(rotate);
 
     }
 
-    public void secondsection(View view) {
-
-    }
-
-    public void thirdsection(View view) {
-        //startActivity(new Intent(MainActivity.this, MapsActivity.class));
-
-    }
 
     public void MasterCloud(){
 
         final int width = getResources().getConfiguration().screenWidthDp;
         final int height = getResources().getConfiguration().screenHeightDp;
 
-        final ImageView cloud= getView().findViewById(R.id.cloud1);
+        final ImageView cloud= Objects.requireNonNull(getView()).findViewById(R.id.cloud1);
         final ImageView cloud2= getView().findViewById(R.id.cloud2);
         final ImageView cloud3= getView().findViewById(R.id.cloud3);
         final ImageView cloud4= getView().findViewById(R.id.cloud4);
@@ -306,6 +319,24 @@ public class HomeFragment extends Fragment {
         cloud4.startAnimation(cloudanim4);
     }
 
+    public void night(){
+        ImageView sun= getView().findViewById(R.id.ivSun);
+
+        //darken sky
+        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
+        ValueAnimator skyAnim =
+                ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
+                        Color.parseColor(getString(R.string.day)),
+                        Color.parseColor(getString(R.string.night)));
+
+        skyAnim.setDuration(ANIMATION_DURATION);
+        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
+        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
+        skyAnim.setEvaluator(new ArgbEvaluator());
+        skyAnim.start();
+
+    }
+
 
 
 
@@ -326,7 +357,7 @@ public class HomeFragment extends Fragment {
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
 
-        MasterCloud();
+       // MasterCloud();
 
         //Motion Sun
         //ImageView sun = (ImageView) findViewById(R.id.ivSun);
@@ -339,9 +370,11 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void deg45(View view) {
+    public void deg45() {
+        ImageView sun= getView().findViewById(R.id.ivSun);
+
         //darken sky
-        //SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
+        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
         ValueAnimator skyAnim =
                 ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
                         Color.parseColor(getString(R.string.night)),
@@ -363,9 +396,11 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public void deg90(View view) {
+    public void deg90() {
+        ImageView sun= getView().findViewById(R.id.ivSun);
+
         //darken sky
-        //SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
+        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
         ValueAnimator skyAnim2 =
                 ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
                         Color.parseColor(getString(R.string.night)),
@@ -386,13 +421,16 @@ public class HomeFragment extends Fragment {
         sun.startAnimation(animation2);
     }
 
-    public void deg135(View view) {
+    public void deg135() {
+
+        ImageView sun= getView().findViewById(R.id.ivSun);
+
         //darken sky
-        //SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
+        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
         ValueAnimator skyAnim =
                 ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
-                        Color.parseColor(getString(R.string.night)),
-                        Color.parseColor(getString(R.string.day)));
+                        Color.parseColor(getString(R.string.day)),
+                        Color.parseColor(getString(R.string.evening)));
         skyAnim.setDuration(ANIMATION_DURATION);
         //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
         //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
@@ -408,13 +446,17 @@ public class HomeFragment extends Fragment {
         sun.startAnimation(animation1);
     }
 
-    public void sunset(View view) {
+    public void sunset() {
+
+
+        ImageView sun= getView().findViewById(R.id.ivSun);
+
         //darken sky
-        //SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
+        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
         ValueAnimator skyAnim =
                 ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
-                        Color.parseColor(getString(R.string.night)),
-                        Color.parseColor(getString(R.string.day)));
+                        Color.parseColor(getString(R.string.day)),
+                        Color.parseColor(getString(R.string.evening)));
         skyAnim.setDuration(ANIMATION_DURATION);
         //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
         //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
@@ -429,19 +471,19 @@ public class HomeFragment extends Fragment {
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
 
-        int width2 = sun.getDrawable().getIntrinsicWidth();
+
         //Toast.makeText(this, ""+width2, Toast.LENGTH_SHORT).show();
     }
 
     public void firsttest(View view) {
-        //ImageView imageX= (ImageView) findViewById(R.id.birds);
-        RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-//        rotate.setDuration(Animation.INFINITE);
+//        ImageView imageX= (ImageView) findViewById(R.id.birds);
+//        RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+////        rotate.setDuration(Animation.INFINITE);
+////        rotate.setInterpolator(new LinearInterpolator());
+//        rotate.setDuration(500);
+//        rotate.setRepeatCount(Animation.INFINITE);
 //        rotate.setInterpolator(new LinearInterpolator());
-        rotate.setDuration(500);
-        rotate.setRepeatCount(Animation.INFINITE);
-        rotate.setInterpolator(new LinearInterpolator());
-        imageX.startAnimation(rotate);
+//        imageX.startAnimation(rotate);
 
     }
 

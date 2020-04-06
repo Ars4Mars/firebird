@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.revolve44.firebird5.ui.SidekickFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.TimeZone;
@@ -84,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     public float wind;
     public float temp;
 
-    public long UnixSunrise;
-    public long UnixSunset;
+    public long unixSunrise;
+    public long unixSunset;
 
     public String city;
     public String country;
@@ -106,7 +108,18 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean check = false;
 
-    Context context;
+//    Boolean PeriodSunrise = false;
+//    Boolean Period45deg = false;
+//    Boolean Period90deg = false;
+//    Boolean Period135deg = false;
+//    Boolean PeriodSunset = false;
+
+    int SunPeriod = 0;
+
+    public double solarhours;
+    public String solarhoursString;
+
+    //Context context;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -115,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lat = getIntent().getStringExtra("FROM_MAPS1");
         lon = getIntent().getStringExtra("FROM_MAPS2");
-        check = getIntent().getBooleanExtra("CHECK_SAVINGS",check);
+        //check = getIntent().getBooleanExtra("CHECK_SAVINGS",check);
 //        if (NominalPower>0){
 //            getCurrentData();
 //        }
@@ -174,11 +187,9 @@ public class MainActivity extends AppCompatActivity {
                     temp = weatherResponse.main.temp;
                     wind = weatherResponse.wind.speed;
                     country = weatherResponse.sys.country;
+                    unixSunrise = weatherResponse.sys.sunrise;// May delete****
+                    unixSunset = weatherResponse.sys.sunset; // time of sunrise and sunset
                     city = weatherResponse.name; // i added two variable and this work, before i dont see this in Toast.
-
-                    // time of sunrise and sunset
-                    UnixSunrise = weatherResponse.sys.sunrise;
-                    UnixSunset = weatherResponse.sys.sunset;
 
 
                     if (cloud >-1 ){
@@ -200,63 +211,87 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // FOR GRAPHICS on 5 days
-//        Call<WeatherForecastResponse> forecastCall = service.getDailyData(CITY, MainActivity.AppId);
-//        forecastCall.enqueue(new Callback<WeatherForecastResponse>() {
-//            @Override
-//            public void onResponse(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Response<WeatherForecastResponse> response) {
-//                if (response.code() == 200) {
-//                    WeatherForecastResponse weatherResponse = response.body();
-//                    assert weatherResponse != null;
-//                    ArrayList<WeatherResponse> list = weatherResponse.list;
-//                    if (dataMap.size() == 0){
-//                        for(WeatherResponse wr: list){
-//                            dataMap.put((long)wr.dt * 1000, NominalPower * wr.clouds.all / 100);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Throwable t) {
-//                Context context = getApplicationContext();
-//                CharSequence text = "Fail in Response"+t.getMessage();
-//                int duration = Toast.LENGTH_SHORT;
-//
-//                Toast toast = Toast.makeText(context, text, duration);
-//                toast.show();
-//            }
-//        });
-        Context context = getApplicationContext();
-//        CharSequence text = "Hello toast! " + cloud + " and "+ temp;
-//        int duration = Toast.LENGTH_SHORT;
-//
-//        Toast toast = Toast.makeText(context, text, duration);
-//        toast.show();
+         TimeManipulations();
+    }
+
+    public void TimeManipulations(){
+
+        long unixUTC = System.currentTimeMillis() / 1000L;
+
+        // Get current UNIX time
+        Calendar cal = Calendar.getInstance();
+        TimeZone timeZone =  cal.getTimeZone();
+        Date cals =    Calendar.getInstance(TimeZone.getDefault()).getTime();
+        long milliseconds =   cals.getTime();
+        milliseconds = milliseconds + timeZone.getOffset(milliseconds);
+        long UnixCurrentTime = milliseconds / 1000L;
+        long GMT = UnixCurrentTime-unixUTC;
+        Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
+//        long unixTimestamp = 1427607706;
+//        long javaTimestamp = unixTimestamp * 1000L;
+//        Date date = new Date(javaTimestamp);
+
+
+
+        //Get sunshine duration per day
+        unixSunrise=unixSunrise+GMT;
+        unixSunset=unixSunset+GMT;
+        long UnixSolarTime = unixSunset- unixSunrise;
+
+        long UnixVar = UnixSolarTime/5;
+
+        if (UnixCurrentTime>unixSunrise & (UnixVar+unixSunrise)>UnixCurrentTime){
+            Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
+            SunPeriod=1;
+        }else if ((unixSunrise+UnixVar) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*2)+unixSunrise)){
+            Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
+            SunPeriod=2;
+        }else if ((unixSunrise+UnixVar*2) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*3)+unixSunrise)){
+            Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
+            SunPeriod=3;
+        }else if ((unixSunrise+UnixVar*3) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*4)+unixSunrise)){
+            Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
+            SunPeriod=4;
+        }else if ((unixSunrise+UnixVar*4) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*5)+unixSunrise)){
+            Toast.makeText(this, "sunsetT", Toast.LENGTH_SHORT).show();
+            SunPeriod=5;
+        }else{
+            SunPeriod=0;
+            Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
+        };
+        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
+        //(UnixCurrentTime<unixSunrise || unixSunset < UnixCurrentTime)
 
         //Converter UNIX-date to time
-        long time = UnixSunrise * (long) 1000;
+        Toast.makeText(this, unixSunset+"", Toast.LENGTH_SHORT).show();
+        long time = unixSunrise * (long) 1000;
         Date date = new Date(time);
-        SimpleDateFormat formaten = new SimpleDateFormat("hh:mm");
-        formaten.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String sunrise = formaten.format(date);
+        SimpleDateFormat formaten = new SimpleDateFormat("HH:mm");
+        formaten.setTimeZone(TimeZone.getDefault());
+        sunrise = formaten.format(date);
 
-        long time2 = UnixSunrise * (long) 1000;
-        Date date2 = new Date(time);
-        SimpleDateFormat formaten2 = new SimpleDateFormat("hh:mm");
-        formaten.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String sunset = formaten.format(date);
+        long time2 = unixSunrise * (long) 1000;
+        Date date2 = new Date(time2);
+        SimpleDateFormat formaten2 = new SimpleDateFormat("HH:mm");
+        formaten2.setTimeZone(TimeZone.getDefault());
+        sunset = formaten.format(date2);
 
-        Toast.makeText(this, city+country, Toast.LENGTH_SHORT).show();
+        solarhours = UnixSolarTime/(60.0*60.0);
+        //solarhoursString = String.valueOf(solarhours);
+        solarhoursString = String.format("%.2f", solarhours);;
 
-//        if (check=true) {
-//            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//            editor.putString("latitude", lat);
-//            editor.putString("longitude", lon);
-//            //editor.putBoolean("CHECK_SAVINGS",check);
-//        }
+        //почему лонг тип иногда не показывается в тосте?
+    }
+
+    public int getSunPeriod() {
+        return SunPeriod;
+    }
+
+    public String getSolarHours() {
+        return solarhoursString;
+    }
+    public String getSunrisetime() {
+        return sunrise;
     }
 
     public Float getCurrentPowerData() {
@@ -277,17 +312,27 @@ public class MainActivity extends AppCompatActivity {
     public Boolean isDataAvailable(){ return isDataAvailable; }
     public LinkedHashMap<Long, Float> getDataPointsData() { return dataMap; }
     public Float getNominalPower() {return NominalPower;}
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public String getSunrise() {
-        return sunrise;
-    }
-    public String getSunset() {
-        return sunset;
-    }
+   // @RequiresApi(api = Build.VERSION_CODES.N)
+//    public String getSunrise() {
+//        return sunrise;
+//    }
+//    public String getSunset() {
+//        return sunset;
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void runforecast() {
         getCurrentData();
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Do something after 5s = 5000ms
+//
+//                TimeManipulations();
+//            }
+//        }, 2000);
+
     }
 
 
