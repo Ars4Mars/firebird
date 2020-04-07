@@ -31,7 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker marker;
     double latitude;
     double longitude;
-    int NominalPower;
+    public Float NominalPower;
 
     String Latitude;
     String Longitude;
@@ -62,7 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         //textView = findViewById(R.id.LOLIK);
 
-        Loader = (LinearLayout) findViewById(R.id.loader);
+
+        //Loader = (LinearLayout) findViewById(R.id.loader);
         inputnominalpower = findViewById(R.id.nominalpower);
     }
 
@@ -176,6 +177,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Longitude = String.valueOf(longitude);
         Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
+        NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+
 
         Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP,0,250);
@@ -196,6 +199,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         editor.putFloat("latitudeF",(float)latitude);
         editor.putFloat("longitudeF",(float)longitude);
+        editor.putFloat("Nominal_Power",(float)NominalPower);
+
         editor.putBoolean("CHECK_SAVINGS",check);
         editor.putString("lati",Latitude);
         editor.putString("long",Longitude);

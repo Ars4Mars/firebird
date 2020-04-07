@@ -35,37 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/setvar"
-            android:text="Save variables"
+            android:text="Save variables!"
             android:onClick="ClickButton">
 
         </Button>
 
-        <LinearLayout
-            android:id="@+id/loader"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="visible"
-            >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-
-                android:text="Loading.."
-                android:textAlignment="center">
-
-            </TextView>
-
-            <Button
-                android:id="@+id/testMEM"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="testMEM"
-                android:text="Button" />
-
-
-        </LinearLayout>
 
 
     </LinearLayout>

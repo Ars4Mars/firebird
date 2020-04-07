@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,8 @@ public class HomeFragment extends Fragment {
 
     public int width;
     public int height;
+
+    public int wind;
 
     //SupportMapFragment mapView;
 
@@ -112,20 +115,35 @@ public class HomeFragment extends Fragment {
 
         ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
         ((MainActivity)getActivity()).runforecast();
-        MainActivity activity = (MainActivity) getActivity();
-        final Float currentPower2 = activity.getCurrentPowerData();
-        final String city = activity.getСityData();
+//        MainActivity activity = (MainActivity) getActivity();
+//        final Float currentPower2 = activity.getCurrentPowerData();
+//        final String city = activity.getСityData();
 
         //((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
         final TextView CurrentPower = root.findViewById(R.id.Forecast_number);
+        final TextView NominalPower = root.findViewById(R.id.NominalView);
         final TextView CityView = root.findViewById(R.id.cityView);
+
         final TextView SunriseView = root.findViewById(R.id.timesunrise);
+        final TextView SunsetView = root.findViewById(R.id.timesunset);
         final TextView SolarHoursView = root.findViewById(R.id.solardayhr);
+
+        final TextView WindView = root.findViewById(R.id.WindSpeed);
+
+        final ImageView HotView = root.findViewById(R.id.HotView);
+
+        final ImageView mobile = root.findViewById(R.id.mobile);
+        final ImageView lamp = root.findViewById(R.id.lamp);
+        final ImageView tv = root.findViewById(R.id.tv);
+        final ImageView teapot = root.findViewById(R.id.teapot);
+        final ImageView oven = root.findViewById(R.id.oven);
+
+
 
         final LinearLayout mainLoader = root.findViewById(R.id.mainloader);
 
-        CurrentPower.setText(""+currentPower2);
-        CityView.setText(city);
+        //CurrentPower.setText(""+currentPower);
+        //CityView.setText(city);
 
         Button button = root.findViewById(R.id.refresh);
 //        Toast.makeText(getActivity(),"Starting fragment "+city,Toast.LENGTH_SHORT).show();
@@ -137,7 +155,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View v)
             {
                 ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
-                CurrentPower.setText(""+currentPower2);
+                //CurrentPower.setText(""+currentPower2);
                 mainLoader.setVisibility(View.VISIBLE);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -147,17 +165,47 @@ public class HomeFragment extends Fragment {
                         ((MainActivity) Objects.requireNonNull(getActivity())).TimeManipulations();
 
                         MainActivity activity = (MainActivity) getActivity();
-                        final Float currentPower2 = activity.getCurrentPowerData();
+                        final Float currentPower = activity.getCurrentPowerData();
+                        final Float nominalpower = activity.getNominalPower();
                         final String city = activity.getСityData();
                         final String sunrise = activity.getSunrisetime();
+                        final String sunset = activity.getSunsetime();
                         final String solarhoursString = activity.getSolarHours();
                         final int SunPeriod = activity.getSunPeriod();
+                        wind = activity.getWindSpeed();
+                        final Boolean HotCheck = activity.HotCheck();
 
-                        CurrentPower.setText(""+currentPower2);
+
+                        CurrentPower.setText(""+currentPower);
+                        NominalPower.setText(nominalpower+" W");
                         CityView.setText(""+city);
+                        CityView.setSelected(true);
                         SunriseView.setText(""+sunrise);
+                        SunsetView.setText(""+sunset);
                         SolarHoursView.setText(solarhoursString+ " hr");
+                        WindView.setText(wind+ "");
+
+                        if (HotCheck==true){
+                            HotView.setVisibility(View.VISIBLE);
+                        }
+
                         mainLoader.setVisibility(View.INVISIBLE);
+
+                        if (currentPower >15){
+                            mobile.setVisibility(View.VISIBLE);
+                        }
+                        if (currentPower >60){
+                            lamp.setVisibility(View.VISIBLE);
+                        }
+                        if (currentPower >300){
+                            tv.setVisibility(View.VISIBLE);
+                        }
+                        if (currentPower > 1500){
+                            teapot.setVisibility(View.VISIBLE);
+                        }
+                        if (currentPower > 2000){
+                            oven.setVisibility(View.VISIBLE);
+                        }
 
 
                         //MasterCloud();
@@ -259,12 +307,33 @@ public class HomeFragment extends Fragment {
     }
 
 
+
+
     public void rotateFan() {
+
+
         ImageView imageX= (ImageView) Objects.requireNonNull(getView()).findViewById(R.id.fan);
         RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         //rotate.setDuration(Animation.INFINITE);
 //        rotate.setInterpolator(new LinearInterpolator());
-        rotate.setDuration(1500);
+        Toast.makeText(getActivity(),"Wind is "+wind,Toast.LENGTH_SHORT).show();
+
+        // Bofort scale
+        if (wind == 0){
+            rotate.setDuration(9000);
+        }else if (wind>=1 && wind <= 3) {
+            rotate.setDuration(5000);
+        }else if (wind>=2 && wind <=5){
+            rotate.setDuration(3000);
+        }else if (wind>=6 && wind <= 10){
+            rotate.setDuration(1500);
+        }else if (wind>=11){
+            rotate.setDuration(900);
+        }
+//        else if (){
+//
+//        }
+//        rotate.setDuration(1500);
         rotate.setRepeatCount(Animation.INFINITE);
 
         rotate.setInterpolator(new LinearInterpolator());

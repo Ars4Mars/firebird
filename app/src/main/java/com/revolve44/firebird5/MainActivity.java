@@ -80,10 +80,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Variables
-    public float NominalPower = 100;//????????????????????????????????
+    public float NominalPower;//????????????????????????????????
     public float CurrentPower;
     public float cloud;
-    public float wind;
+    public float windF;
+    public int windI;
     public float temp;
 
     public long unixSunrise;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView mainoutput;
 
-    Boolean check = false;
+    Boolean HotCheck= false;
 
 //    Boolean PeriodSunrise = false;
 //    Boolean Period45deg = false;
@@ -162,11 +163,12 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         lat = sharedPreferences.getString("lati",lat);
         lon = sharedPreferences.getString("long",lon);
+        NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
 
 
 
         //CITY = "Mexico";
-        NominalPower = 1000;
+        //NominalPower = 29000;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -185,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     //main variables
                     cloud = weatherResponse.clouds.all;
                     temp = weatherResponse.main.temp;
-                    wind = weatherResponse.wind.speed;
+                    windF = weatherResponse.wind.speed;
                     country = weatherResponse.sys.country;
                     unixSunrise = weatherResponse.sys.sunrise;// May delete****
                     unixSunset = weatherResponse.sys.sunset; // time of sunrise and sunset
@@ -211,8 +213,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-         TimeManipulations();
+        //TimeManipulations();
     }
+
+
 
     public void TimeManipulations(){
 
@@ -227,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         long UnixCurrentTime = milliseconds / 1000L;
         long GMT = UnixCurrentTime-unixUTC;
         Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
+
 //        long unixTimestamp = 1427607706;
 //        long javaTimestamp = unixTimestamp * 1000L;
 //        Date date = new Date(javaTimestamp);
@@ -259,21 +264,21 @@ public class MainActivity extends AppCompatActivity {
             SunPeriod=0;
             Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
         };
-        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
         //(UnixCurrentTime<unixSunrise || unixSunset < UnixCurrentTime)
 
         //Converter UNIX-date to time
         Toast.makeText(this, unixSunset+"", Toast.LENGTH_SHORT).show();
-        long time = unixSunrise * (long) 1000;
+        long time = (unixSunrise-GMT) * (long) 1000;
         Date date = new Date(time);
         SimpleDateFormat formaten = new SimpleDateFormat("HH:mm");
-        formaten.setTimeZone(TimeZone.getDefault());
+        //formaten.setTimeZone(TimeZone.getDefault());
         sunrise = formaten.format(date);
 
-        long time2 = unixSunrise * (long) 1000;
+        long time2 = (unixSunset-GMT) * (long) 1000;
         Date date2 = new Date(time2);
         SimpleDateFormat formaten2 = new SimpleDateFormat("HH:mm");
-        formaten2.setTimeZone(TimeZone.getDefault());
+       // formaten2.setTimeZone(TimeZone.getDefault());
         sunset = formaten.format(date2);
 
         solarhours = UnixSolarTime/(60.0*60.0);
@@ -281,8 +286,22 @@ public class MainActivity extends AppCompatActivity {
         solarhoursString = String.format("%.2f", solarhours);;
 
         //почему лонг тип иногда не показывается в тосте?
+        OtherManipulations();
     }
 
+    public void OtherManipulations(){
+        Toast.makeText(this, windF+"", Toast.LENGTH_SHORT).show();
+        windI = Math.round(windF);
+        //wind = Float.parseFloat(String.format("%.0f", solarhours));;
+        if (temp>30){
+            HotCheck = true;
+        }
+    }
+
+
+    public int getWindSpeed() {
+        return windI;
+    }
     public int getSunPeriod() {
         return SunPeriod;
     }
@@ -292,6 +311,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public String getSunrisetime() {
         return sunrise;
+    }
+    public String getSunsetime() {
+        return sunset;
     }
 
     public Float getCurrentPowerData() {
@@ -308,7 +330,8 @@ public class MainActivity extends AppCompatActivity {
     public Float getTempData() {
         return temp;
     }
-    public Float getWindData() { return wind; }
+    //public Float getWindData() { return windI; }
+    public Boolean HotCheck(){ return HotCheck; }
     public Boolean isDataAvailable(){ return isDataAvailable; }
     public LinkedHashMap<Long, Float> getDataPointsData() { return dataMap; }
     public Float getNominalPower() {return NominalPower;}
