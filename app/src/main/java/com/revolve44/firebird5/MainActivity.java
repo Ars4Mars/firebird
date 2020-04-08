@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
         lat = getIntent().getStringExtra("FROM_MAPS1");
         lon = getIntent().getStringExtra("FROM_MAPS2");
         //check = getIntent().getBooleanExtra("CHECK_SAVINGS",check);
@@ -372,9 +374,10 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_settings:
-                    fm.beginTransaction().hide(active).show(fragment2).commit();
+                    fm.beginTransaction().hide(fragment1).show(fragment2).commit();
                     active = fragment2;
                     return true;
+                //beginTransaction().hide(fragment1).hide(fragment3).show(fragment2).commit()
 
                 case R.id.nav_sidekick:
                     fm.beginTransaction().hide(active).show(fragment3).commit();

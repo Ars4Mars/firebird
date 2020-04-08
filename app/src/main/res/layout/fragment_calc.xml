@@ -1,21 +1,217 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light">
-    <LinearLayout
+    android:background="@color/colorAccent"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textColorHighlight="#FFFFFF">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        </Button>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120sp"
+                android:background="#0021AC"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="efficiency calculator mk.1"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="36sp"
+                android:textStyle="bold">
 
-    </LinearLayout>
+            </TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60sp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="calculations are made in dollars, in the next updates we will add other currencies"
+                android:textSize="12sp"
+                android:textStyle="bold">
+
+            </TextView>
 
 
+            <EditText
+                android:id="@+id/price_per_kWh"
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:hint="Price per kWh in your region, ¢"
+                android:inputType="number">
 
-</RelativeLayout>
+            </EditText>
+
+            <EditText
+                android:id="@+id/price_of_station"
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:hint="the cost of your solar station, $"
+                android:inputType="number">
+
+            </EditText>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="how often do you turn off the electricity the central network     (per year)↓ "
+                android:textStyle="bold">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/grid_off"
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:hint="how many times per year"
+                android:inputType="number">
+
+            </EditText>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100sp"
+                android:gravity="center"
+                android:fontFamily="@font/montserrat"
+                android:text="the average cost of products that can go bad during a power outage. For example: average cost food in the refrigerator ↓"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/cost_food"
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:hint="e.g. cost of food"
+                android:inputType="number"
+                android:textAlignment="viewStart">
+
+            </EditText>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/montserrat"
+                    android:buttonTint="@color/FireBirdtheme"
+                    android:layout_weight="1"
+                    android:text="do you have connection to central grid?" />
+
+                <CheckBox
+                    android:id="@+id/checkbattery"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:fontFamily="@font/montserrat"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/FireBirdtheme"
+                    android:text="do you have batteries connected to the solar station?" />
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/tocalc"
+                android:layout_width="match_parent"
+                android:layout_height="90sp"
+                android:background="#5763BD"
+                android:fontFamily="@font/montserrat"
+                android:text="calculate!"
+                android:textColor="#000000"
+                android:onClick="toCalc">
+
+            </Button>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="20sp"
+                        android:text="Payback period:">
+
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/montserrat"
+                        android:hint="press calc"
+                        android:textSize="34sp"
+                        android:textStyle="bold"
+                        android:gravity="center">
+
+                    </TextView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="17sp"
+                        android:text="Emotional experience:"
+                        android:fontFamily="@font/montserrat">
+
+                    </TextView>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                    </ImageView>
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
