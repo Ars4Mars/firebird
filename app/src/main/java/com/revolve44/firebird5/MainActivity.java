@@ -47,6 +47,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/*
+Внимание! при каждом запуске эмулятора ставь правильную дату на эмуляторе
+ото бывает время восхода и заката не схадятся из за разницы дат и времени
+ */
+
 import static android.view.FrameMetrics.ANIMATION_DURATION;
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     //Variables
     public float NominalPower;//????????????????????????????????
     public float CurrentPower;
+    public int CurrentPowerInt;
     public float cloud;
     public float windF;
     public int windI;
@@ -232,7 +238,8 @@ public class MainActivity extends AppCompatActivity {
         milliseconds = milliseconds + timeZone.getOffset(milliseconds);
         long UnixCurrentTime = milliseconds / 1000L;
         long GMT = UnixCurrentTime-unixUTC;
-        Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "ccc"+CurrentPower, Toast.LENGTH_SHORT).show();
 
 //        long unixTimestamp = 1427607706;
 //        long javaTimestamp = unixTimestamp * 1000L;
@@ -246,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
         long UnixSolarTime = unixSunset- unixSunrise;
 
         long UnixVar = UnixSolarTime/5;
-
+        //Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
         if (UnixCurrentTime>unixSunrise & (UnixVar+unixSunrise)>UnixCurrentTime){
             Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
             SunPeriod=1;
@@ -266,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
             SunPeriod=0;
             Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
         };
-//        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
         //(UnixCurrentTime<unixSunrise || unixSunset < UnixCurrentTime)
 
         //Converter UNIX-date to time
@@ -298,6 +305,10 @@ public class MainActivity extends AppCompatActivity {
         if (temp>30){
             HotCheck = true;
         }
+        CurrentPowerInt = Math.round(CurrentPower);
+        if (SunPeriod==0){
+            CurrentPowerInt = 0;
+        }
     }
 
 
@@ -318,8 +329,8 @@ public class MainActivity extends AppCompatActivity {
         return sunset;
     }
 
-    public Float getCurrentPowerData() {
-        return CurrentPower;
+    public int getCurrentPowerData() {
+        return CurrentPowerInt;
     }
 //    public String getCityData() {
 //        return CITY;
@@ -374,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.nav_settings:
-                    fm.beginTransaction().hide(fragment1).show(fragment2).commit();
+                    fm.beginTransaction().hide(active).show(fragment2).commit();
                     active = fragment2;
                     return true;
                 //beginTransaction().hide(fragment1).hide(fragment3).show(fragment2).commit()

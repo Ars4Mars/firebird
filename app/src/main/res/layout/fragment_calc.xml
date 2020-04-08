@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,7 +6,7 @@
     android:clickable="true"
     android:focusable="true">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,141 +16,142 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="120sp"
-                android:background="#0021AC"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="efficiency calculator mk.1"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFF"
-                android:textSize="36sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="calculations are made in dollars, in the next updates we will add other currencies"
-                android:textSize="12sp"
-                android:textStyle="bold">
-
-            </TextView>
-
-
-            <EditText
-                android:id="@+id/price_per_kWh"
-                android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:hint="Price per kWh in your region, ¢"
-                android:inputType="number">
-
-            </EditText>
-
-            <EditText
-                android:id="@+id/price_of_station"
-                android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:hint="the cost of your solar station, $"
-                android:inputType="number">
-
-            </EditText>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100sp"
-                android:fontFamily="@font/montserrat"
-                android:gravity="center"
-                android:text="how often do you turn off the electricity the central network     (per year)↓ "
-                android:textStyle="bold">
-
-            </TextView>
-
-            <EditText
-                android:id="@+id/grid_off"
-                android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:hint="how many times per year"
-                android:inputType="number">
-
-            </EditText>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="100sp"
-                android:gravity="center"
-                android:fontFamily="@font/montserrat"
-                android:text="the average cost of products that can go bad during a power outage. For example: average cost food in the refrigerator ↓"
-                android:textStyle="bold">
-
-            </TextView>
-
-            <EditText
-                android:id="@+id/cost_food"
-                android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:hint="e.g. cost of food"
-                android:inputType="number"
-                android:textAlignment="viewStart">
-
-            </EditText>
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <CheckBox
-                    android:id="@+id/checkGrid"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    android:layout_gravity="center"
+                    android:layout_height="120sp"
+                    android:background="#0021AC"
                     android:fontFamily="@font/montserrat"
-                    android:buttonTint="@color/FireBirdtheme"
-                    android:layout_weight="1"
-                    android:text="do you have connection to central grid?" />
+                    android:gravity="center"
+                    android:text="efficiency calculator mk.1"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="36sp"
+                    android:textStyle="bold">
 
-                <CheckBox
-                    android:id="@+id/checkbattery"
+                </TextView>
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:layout_height="60dp"
                     android:fontFamily="@font/montserrat"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/FireBirdtheme"
-                    android:text="do you have batteries connected to the solar station?" />
+                    android:gravity="center"
+                    android:text="calculations are made in dollars, in the next updates we will add other currencies"
+                    android:textSize="12sp"
+                    android:textStyle="bold">
+
+                </TextView>
 
             </LinearLayout>
 
 
-            <Button
-                android:id="@+id/tocalc"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="90sp"
-                android:background="#5763BD"
-                android:fontFamily="@font/montserrat"
-                android:text="calculate!"
-                android:textColor="#000000"
-                android:onClick="toCalc">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
 
-            </Button>
+                <EditText
+                    android:id="@+id/price_per_kWh"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Price per kWh in your region, ¢"
+                    android:inputType="number">
+
+                </EditText>
+
+                <Spinner
+                    android:id="@+id/Currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_weight="4">
+
+                </Spinner>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/price_of_station"
+                    android:layout_width="match_parent"
+                    android:layout_height="90sp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="the cost of your solar station, $"
+                    android:inputType="number">
+
+                </EditText>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100sp"
+                    android:fontFamily="@font/montserrat"
+                    android:gravity="center"
+                    android:text="how often do you turn off the electricity the central network     (per year)↓ "
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/times_grid_off"
+                    android:layout_width="match_parent"
+                    android:layout_height="90sp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="how many times per year"
+                    android:inputType="number">
+
+                </EditText>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100sp"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat"
+                    android:text="the average cost of products that can go bad during a power outage. For example: average cost food in the refrigerator ↓"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <EditText
+                    android:id="@+id/cost_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="90sp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="e.g. cost of food"
+                    android:inputType="number"
+                    android:textAlignment="viewStart">
+
+                </EditText>
+
+                <Button
+                    android:id="@+id/tocalc"
+                    android:layout_width="match_parent"
+                    android:layout_height="90sp"
+                    android:background="@color/MiddleBLue"
+                    android:fontFamily="@font/montserrat"
+                    android:textSize="30dp"
+                    android:text="calculate!"
+                    android:textColor="@color/TextOnDashboard"
+                    >
+
+                </Button>
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,6 +174,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/paybackView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -197,21 +199,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="17sp"
+                        android:layout_weight="5"
                         android:text="Emotional experience:"
                         android:fontFamily="@font/montserrat">
 
                     </TextView>
 
-                    <ImageView
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:text="Coming soon"
+                        android:gravity="center">
 
-                    </ImageView>
+                    </TextView>
 
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

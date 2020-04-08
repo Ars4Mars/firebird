@@ -63,6 +63,9 @@ public class HomeFragment extends Fragment {
 
     public int wind;
 
+    public int xSun;
+    public int ySun;
+
     //SupportMapFragment mapView;
 
     int random_num;
@@ -89,21 +92,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        realOutputTextView.setText("" + currentPower + " Watts");
-//        cityTextView.setText(city);
-
-//        RelativeLayout SkyLayout = getView().findViewById(R.id.SkyLayout);
-//        // or  (ImageView) view.findViewById(R.id.foo);
-//        ValueAnimator skyAnim =
-//                ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
-//                        Color.parseColor(getString(R.string.night)),
-//                        Color.parseColor(getString(R.string.day)));
-//        skyAnim.setDuration(ANIMATION_DURATION);
-//        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-//        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
-//        skyAnim.setEvaluator(new ArgbEvaluator());
-//        skyAnim.start();
 
     }
 
@@ -165,7 +153,7 @@ public class HomeFragment extends Fragment {
                         ((MainActivity) Objects.requireNonNull(getActivity())).TimeManipulations();
 
                         MainActivity activity = (MainActivity) getActivity();
-                        final Float currentPower = activity.getCurrentPowerData();
+                        final int currentPower = activity.getCurrentPowerData();
                         final Float nominalpower = activity.getNominalPower();
                         final String city = activity.getСityData();
                         final String sunrise = activity.getSunrisetime();
@@ -174,6 +162,8 @@ public class HomeFragment extends Fragment {
                         final int SunPeriod = activity.getSunPeriod();
                         wind = activity.getWindSpeed();
                         final Boolean HotCheck = activity.HotCheck();
+
+                        Toast.makeText(getActivity(),"Cur Pow "+currentPower,Toast.LENGTH_SHORT).show();
 
 
                         CurrentPower.setText(""+currentPower);
@@ -214,6 +204,7 @@ public class HomeFragment extends Fragment {
                         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                         height = displaymetrics.heightPixels;
                         width = displaymetrics.widthPixels;
+                        //Toast.makeText(getActivity(),"Cur Pow "+currentPower,Toast.LENGTH_SHORT).show();
 
                         if (SunPeriod==1){
                             sunrise();
@@ -276,33 +267,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        ImageView sun= getView().findViewById(R.id.ivSun);
-//
-//        //darken sky
-//        SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
-//        ValueAnimator skyAnim =
-//                ObjectAnimator.ofInt(SkyLayout, "backgroundColor",
-//                        Color.parseColor(getString(R.string.night)),
-//                        Color.parseColor(getString(R.string.day)));
-//        skyAnim.setDuration(ANIMATION_DURATION);
-//        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-//        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
-//        skyAnim.setEvaluator(new ArgbEvaluator());
-//        skyAnim.start();
-//
-//        MasterCloud();
-//
-//        //Motion Sun
-//        //ImageView sun = (ImageView) findViewById(R.id.ivSun);
-//        sun.setVisibility(View.VISIBLE);
-//        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
-//        TranslateAnimation animation1 = new TranslateAnimation(-220, width/100,250, 200 );
-//        animation1.setDuration(3000);
-//        animation1.setFillAfter(true);
-//        sun.startAnimation(animation1);
-
-
 
     }
 
@@ -391,6 +355,7 @@ public class HomeFragment extends Fragment {
     public void night(){
         ImageView sun= getView().findViewById(R.id.ivSun);
 
+
         //darken sky
         SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
         ValueAnimator skyAnim =
@@ -404,15 +369,18 @@ public class HomeFragment extends Fragment {
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
 
+        TranslateAnimation animation1 = new TranslateAnimation(xSun, width,ySun, 200 );
+        animation1.setDuration(3000);
+        animation1.setFillAfter(true);
+        sun.startAnimation(animation1);
+
     }
-
-
-
 
     // motion desing
 
     public void sunrise() {
         ImageView sun= getView().findViewById(R.id.ivSun);
+
 
         //darken sky
         SkyLayout = (RelativeLayout) getView().findViewById(R.id.SkyLayout);
@@ -436,6 +404,9 @@ public class HomeFragment extends Fragment {
         animation1.setDuration(3000);
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
+
+        xSun = sun.getLeft(); // you may remove this
+        ySun = sun.getTop();   // you may remove this
 
     }
 
@@ -461,6 +432,8 @@ public class HomeFragment extends Fragment {
         animation1.setDuration(3000);
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
+        xSun = sun.getLeft();
+        ySun = sun.getTop();
 
 
     }
@@ -488,6 +461,8 @@ public class HomeFragment extends Fragment {
         animation2.setDuration(3000);
         animation2.setFillAfter(true);
         sun.startAnimation(animation2);
+        xSun = sun.getLeft();
+        ySun = sun.getTop();
     }
 
     public void deg135() {
@@ -513,6 +488,8 @@ public class HomeFragment extends Fragment {
         animation1.setDuration(4000);
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
+        xSun = sun.getLeft();
+        ySun = sun.getTop();
     }
 
     public void sunset() {
@@ -539,6 +516,8 @@ public class HomeFragment extends Fragment {
         animation1.setDuration(4000);
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
+        xSun = sun.getLeft();
+        ySun = sun.getTop();
 
 
         //Toast.makeText(this, ""+width2, Toast.LENGTH_SHORT).show();
