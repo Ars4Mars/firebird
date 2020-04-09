@@ -53,10 +53,6 @@ public class CalcFragment extends Fragment  {
 
     public static final String SHARED_PREFS = "sharedPrefs";
 
-
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,54 +79,57 @@ public class CalcFragment extends Fragment  {
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapter);
 
-
-//        List<String> spinnerArray =  new ArrayList<String>();
-//        spinnerArray.add("item1");
-//        spinnerArray.add("item2");
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.Currency, spinnerArray);
-//
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        spinnerArray.setAdapter(adapter);
         Button button = root.findViewById(R.id.tocalc);
 //        Toast.makeText(getActivity(),"Starting fragment "+city,Toast.LENGTH_SHORT).show();
 
         button.setOnClickListener(new View.OnClickListener()
         {
+
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v)
             {
+                try {
+                    PricekWh = Float.parseFloat(PriceEnergyINPUT.getText().toString());
+                    CostStation = Float.parseFloat(PriceofStationINPUT.getText().toString());
+                    TimesOffGrid = Float.parseFloat(GridINPUT.getText().toString());
+                    CostFood = Float.parseFloat(CostFoodINPUT.getText().toString());
+
+                    if (NominalPower>0) {
+                        if (Currency=="$"){
+                            PaybackPeriod = CostStation/((NominalPower/1000) * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
+                            DecimalFormat df = new DecimalFormat("##.##");
+                            PaybackView.setText(df.format(PaybackPeriod)+" years");
+                            //Toast.makeText(getActivity(),"$year ->  "+PaybackPeriod,Toast.LENGTH_SHORT).show();
+
+                        }else if (Currency=="€"){
+
+                            PaybackPeriod = CostStation/ ((NominalPower/1000) * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
+                            DecimalFormat df = new DecimalFormat("##.##");
+                            PaybackView.setText(df.format(PaybackPeriod)+" years");
+
+                        }else if (Currency=="₽"){
+
+                            PaybackPeriod = CostStation/((NominalPower/1000) * PricekWh * 5 * 365 + TimesOffGrid * CostFood);
+                            DecimalFormat df = new DecimalFormat("##.##");
+                            PaybackView.setText(df.format(PaybackPeriod)+" years");
+                            //Toast.makeText(getActivity(),"РУБЛЬCurrency "+PaybackPeriod+" NomPow "+ NominalPower,Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            PaybackPeriod = CostStation - ((NominalPower/1000) * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
+                            DecimalFormat df = new DecimalFormat("##.##");
+                            PaybackView.setText(df.format(PaybackPeriod)+" years");
+                        }
+                    }else{
+                        Toast.makeText(getActivity(),"Make sure you input a NOMINAL POWER ",Toast.LENGTH_SHORT).show();
+                    }
 
 
-                PricekWh = Float.parseFloat(PriceEnergyINPUT.getText().toString());
-                CostStation = Float.parseFloat(PriceofStationINPUT.getText().toString());
-                TimesOffGrid = Float.parseFloat(GridINPUT.getText().toString());
-                CostFood = Float.parseFloat(CostFoodINPUT.getText().toString());
 
 
-                if (Currency=="$"){
-                    PaybackPeriod = CostStation/(NominalPower * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    PaybackView.setText(df.format(PaybackPeriod)+" years");
-                    //Toast.makeText(getActivity(),"$year ->  "+PaybackPeriod,Toast.LENGTH_SHORT).show();
-
-                }else if (Currency=="€"){
-                    PaybackPeriod = CostStation/ (NominalPower * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    PaybackView.setText(df.format(PaybackPeriod)+" years");
-                }else if (Currency=="₽"){
-                    PaybackPeriod = CostStation/(NominalPower * PricekWh * 5 * 365 + TimesOffGrid * CostFood);
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    PaybackView.setText(df.format(PaybackPeriod)+" years");
-                    //Toast.makeText(getActivity(),"РУБЛЬCurrency "+PaybackPeriod+" NomPow "+ NominalPower,Toast.LENGTH_SHORT).show();
-                }else {
-                    PaybackPeriod = CostStation - (NominalPower * (PricekWh/100) * 5 * 365 + TimesOffGrid * CostFood);
-                    DecimalFormat df = new DecimalFormat("##.##");
-                    PaybackView.setText(df.format(PaybackPeriod)+" years");
+                }catch (Exception e){
+                    Toast.makeText(getActivity(),"Please correct fill above forms ",Toast.LENGTH_SHORT).show();
                 }
-
 
                 //CalculatePayback();
             }

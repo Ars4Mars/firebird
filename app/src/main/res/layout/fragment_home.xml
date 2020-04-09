@@ -141,7 +141,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:hint="100"
+            android:hint="~"
             android:textColor="#B7D8EA"
             android:textSize="70sp"
             android:textStyle="bold" />

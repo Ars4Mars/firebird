@@ -163,17 +163,20 @@ public class MainActivity extends AppCompatActivity {
         getCurrentData();
         mainoutput = findViewById(R.id.Forecast_number);
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void runforecast() {
+        getCurrentData();
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void getCurrentData() {
 
-
+        // Before all, we load coordinations and nominal power of station
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         lat = sharedPreferences.getString("lati",lat);
         lon = sharedPreferences.getString("long",lon);
         NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
-
-
+        city = sharedPreferences.getString("MyCity",city);
 
         //CITY = "Mexico";
         //NominalPower = 29000;
@@ -197,13 +200,13 @@ public class MainActivity extends AppCompatActivity {
                     temp = weatherResponse.main.temp;
                     windF = weatherResponse.wind.speed;
                     country = weatherResponse.sys.country;
-                    unixSunrise = weatherResponse.sys.sunrise;// May delete****
+                    unixSunrise = weatherResponse.sys.sunrise;
                     unixSunset = weatherResponse.sys.sunset; // time of sunrise and sunset
                     city = weatherResponse.name; // i added two variable and this work, before i dont see this in Toast.
 
 
                     if (cloud >-1 ){
-                        CurrentPower = NominalPower - NominalPower*(cloud/100);
+                        CurrentPower = NominalPower - NominalPower*(cloud/100)*0.8f;
                     }else{
                         CurrentPower = 404;
                     }
@@ -213,14 +216,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
                 Context context = getApplicationContext();
-                CharSequence text = "Fail in Response"+t.getMessage();
+                CharSequence text = "Check Internet connection. Fail in Response"+t.getMessage();
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }
         });
+        //SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        editor.putString("MyCity",city);
+        editor.apply();
         //TimeManipulations();
     }
 
@@ -241,19 +248,15 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "ccc"+CurrentPower, Toast.LENGTH_SHORT).show();
 
-//        long unixTimestamp = 1427607706;
-//        long javaTimestamp = unixTimestamp * 1000L;
-//        Date date = new Date(javaTimestamp);
-
-
-
         //Get sunshine duration per day
         unixSunrise=unixSunrise+GMT;
         unixSunset=unixSunset+GMT;
         long UnixSolarTime = unixSunset- unixSunrise;
 
+        // Define sector of Sun state
         long UnixVar = UnixSolarTime/5;
-        //Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
+
+        //We Define current state of Sun on the Sky
         if (UnixCurrentTime>unixSunrise & (UnixVar+unixSunrise)>UnixCurrentTime){
             Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
             SunPeriod=1;
@@ -274,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
         };
         Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
-        //(UnixCurrentTime<unixSunrise || unixSunset < UnixCurrentTime)
 
         //Converter UNIX-date to time
         Toast.makeText(this, unixSunset+"", Toast.LENGTH_SHORT).show();
@@ -294,14 +296,13 @@ public class MainActivity extends AppCompatActivity {
         //solarhoursString = String.valueOf(solarhours);
         solarhoursString = String.format("%.2f", solarhours);;
 
-        //почему лонг тип иногда не показывается в тосте?
+        //почему лонг тип иногда не показывается в тосте?хм
         OtherManipulations();
     }
 
     public void OtherManipulations(){
         Toast.makeText(this, windF+"", Toast.LENGTH_SHORT).show();
         windI = Math.round(windF);
-        //wind = Float.parseFloat(String.format("%.0f", solarhours));;
         if (temp>30){
             HotCheck = true;
         }
@@ -309,6 +310,9 @@ public class MainActivity extends AppCompatActivity {
         if (SunPeriod==0){
             CurrentPowerInt = 0;
         }
+
+
+
     }
 
 
@@ -332,47 +336,18 @@ public class MainActivity extends AppCompatActivity {
     public int getCurrentPowerData() {
         return CurrentPowerInt;
     }
-//    public String getCityData() {
-//        return CITY;
-//    }
+
     public String getСityData() {
         return city;
     }
 
-
-    public Float getTempData() {
-        return temp;
-    }
-    //public Float getWindData() { return windI; }
     public Boolean HotCheck(){ return HotCheck; }
     public Boolean isDataAvailable(){ return isDataAvailable; }
     public LinkedHashMap<Long, Float> getDataPointsData() { return dataMap; }
     public Float getNominalPower() {return NominalPower;}
-   // @RequiresApi(api = Build.VERSION_CODES.N)
-//    public String getSunrise() {
-//        return sunrise;
-//    }
-//    public String getSunset() {
-//        return sunset;
-//    }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void runforecast() {
-        getCurrentData();
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Do something after 5s = 5000ms
-//
-//                TimeManipulations();
-//            }
-//        }, 2000);
 
-    }
-
-
-
+    //switcher of fragmnets, he help for switching without loss filled form in fragments
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -402,13 +377,5 @@ public class MainActivity extends AppCompatActivity {
     public void seven(View view) {
         startActivity(new Intent(MainActivity.this, MapsActivity.class));
     }
-
-    //retrofit
-
-
-
-
-
-
 }
 

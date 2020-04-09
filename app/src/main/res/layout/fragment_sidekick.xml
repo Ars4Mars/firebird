@@ -1,19 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/holo_purple"
     android:clickable="true"
     android:focusable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-59dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="120sp"
+                android:background="#0021AC"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="solar station \n constructor mk.1"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Choose your electric devices in home,\n and we will offer how many solar panels are needed"
+                android:textSize="12sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/lamp1"
+                android:layout_weight="1">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/tv2"
+                android:layout_weight="1">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/kettle1"
+                android:layout_weight="1">
+            </ImageView>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/oven1"
+                android:layout_weight="1">
+
+            </ImageView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/lamp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="~60W">
+
+            </CheckBox>
+            <CheckBox
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="~300W">
+
+            </CheckBox>
+            <CheckBox
+                android:id="@+id/kettle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="~1500W">
+
+            </CheckBox>
+            <CheckBox
+                android:id="@+id/oven"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="~2000W">
+
+            </CheckBox>
+        </LinearLayout>
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90sp"
@@ -43,8 +154,65 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </ScrollView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="total power consumption of other devices, Watt">
+
+            </TextView>
+
+            <EditText
+                android:id="@+id/inputAdditional"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="e.g. 2500"
+                android:inputType="number"
+                >
+
+            </EditText>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/constructView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:hint="...">
+
+            </TextView>
+
+            <Button
+                android:id="@+id/toconstruct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/TextOnDashboard"
+                android:background="@color/MiddleBLue"
+                android:text="to construct!">
+
+            </Button>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</ScrollView>

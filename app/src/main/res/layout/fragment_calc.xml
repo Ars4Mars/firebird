@@ -30,10 +30,10 @@
                     android:background="#0021AC"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
-                    android:text="efficiency calculator mk.1"
+                    android:text="efficiency \ncalculator mk.1"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="36sp"
+                    android:textSize="30sp"
                     android:textStyle="bold">
 
                 </TextView>
@@ -43,7 +43,7 @@
                     android:layout_height="60dp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
-                    android:text="calculations are made in dollars, in the next updates we will add other currencies"
+                    android:text="The calculation takes into account the rated power of the solar station that you specified in the settings"
                     android:textSize="12sp"
                     android:textStyle="bold">
 

@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ import com.revolve44.firebird5.R;
 
 import java.util.Objects;
 import java.util.Random;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.revolve44.firebird5.ui.CalcFragment.SHARED_PREFS;
 
 public class HomeFragment extends Fragment {
 
@@ -79,7 +83,7 @@ public class HomeFragment extends Fragment {
 
     ImageView imageX;
 
-
+    public static final String SHARED_PREFS = "sharedPrefs";
 
 //    @Override
 //    public void onAttach(@NonNull Context context) {
@@ -95,6 +99,7 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
@@ -126,10 +131,19 @@ public class HomeFragment extends Fragment {
         final ImageView teapot = root.findViewById(R.id.teapot);
         final ImageView oven = root.findViewById(R.id.oven);
 
-
-
+//        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+//        //SharedPreferences.Editor editor = sharedPreferences.edit();
+//        String city = "";
+//        city = sharedPreferences.getString("MyCity",city);
         final LinearLayout mainLoader = root.findViewById(R.id.mainloader);
 
+        ((MainActivity)(getActivity())).TimeManipulations();
+        MainActivity activity = (MainActivity) getActivity();
+        Float nominalpower = activity.getNominalPower();
+        String city = activity.getСityData();
+        NominalPower.setText(""+nominalpower+" W");
+        CityView.setText(""+city);
+        CityView.setSelected(true);
         //CurrentPower.setText(""+currentPower);
         //CityView.setText(city);
 
@@ -235,19 +249,13 @@ public class HomeFragment extends Fragment {
         });
 
         final ImageView sun= root.findViewById(R.id.ivSun);
-        //final RelativeLayout SkyLayout= root.findViewById(R.id.SkyLayout);
         final ImageView ivRoof= root.findViewById(R.id.ivRoof);
-        //final ImageView oven= root.findViewById(R.id.oven);
-
         final ImageView cloud= root.findViewById(R.id.cloud1);
         final ImageView cloud2= root.findViewById(R.id.cloud2);
         final ImageView cloud3= root.findViewById(R.id.cloud3);
         final ImageView cloud4= root.findViewById(R.id.cloud4);
 
         final ImageView imageX= root.findViewById(R.id.fan);
-
-//        final int width = getResources().getConfiguration().screenWidthDp;
-//        final int height = getResources().getConfiguration().screenHeightDp;
 
         //Random
         int min = 1;
@@ -305,52 +313,6 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-    public void MasterCloud(){
-
-        final int width = getResources().getConfiguration().screenWidthDp;
-        final int height = getResources().getConfiguration().screenHeightDp;
-
-        final ImageView cloud= Objects.requireNonNull(getView()).findViewById(R.id.cloud1);
-        final ImageView cloud2= getView().findViewById(R.id.cloud2);
-        final ImageView cloud3= getView().findViewById(R.id.cloud3);
-        final ImageView cloud4= getView().findViewById(R.id.cloud4);
-        //Motion CloudL
-        //ImageView cloud = (ImageView) findViewById(R.id.ivCloudLARGE);
-        cloud.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
-        TranslateAnimation cloudanim = new TranslateAnimation(-720, (width/100)+random_num,-20, -20 );
-        cloudanim.setDuration(3000);
-        cloudanim.setFillAfter(true);
-        cloud.startAnimation(cloudanim);
-        //
-        //Motion CloudL
-        //ImageView cloud2 = (ImageView) findViewById(R.id.ivCloudLARGE2);
-        cloud2.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
-        TranslateAnimation cloudanim2 = new TranslateAnimation(-720, (width/3)+random_num,-20, -20 );
-        cloudanim2.setDuration(3500);
-        cloudanim2.setFillAfter(true);
-        cloud2.startAnimation(cloudanim2);
-        //
-        //Motion CloudL
-        //ImageView cloud3 = (ImageView) findViewById(R.id.ivCloudLARGE3);
-        cloud3.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
-        TranslateAnimation cloudanim3 = new TranslateAnimation(-720, (width/2)+random_num,-20, -20 );
-        cloudanim3.setDuration(4000);
-        cloudanim3.setFillAfter(true);
-        cloud3.startAnimation(cloudanim3);
-        //
-        //Motion CloudL
-        //ImageView cloud4 = (ImageView) findViewById(R.id.ivCloudLARGE4);
-        cloud4.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
-        TranslateAnimation cloudanim4 = new TranslateAnimation(-720, (width-100)+random_num,-20, -20 );
-        cloudanim4.setDuration(4500);
-        cloudanim4.setFillAfter(true);
-        cloud4.startAnimation(cloudanim4);
-    }
 
     public void night(){
         ImageView sun= getView().findViewById(R.id.ivSun);
@@ -420,14 +382,11 @@ public class HomeFragment extends Fragment {
                         Color.parseColor(getString(R.string.night)),
                         Color.parseColor(getString(R.string.day)));
         skyAnim.setDuration(ANIMATION_DURATION);
-        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
+
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
         //Motion Sun
-        //ImageView image4 = (ImageView) findViewById(R.id.ivSun);
         sun.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
         TranslateAnimation animation1 = new TranslateAnimation(-220, width/6,200, -20 );
         animation1.setDuration(3000);
         animation1.setFillAfter(true);
@@ -448,15 +407,11 @@ public class HomeFragment extends Fragment {
                         Color.parseColor(getString(R.string.night)),
                         Color.parseColor(getString(R.string.day)));
         skyAnim2.setDuration(ANIMATION_DURATION);
-        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
         skyAnim2.setEvaluator(new ArgbEvaluator());
         skyAnim2.start();
 
         //Motion Sun
-        //ImageView image4 = (ImageView) findViewById(R.id.ivSun);
         sun.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
         TranslateAnimation animation2 = new TranslateAnimation(-220, width/2-100,200, -20 );
         animation2.setDuration(3000);
         animation2.setFillAfter(true);
@@ -476,14 +431,10 @@ public class HomeFragment extends Fragment {
                         Color.parseColor(getString(R.string.day)),
                         Color.parseColor(getString(R.string.evening)));
         skyAnim.setDuration(ANIMATION_DURATION);
-        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
         //Motion Sun
-        //ImageView image4 = (ImageView) findViewById(R.id.ivSun);
         sun.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
         TranslateAnimation animation1 = new TranslateAnimation(0, (width/6)*5,-320, -20 );
         animation1.setDuration(4000);
         animation1.setFillAfter(true);
@@ -504,35 +455,16 @@ public class HomeFragment extends Fragment {
                         Color.parseColor(getString(R.string.day)),
                         Color.parseColor(getString(R.string.evening)));
         skyAnim.setDuration(ANIMATION_DURATION);
-        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
         //Motion Sun
-        //ImageView image4 = (ImageView) findViewById(R.id.ivSun);
         sun.setVisibility(View.VISIBLE);
-        //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
         TranslateAnimation animation1 = new TranslateAnimation(0, width-200,-320, 200 );
         animation1.setDuration(4000);
         animation1.setFillAfter(true);
         sun.startAnimation(animation1);
         xSun = sun.getLeft();
         ySun = sun.getTop();
-
-
         //Toast.makeText(this, ""+width2, Toast.LENGTH_SHORT).show();
     }
-
-    public void firsttest(View view) {
-//        ImageView imageX= (ImageView) findViewById(R.id.birds);
-//        RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-////        rotate.setDuration(Animation.INFINITE);
-////        rotate.setInterpolator(new LinearInterpolator());
-//        rotate.setDuration(500);
-//        rotate.setRepeatCount(Animation.INFINITE);
-//        rotate.setInterpolator(new LinearInterpolator());
-//        imageX.startAnimation(rotate);
-
-    }
-
 }

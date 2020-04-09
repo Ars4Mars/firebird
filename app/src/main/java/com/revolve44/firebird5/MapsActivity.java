@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.concurrent.ExecutionException;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener{
 
@@ -31,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker marker;
     double latitude;
     double longitude;
-    public Float NominalPower;
+    public Float NominalPower = 0.0f;
 
     String Latitude;
     String Longitude;
@@ -61,6 +63,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //textView = findViewById(R.id.LOLIK);
+        try {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+            NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
+        }catch(Exception e){
+            Toast.makeText(MapsActivity.this, "Maybe  error. NM is "+ NominalPower, Toast.LENGTH_SHORT).show();
+        }
+
 
 
         //Loader = (LinearLayout) findViewById(R.id.loader);
@@ -173,24 +182,114 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // its need for Retrofit request
 
         Latitude = String.valueOf(latitude);
-        Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
+        try{
+            Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
+        }catch (Exception q){
+
+        }
 
         Longitude = String.valueOf(longitude);
-        Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
-        NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+        try {
+            Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
+        }catch (Exception q){
+
+        }
+
+        try {
+            NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+
+            if (NominalPower > 0) {
+                Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,250);
+                toast.show();
+                saveData();
+
+                // send coordination to MainActivity, in future i replce this
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                intent.putExtra("FROM_MAPS1", Latitude);
+                intent.putExtra("FROM_MAPS2", Longitude);
+                intent.putExtra("CHECK_SAVINGS",check);
+                startActivity(intent);
+            }
+
+        }catch (Exception e1){
+            if (NominalPower > 0){
+                Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,250);
+                toast.show();
+                saveData();
+
+                // send coordination to MainActivity, in future i replce this
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                intent.putExtra("FROM_MAPS1", Latitude);
+                intent.putExtra("FROM_MAPS2", Longitude);
+                intent.putExtra("CHECK_SAVINGS",check);
+                startActivity(intent);
+            }else {
+                try {
+//                inputnominalpower.setText(""+NominalPower);
+                    NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+
+                    if (NominalPower > 0) {
+                        Toast toast = Toast.makeText(MapsActivity.this, "In maps " + Latitude + " " + Longitude, Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.TOP, 0, 250);
+                        toast.show();
+                        saveData();
+
+                        // send coordination to MainActivity, in future i replce this
+                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                        intent.putExtra("FROM_MAPS1", Latitude);
+                        intent.putExtra("FROM_MAPS2", Longitude);
+                        intent.putExtra("CHECK_SAVINGS", check);
+                        startActivity(intent);
+
+                    } else {
+                        Toast.makeText(MapsActivity.this, "Please input NOMINAL POWER of your solar panels ", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e2) {
+                    Toast.makeText(MapsActivity.this, "Please input NOMINAL POWER of your solar panels ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
 
 
-        Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.TOP,0,250);
-        toast.show();
-        saveData();
+        //its fitst start of app
+//        if (NominalPower<0){
+//            try {
+//                NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+//
 
-        // send coordination to MainActivity
-        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        intent.putExtra("FROM_MAPS1", Latitude);
-        intent.putExtra("FROM_MAPS2", Longitude);
-        intent.putExtra("CHECK_SAVINGS",check);
-        startActivity(intent);
+//
+//            }catch (Exception e){
+//                Toast toast = Toast.makeText(MapsActivity.this,"Please input NOMINAL POWER of your solar panels ",Toast.LENGTH_LONG);
+//            }
+//
+//        }else if (NominalPower>0){
+//            try {
+//                NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+//
+//                Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.TOP,0,250);
+//                toast.show();
+//                saveData();
+//
+//                // send coordination to MainActivity, in future i replce this
+//                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+//                intent.putExtra("FROM_MAPS1", Latitude);
+//                intent.putExtra("FROM_MAPS2", Longitude);
+//                intent.putExtra("CHECK_SAVINGS",check);
+//                startActivity(intent);
+//
+//            }catch (Exception e){
+//                //Toast.makeText(MapsActivity.this, "Please fill correct form", Toast.LENGTH_SHORT).show();
+//            }
+//
+//
+//        }
+
+
+
     }
 
     public void saveData() {
@@ -212,6 +311,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
     }
+
+
 
 
 

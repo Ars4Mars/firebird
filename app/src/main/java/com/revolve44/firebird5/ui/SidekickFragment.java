@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,15 +16,31 @@ import androidx.fragment.app.Fragment;
 import com.revolve44.firebird5.R;
 
 public class SidekickFragment extends Fragment {
+
+    public float SumPower;
+    public float SumBattery;
+    public float SumAdditional;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.fragment_sidekick, container, false);
-//        final TextView textView = root.findViewById(R.id.text_notifications);
-//        final EditText num1 = root.findViewById(R.id.editText4);
-//        final EditText num2 = root.findViewById(R.id.editText5);
-//        final Button add = root.findViewById(R.id.superbutton4);
-//        final TextView lol = root.findViewById(R.id.output);
+
+        final CheckBox lamp = root.findViewById(R.id.lamp);
+        final CheckBox tv = root.findViewById(R.id.tv);
+        final CheckBox kettle = root.findViewById(R.id.kettle);
+        final CheckBox oven = root.findViewById(R.id.oven);
+
+        final CheckBox checkGrid = root.findViewById(R.id.checkGrid);
+        final CheckBox checkBattery = root.findViewById(R.id.checkbattery);
+
+        final EditText inputAdditional = root.findViewById(R.id.inputAdditional);
+        final TextView consrtuctView = root.findViewById(R.id.constructView);
+
+        final Button tocontruct = root.findViewById(R.id.toconstruct);
+
+
+
 
 //        CalcFragment frag1 = (CalcFragment) getChildFragmentManager()
 //                .findFragmentById(R.id.map);
@@ -30,19 +48,47 @@ public class SidekickFragment extends Fragment {
 //        Fragment fragment = new SettingsFragment();
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 //        transaction.add(map, fragment).commit();
-//        add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //Now we can have sum of two input numbers!!!
-//                int number1 = Integer.parseInt(num1.getText().toString());
-//                int number2 = Integer.parseInt(num2.getText().toString());
-//                int sum = number1 + number2;
-//
-//                lol.setText("Answer is " + sum);
-//
-//                // do something
-//            }
-//        });
+        tocontruct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (lamp.isChecked()){
+                    SumPower = SumPower+ 60;
+                }
+                if (tv.isChecked()){
+                    SumPower = SumPower+ 300;
+                }
+                if (kettle.isChecked()){
+                    SumPower = SumPower+ 1500;
+                }
+                if (oven.isChecked()){
+                    SumPower = SumPower+ 2000;
+                }
+
+                if (checkGrid.isChecked() & checkBattery.isChecked()){
+                    SumPower = SumPower*0.8f;
+                }else if (checkBattery.isChecked()){
+                    SumPower = SumPower* 1.5f;
+                }else{
+                    SumPower = SumPower;
+                }
+
+                try {
+                    inputAdditional.setText("0");
+                    SumAdditional = Float.parseFloat(inputAdditional.getText().toString());
+                    SumPower= SumPower + SumAdditional;
+                }catch(Exception e) {
+                    Toast.makeText(getActivity(),"Error but add is  "+SumAdditional,Toast.LENGTH_SHORT).show();
+                }
+
+
+
+                consrtuctView.setText("you need: ~" + SumPower+" W from solar panels"+ " \n and ~" + SumBattery +" Ah batteries ");
+                SumPower = 0;
+                SumBattery = 0;
+
+            }
+        });
         return root;
     }
 }

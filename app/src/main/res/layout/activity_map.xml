@@ -20,9 +20,6 @@
             tools:context=".MapsActivity"
             />
 
-
-
-
         <EditText
             android:id="@+id/nominalpower"
             android:layout_width="match_parent"
@@ -40,8 +37,6 @@
 
         </Button>
 
-
-
-
     </LinearLayout>
+
 </RelativeLayout>
