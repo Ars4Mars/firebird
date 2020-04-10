@@ -15,6 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import com.revolve44.firebird5.R;
 
+/*
+@revolna.com
+Constructor mk1
+ */
+
 public class SidekickFragment extends Fragment {
 
     public float SumPower;
@@ -48,6 +53,7 @@ public class SidekickFragment extends Fragment {
 //        Fragment fragment = new SettingsFragment();
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 //        transaction.add(map, fragment).commit();
+        inputAdditional.setText("0");
         tocontruct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,21 +73,21 @@ public class SidekickFragment extends Fragment {
 
                 if (checkGrid.isChecked() & checkBattery.isChecked()){
                     SumPower = SumPower*0.8f;
+                    SumBattery = SumPower *0.1f+SumPower;
                 }else if (checkBattery.isChecked()){
                     SumPower = SumPower* 1.5f;
+                    SumBattery = SumPower *0.5f+SumPower;
                 }else{
-                    SumPower = SumPower;
+                    SumPower = SumPower*1.5f;
                 }
 
                 try {
-                    inputAdditional.setText("0");
+
                     SumAdditional = Float.parseFloat(inputAdditional.getText().toString());
                     SumPower= SumPower + SumAdditional;
                 }catch(Exception e) {
                     Toast.makeText(getActivity(),"Error but add is  "+SumAdditional,Toast.LENGTH_SHORT).show();
                 }
-
-
 
                 consrtuctView.setText("you need: ~" + SumPower+" W from solar panels"+ " \n and ~" + SumBattery +" Ah batteries ");
                 SumPower = 0;

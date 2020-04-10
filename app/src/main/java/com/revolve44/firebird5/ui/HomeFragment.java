@@ -156,6 +156,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
+                Toast.makeText(getActivity(),"Loading ...",Toast.LENGTH_SHORT).show();
                 ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
                 //CurrentPower.setText(""+currentPower2);
                 mainLoader.setVisibility(View.VISIBLE);
@@ -164,6 +165,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void run() {
                         // Do something after 5s = 5000ms
+
                         ((MainActivity) Objects.requireNonNull(getActivity())).TimeManipulations();
 
                         MainActivity activity = (MainActivity) getActivity();
@@ -176,8 +178,6 @@ public class HomeFragment extends Fragment {
                         final int SunPeriod = activity.getSunPeriod();
                         wind = activity.getWindSpeed();
                         final Boolean HotCheck = activity.HotCheck();
-
-                        Toast.makeText(getActivity(),"Cur Pow "+currentPower,Toast.LENGTH_SHORT).show();
 
 
                         CurrentPower.setText(""+currentPower);
@@ -282,13 +282,8 @@ public class HomeFragment extends Fragment {
 
 
     public void rotateFan() {
-
-
         ImageView imageX= (ImageView) Objects.requireNonNull(getView()).findViewById(R.id.fan);
         RotateAnimation rotate = new RotateAnimation(360, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        //rotate.setDuration(Animation.INFINITE);
-//        rotate.setInterpolator(new LinearInterpolator());
-        Toast.makeText(getActivity(),"Wind is "+wind,Toast.LENGTH_SHORT).show();
 
         // Bofort scale
         if (wind == 0){

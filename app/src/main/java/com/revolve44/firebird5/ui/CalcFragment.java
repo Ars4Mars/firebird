@@ -69,7 +69,6 @@ public class CalcFragment extends Fragment  {
         final EditText CostFoodINPUT = root.findViewById(R.id.cost_food);
 
         final TextView PaybackView = root.findViewById(R.id.paybackView);
-        //Spinner spinner = (Spinner) root.findViewById(R.id.Currency);
 
         // Spinner element
         String [] values =

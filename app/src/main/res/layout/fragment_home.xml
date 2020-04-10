@@ -9,8 +9,8 @@
     tools:context="com.revolve44.firebird5.MainActivity">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/SkyLayout"
         android:padding="1dp"
         android:orientation="vertical"
@@ -84,6 +84,7 @@
                 android:hint="--:--"
                 android:fontFamily="@font/montserrat"
                 android:textColor="#5B67D5"
+                android:onClick="toast1"
                 android:textSize="20sp">
 
             </TextView>
@@ -95,6 +96,7 @@
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
                 android:hint="--:--"
+                android:onClick="toast2"
                 android:textColor="#5B67D5"
                 android:textSize="30sp">
             </TextView>
@@ -108,6 +110,7 @@
                 android:hint="--:--"
                 android:fontFamily="@font/montserrat"
                 android:textColor="#5B67D5"
+                android:onClick="toast3"
                 android:textSize="20sp">
 
             </TextView>
@@ -141,6 +144,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
+            android:onClick="toast0"
             android:hint="~"
             android:textColor="#B7D8EA"
             android:textSize="70sp"

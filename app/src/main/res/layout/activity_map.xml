@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.revolve44.firebird5.MapsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:focusableInTouchMode="true">
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -36,6 +38,65 @@
             android:onClick="ClickButton">
 
         </Button>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:text="Before starting - make sure correct you setted time zone, and current date in your phone"
+                        android:gravity="center">
+                    </TextView>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=" This application make use of solar stations any size more comfortable and efficiency. Due to the convenient design, specially developed formulas for solar forecasting, which are constantly being developed, stay tuned for application updates!">
+
+                    </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Version: 0.1"
+                        android:gravity="center">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Next version"
+                        android:gravity="center">
+                    </TextView>
+
+                    <Button
+                        android:id="@+id/writetodev"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="write to developer"
+                        android:onClick="writetodev">
+
+                    </Button>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

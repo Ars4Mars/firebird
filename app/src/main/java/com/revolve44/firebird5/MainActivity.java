@@ -55,6 +55,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.view.FrameMetrics.ANIMATION_DURATION;
 import static android.widget.Toast.LENGTH_LONG;
 
+/*
+TODO: The main functions of this class: communication with Weather API,
+  get main variables (cloud, temp coefficient, sunrise sunset time)
+
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     private View root;
@@ -137,11 +143,6 @@ public class MainActivity extends AppCompatActivity {
 
         lat = getIntent().getStringExtra("FROM_MAPS1");
         lon = getIntent().getStringExtra("FROM_MAPS2");
-        //check = getIntent().getBooleanExtra("CHECK_SAVINGS",check);
-//        if (NominalPower>0){
-//            getCurrentData();
-//        }
-
 
         RelativeLayout SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
 
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
         long UnixCurrentTime = milliseconds / 1000L;
         long GMT = UnixCurrentTime-unixUTC;
         //Toast.makeText(this, "UTC"+GMT, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "ccc"+CurrentPower, Toast.LENGTH_SHORT).show();
+
 
         //Get sunshine duration per day
         unixSunrise=unixSunrise+GMT;
@@ -261,25 +262,25 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
             SunPeriod=1;
         }else if ((unixSunrise+UnixVar) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*2)+unixSunrise)){
-            Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
             SunPeriod=2;
         }else if ((unixSunrise+UnixVar*2) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*3)+unixSunrise)){
-            Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
             SunPeriod=3;
         }else if ((unixSunrise+UnixVar*3) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*4)+unixSunrise)){
-            Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
             SunPeriod=4;
         }else if ((unixSunrise+UnixVar*4) < UnixCurrentTime & UnixCurrentTime < ((UnixVar*5)+unixSunrise)){
-            Toast.makeText(this, "sunsetT", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "sunset", Toast.LENGTH_SHORT).show();
             SunPeriod=5;
         }else{
             SunPeriod=0;
-            Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
         };
-        Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, unixSunrise+" < "+UnixCurrentTime+" < "+ unixSunset, Toast.LENGTH_SHORT).show();
 
         //Converter UNIX-date to time
-        Toast.makeText(this, unixSunset+"", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, unixSunset+"", Toast.LENGTH_SHORT).show();
         long time = (unixSunrise-GMT) * (long) 1000;
         Date date = new Date(time);
         SimpleDateFormat formaten = new SimpleDateFormat("HH:mm");
@@ -301,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OtherManipulations(){
-        Toast.makeText(this, windF+"", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, windF+"", Toast.LENGTH_SHORT).show();
         windI = Math.round(windF);
         if (temp>30){
             HotCheck = true;
@@ -377,5 +378,24 @@ public class MainActivity extends AppCompatActivity {
     public void seven(View view) {
         startActivity(new Intent(MainActivity.this, MapsActivity.class));
     }
+
+    public void toast0(View view) {
+        Toast.makeText(this, " It`s CURRENT POWER output of your solar panels, with accountant weather data ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void toast1(View view) {
+        Toast.makeText(this, " Its time of sunrise ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void toast2(View view) {
+        Toast.makeText(this, " Its sunshine duration ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void toast3(View view) {
+        Toast.makeText(this, " Its time of sunset ", Toast.LENGTH_SHORT).show();
+    }
+
+
+
 }
 

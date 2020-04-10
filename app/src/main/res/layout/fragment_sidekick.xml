@@ -150,7 +150,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:buttonTint="@color/FireBirdtheme"
-                android:text="do you have batteries connected to the solar station?" />
+                android:text="will energy be consumed at night?" />
 
         </LinearLayout>
 

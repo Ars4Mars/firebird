@@ -36,12 +36,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.revolve44.firebird5.MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:name=".MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

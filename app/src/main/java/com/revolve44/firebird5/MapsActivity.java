@@ -77,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /** ШАБЛОННЫЙ ГУГОЛОВСКИЙ КОМЕНТАРИЙ ПО ПОВОДУ ИХ КАРТ, РЕЛАКС. донт ворри
-     *
+     * просто оставил почитать
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
@@ -154,9 +154,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
-
-
     }
 
     @Override
@@ -253,43 +250,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-
-        //its fitst start of app
-//        if (NominalPower<0){
-//            try {
-//                NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
-//
-
-//
-//            }catch (Exception e){
-//                Toast toast = Toast.makeText(MapsActivity.this,"Please input NOMINAL POWER of your solar panels ",Toast.LENGTH_LONG);
-//            }
-//
-//        }else if (NominalPower>0){
-//            try {
-//                NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
-//
-//                Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
-//                toast.setGravity(Gravity.TOP,0,250);
-//                toast.show();
-//                saveData();
-//
-//                // send coordination to MainActivity, in future i replce this
-//                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//                intent.putExtra("FROM_MAPS1", Latitude);
-//                intent.putExtra("FROM_MAPS2", Longitude);
-//                intent.putExtra("CHECK_SAVINGS",check);
-//                startActivity(intent);
-//
-//            }catch (Exception e){
-//                //Toast.makeText(MapsActivity.this, "Please fill correct form", Toast.LENGTH_SHORT).show();
-//            }
-//
-//
-//        }
-
-
-
     }
 
     public void saveData() {
@@ -318,6 +278,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void testMEM(View view) {
         Toast.makeText(this, "load "+latitude+" long"+longitude, Toast.LENGTH_SHORT).show();
+    }
+
+    public void writetodev(View view) {
+
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"info@revolna.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "i have a question or suggestion");
+        i.putExtra(Intent.EXTRA_TEXT   , "So, ...");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MapsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
