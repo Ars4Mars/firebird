@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     //public String
 
     public boolean isDataAvailable = false;
-    public final LinkedHashMap<Long, Float> dataMap = new LinkedHashMap<>();
+    public LinkedHashMap<Long, Float> dataMap = new LinkedHashMap<>();
     public LinkedHashMap<String, Float> corvette = new LinkedHashMap<>();
 
     public String sunset;
@@ -154,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("MasterSave", MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             // <---- run your one time code here
-
-
-
             Intent intent2 = new Intent(this, MapsActivity.class);
             startActivity(intent2);
 
@@ -232,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////
         //         Click from Fragment              //
         //////////////////////////////////////////////
+        Log.d("Lifecycle -> method "," runforecast ");
         LoadData();
         getCurrentData();
         TimeManipulations();
@@ -242,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void getCurrentData() {
+        Log.d("Lifecycle -> method "," getCurrentdata ");
 
 //        // Before all, we load coordinations and nominal power of station
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
@@ -384,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void TimeManipulations(){
+        Log.d("Lifecycle -> method "," timemanipulations ");
         ////////////////////////////////////////////////////
         //     Time zone & unix sunrise/sunset            //
         //                                                //
@@ -461,46 +461,21 @@ public class MainActivity extends AppCompatActivity {
 
         solarhoursString = String.valueOf(hourSet-hourRise);
         Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
-//        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putLong("GMT",GMT);
-        //editor.putLong("GMT",UTCtime);
 
-
-
-//        LinkedHashMap<Long, Float> corvette = new LinkedHashMap<>();
-//        LinkedHashMap<Long, Float> dataMap = new LinkedHashMap<>();
-//        dataMap.put(1L,242487489f);
-//        dataMap.put(2L,242487189f);
-//        dataMap.put(3L,242487289f);
-//        dataMap.put(4L,242484789f);
         int a = 0;
         for(Map.Entry<Long, Float> entry : dataMap.entrySet()) {
             long key = (entry.getKey());
             float value = (entry.getValue());
 
 
-            SimpleDateFormat sd4 = new SimpleDateFormat("HH:mm");
+            SimpleDateFormat sd4 = new SimpleDateFormat("HH:mm yyyy-MM-dd");
             sd4.setTimeZone(tz);
             Date netDate4 = (new Date(key));
             String ModernTime = (sd4.format(netDate4));
 
-//            SimpleDateFormat sd5 = new SimpleDateFormat("yyyy MM-dd HH:mm");
-//            sd4.setTimeZone(tz);
-//            Date netDate5 = (new Date(key));
-//            String ModernTime5 = (sd5.format(netDate5));
-//
-//            Log.d(" loop, new format", " -> "+ ModernTime5+ " and value "+ value);
-
-//            int hournow = Integer.parseInt(hournowStr.substring(0, hournowStr.length() - 3));
-//            int hourRise = Integer.parseInt(sunrise.substring(0, sunrise.length() - 3));
-//            int hourSet = Integer.parseInt(sunset.substring(0, sunset.length() - 3));
-            //////////////
-            //long time = (key+GMT); //???????????
-            //String ModernTime = DateFormat.format("HH:mm", time).toString();
-            Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
-            int transitTime = Integer.parseInt(ModernTime.substring(0, ModernTime.length() - 3));
-
+            //Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
+            int transitTime = Integer.parseInt(ModernTime.substring(0, ModernTime.length() - 14));
+            Log.d("Hashmap test loop -> ", "transittime : "+ transitTime + " hoursunset : "+ hourSet);
 
             if (transitTime>hourSet){
                 //0
@@ -532,17 +507,15 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////////////////////////////////
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        jsonString = new Gson().toJson(corvette);
-        editor.putString("map", jsonString); // this hashmap
-        editor.apply(); // added apply and this works!
-        Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
-
+        if (corvette.size()>1){
+            jsonString = new Gson().toJson(corvette);
+            editor.putString("map", jsonString); // this hashmap
+            editor.apply(); // added apply and this works!
+            Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
+        }
     }
-
-
-
     public void SaveData(){
+        Log.d("Lifecycle -> method "," savedata ");
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CurPow",CurrentPowerInt);
@@ -551,13 +524,19 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat("temp",temp);
         editor.putFloat("pressure",pressure);
         editor.putFloat("humidity",humidity);
-
-        editor.putString("sunrise",sunrise);
-        editor.putString("sunset",sunset);
+        if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))!=0){
+            editor.putString("sunrise",sunrise);
+        }
+        if (Integer.parseInt(sunset.substring(0, sunset.length() - 3))!=0){
+            editor.putString("sunset",sunset);
+        }
 
         //editor.putString("map", jsonString); // this hashmap
-
         editor.putString("MyCity",city);
+//        if (!city.equals("null")){
+//
+//        }
+
         editor.apply();
         Log.d("@@@@@@@@@@@@", "GMT:  "+GMT);
         Log.d("@@@@@@@@@@@@", "temp:  "+temp);
@@ -566,6 +545,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void LoadData(){
+        Log.d("Lifecycle -> method "," Loaddata ");
 
         // Before all, we load coordinations and nominal power of station
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave",MODE_PRIVATE);

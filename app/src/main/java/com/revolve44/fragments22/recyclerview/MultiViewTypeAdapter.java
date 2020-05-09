@@ -78,6 +78,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void run() {
                     //Do something after 3s
+                    Log.d("Lifecycle -> method "," Set temp ");
                     SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("MasterSave", MODE_PRIVATE);
                     temp = sharedPreferences.getFloat("temp",0f);
                     pressure = sharedPreferences.getFloat("pressure",0f);
@@ -142,6 +143,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void run() {
 
                     try{
+                        Log.d("Lifecycle -> method "," build Graph ");
                         //////////////////////////////////////////////////////////////////////////
                         //                       GET FROM SHARED PREFERENCES                    //
                         //////////////////////////////////////////////////////////////////////////
@@ -196,7 +198,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         //////////////////////////////////////////////////////////
                         for(Map.Entry<String, String> entry : linked.entrySet()) {
                             String key = (entry.getKey());
-                            Float value = Float.parseFloat(entry.getValue());
+                            float value = Float.parseFloat(entry.getValue());
 
 
 
@@ -204,7 +206,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                            String ModernTime = DateFormat.format("HH:mm", time).toString();
 
                             ints.add(Math.round(value)); // add to Y axis
-                            bottomStringList.add(key);// add to bottom Legend or X axis
+                            bottomStringList.add(key.substring(0, key.length() - 11));// add to bottom Legend or X axis **hard bug solved here
                         }
 
                         dataLists.add(ints);

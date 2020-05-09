@@ -114,6 +114,8 @@ public class HomeFragment extends Fragment {
 
     public int currentPower;
 
+    public int amortization = 0;
+
 
     RecyclerView mRecyclerView;
 //    @Override
@@ -172,11 +174,17 @@ public class HomeFragment extends Fragment {
         //////////////////////////////////////////////////////////
         //              recyclerview                            //
         //////////////////////////////////////////////////////////
+
         mRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
         ArrayList<Model> list2= new ArrayList<>();
         //list2.add(new Model())
         list2.add(new Model(Model.TEXT_TYPE,"",0));
-        list2.add(new Model(Model.GRAPH_TYPE,"",0));
+        try {
+            list2.add(new Model(Model.GRAPH_TYPE,"",0));
+        }catch (Exception e){
+            Log.d("MyError -> ", " add graphtype");
+        }
+
         //list.add(new Model(Model.GRAPH_TYPE,"",0 ));
         //list.add(new Model(Model.GRAPH_TYPE,"IRON MAN",0 ));
         final MultiViewTypeAdapter adapter = new MultiViewTypeAdapter(list2,getActivity());
@@ -238,6 +246,7 @@ public class HomeFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void LaunchForecast (){
+        Log.d("Lifecycle -> method "," LaunchForecast ");
         //Toast.makeText(getActivity(),"Loading ...",Toast.LENGTH_SHORT).show();
         ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
         //CurrentPower.setText(""+currentPower2);
@@ -267,17 +276,35 @@ public class HomeFragment extends Fragment {
 
                 //dirty hack
                 if (currentPower == 0 & SunPeriod != 0){
-                    LaunchForecast();
+
+                    if (amortization<2){
+                        LaunchForecast();
+                        amortization++;
+                    }
+
                 }
                 if (currentPower >0 & SunPeriod ==0){
-                    LaunchForecast();
+
+                    if (amortization<2){
+                        LaunchForecast();
+                        amortization++;
+                    }
                 }
-                if (Integer.parseInt(solarhoursString)<0 ){
-                    LaunchForecast();
+                if (Integer.parseInt(solarhoursString)<=0 ){
+
+                    if (amortization<2){
+                        LaunchForecast();
+                        amortization++;
+                    }
                 }
-//                if (Integer.parseInt(solarhoursString)==0 ){
-//                    LaunchForecast();
-//                }
+
+                if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))>8 ){
+
+                    if (amortization<2){
+                        LaunchForecast();
+                        amortization++;
+                    }
+                }
                 CurrentPower.setText(""+currentPower);
                 NominalPower.setText(nominalpower+" W");
                 CityView.setText(""+city);

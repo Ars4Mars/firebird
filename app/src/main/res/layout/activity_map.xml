@@ -72,10 +72,7 @@
                             android:layout_weight="1"
                             android:text="Imperial units (°F)"
                             >
-
                         </CheckBox>
-
-
                     </LinearLayout>
 
 
@@ -92,7 +89,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="The next version or update is scheduled for late spring. In the next updates will be added: improvements in the calculator, design (big features)"
+                        android:text=" \nThe next version is scheduled for late may-june . In the next updates will be added: forecast on 2 or more days"
                         android:gravity="center">
                     </TextView>
 
