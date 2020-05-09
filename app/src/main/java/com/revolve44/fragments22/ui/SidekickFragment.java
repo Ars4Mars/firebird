@@ -1,4 +1,4 @@
-package com.revolve44.firebird5.ui;
+package com.revolve44.fragments22.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.revolve44.firebird5.R;
+import com.revolve44.fragments22.R;
 
 /*
 @revolna.com

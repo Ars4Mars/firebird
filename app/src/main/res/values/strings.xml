@@ -8,5 +8,9 @@
     <string name="day">#769CDD</string>
     <string name="spacegrey">#BFC5D1</string>
 
+    <string name="lostpassword">If you lost your password please contact <a href="mailto:support@cleverfinger.com.au?Subject=Lost%20Password" target="_top">support@cleverfinger.com.au</a></string>
+
+    <string name="defaultpassword">User Guide <a href="http://www.cleverfinger.com.au/user-guide/">http://www.cleverfinger.com.au/user-guide/</a></string>
+
 
 </resources>

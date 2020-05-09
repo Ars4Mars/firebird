@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.revolve44.firebird5.MapsActivity">
+    tools:context="com.revolve44.fragments22.MapsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/setvar"
-            android:text="Save variables!"
+            android:text="Save settings!"
             android:onClick="ClickButton">
 
         </Button>
@@ -54,11 +54,31 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
                         android:text="Before starting - make sure correct you setted time zone, and current date in your phone"
-                        android:gravity="center">
-                    </TextView>
+                        android:textStyle="bold"></TextView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+
+                        <CheckBox
+                            android:id="@+id/checkImperial"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Imperial units (°F)"
+                            >
+
+                        </CheckBox>
+
+
+                    </LinearLayout>
+
+
 
 
                     <TextView
@@ -67,17 +87,54 @@
                         android:text=" This application make use of solar stations any size more comfortable and efficiency. Due to the convenient design, specially developed formulas for solar forecasting, which are constantly being developed, stay tuned for application updates!">
 
                     </TextView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Version: 0.1"
-                        android:gravity="center">
-                    </TextView>
+
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Next version"
+                        android:text="The next version or update is scheduled for late spring. In the next updates will be added: improvements in the calculator, design (big features)"
+                        android:gravity="center">
+                    </TextView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/site"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="our site"
+                            android:layout_weight="1"
+                            android:onClick="gosite">
+
+                        </Button>
+                        <Button
+                            android:id="@+id/instagram"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="instagram"
+                            android:layout_weight="1"
+                            android:onClick="goinstagram">
+
+                        </Button>
+                        <Button
+                            android:id="@+id/telegram"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="telegram"
+                            android:layout_weight="1"
+                            android:onClick="gotelegram">
+
+                        </Button>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Version: 0.2"
                         android:gravity="center">
                     </TextView>
 

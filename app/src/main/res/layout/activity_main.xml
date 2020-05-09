@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.revolve44.firebird5.MainActivity">
+    tools:context="com.revolve44.fragments22.MainActivity">
 
     <FrameLayout
         android:id="@+id/fragment_container"

@@ -1,12 +1,16 @@
-package com.revolve44.firebird5;
+package com.revolve44.fragments22;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,12 +22,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener{
@@ -35,8 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double longitude;
     public Float NominalPower = 0.0f;
 
-    String Latitude;
-    String Longitude;
+    public String Latitude;
+    public String Longitude;
 
     String currentTimezone = "GMT+0";
 
@@ -44,27 +45,85 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     LatLng MYLOCATION =  new LatLng (latitude, longitude);
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-
-
     LinearLayout Loader;
 
     TextView textView;
 
     EditText inputnominalpower;
 
+    boolean tempFahrenheit;
+    CheckBox checkImperial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+
+        checkImperial = findViewById(R.id.checkImperial);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //textView = findViewById(R.id.LOLIK);
+        final SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        tempFahrenheit = sharedPreferences.getBoolean("tempFahrenheit",tempFahrenheit);
+
+        if (!sharedPreferences.getBoolean("firstTime", false)) {
+            // <---- run your one time code here
+            AlertDialog alertDialog = new AlertDialog.Builder(MapsActivity.this).create();
+            alertDialog.setTitle("Before starting");
+            alertDialog.setMessage("Please set location and nominal power (theoretical max power) of your solar station");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+            // mark first time has ran.
+
+            editor.putBoolean("firstTime", true);
+            editor.apply();
+
+        }
+
+
+
+        checkImperial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("tempFahrenheit", ((CheckBox) view).isChecked());
+                editor.commit();
+                if (checkImperial.isChecked()) {
+
+                } else {
+
+                }
+            }
+        });
+
+
+
+        checkImperial.setChecked(tempFahrenheit);
+
+
+
+
+
+
+//        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //tempFahrenheit = sharedPreferences.getBoolean("tempFahrenheit",tempFahrenheit);
+        Log.d("after Sh pref CHECKBOX ", tempFahrenheit+ " ");
+        //checkImperial.setChecked(tempFahrenheit);
+
+
         try {
-            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+
             NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
         }catch(Exception e){
             Toast.makeText(MapsActivity.this, "Maybe  error. NM is "+ NominalPower, Toast.LENGTH_SHORT).show();
@@ -72,9 +131,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
         //Loader = (LinearLayout) findViewById(R.id.loader);
         inputnominalpower = findViewById(R.id.nominalpower);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("Lifecycle ->","Maps onResume launch ");
+        LoadData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("Lifecycle ->","Maps onPause launch ");
+        SaveData();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("Lifecycle ->","Maps onStop launch ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("Lifecycle ->","Maps onDestroy launch ");
+    }
+
 
     /** ШАБЛОННЫЙ ГУГОЛОВСКИЙ КОМЕНТАРИЙ ПО ПОВОДУ ИХ КАРТ, РЕЛАКС. донт ворри
      * просто оставил почитать
@@ -88,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
 
         latitude = sharedPreferences.getFloat("latitudeF",(float)latitude);
         longitude = sharedPreferences.getFloat("longitudeF",(float)longitude);
@@ -178,6 +266,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Float Coordination ==> String Coordination
         // its need for Retrofit request
 
+        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //put to sharedpref:
+        //editor.putBoolean("tempFahrenheit",tempFahrenheit);
+
+        Log.d("Listener CHECKBOX ", tempFahrenheit+ " ");
+
+        //////////////////Cut variable
+
         Latitude = String.valueOf(latitude);
         try{
             Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
@@ -186,20 +283,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Longitude = String.valueOf(longitude);
+
+
         try {
             Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
         }catch (Exception q){
 
         }
-
+        editor.putString("lati",Latitude);
+        editor.putString("long",Longitude);
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //                       Start savings
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        SaveData();
         try {
             NominalPower = Float.parseFloat(inputnominalpower.getText().toString());
+
 
             if (NominalPower > 0) {
                 Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,250);
                 toast.show();
-                saveData();
+                SaveData();
 
                 // send coordination to MainActivity, in future i replce this
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -214,7 +319,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast toast = Toast.makeText(MapsActivity.this,"In maps "+Latitude+" "+Longitude,Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP,0,250);
                 toast.show();
-                saveData();
+                SaveData();
 
                 // send coordination to MainActivity, in future i replce this
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -231,7 +336,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast toast = Toast.makeText(MapsActivity.this, "In maps " + Latitude + " " + Longitude, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP, 0, 250);
                         toast.show();
-                        saveData();
+                        SaveData();
 
                         // send coordination to MainActivity, in future i replce this
                         Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -252,9 +357,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+    public void SaveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
 
         editor.putFloat("latitudeF",(float)latitude);
         editor.putFloat("longitudeF",(float)longitude);
@@ -270,6 +377,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         editor.apply();// change from .commit()
 
         Toast.makeText(this, "Data saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void LoadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+//        lat = sharedPreferences.getString("lati",lat);
+//        lon = sharedPreferences.getString("long",lon);
+//        NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
+//
+//        Log.d("************", "LAT LOT:  "+lat+ " and " + lon);
+//        Log.d("************", "GMT:  "+GMT);
+//        Log.d("************", "temp:  "+temp);
     }
 
 
@@ -293,6 +413,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(MapsActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void gosite(View view) {
+        goToUrl ( "http://revolna.com/");
+    }
+
+    public void goinstagram(View view) {
+        goToUrl ( "https://www.instagram.com/revolna_workshop/");
+    }
+
+    public void gotelegram(View view) {
+        goToUrl ( "https://t.me/solarpan");
+
+    }
+
+    private void goToUrl (String url) {
+        Uri uriUrl = Uri.parse(url);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
+    }
+
+
 }
 
 

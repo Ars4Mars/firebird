@@ -1,0 +1,42 @@
+<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="20dp"
+
+    card_view:cardElevation="5dp">
+
+    <RelativeLayout
+        android:background="@drawable/gradient"
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+
+        <HorizontalScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_margin="24dp">
+            <view
+                android:layout_width="500dp"
+                android:layout_height="300dp"
+                class="im.dacer.androidcharts.LineView"
+                android:id="@+id/line_view" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="182dp"
+            android:layout_height="23dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="476dp"
+            android:layout_marginEnd="414dp"
+            android:padding="10dp"
+            android:textSize="30sp"
+            android:text="Forecast"/>
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

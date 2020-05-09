@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:gauge="http://schemas.android.com/apk/res-auto"
 
-    tools:context="com.revolve44.firebird5.MainActivity">
+    tools:context="com.revolve44.fragments22.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -315,6 +315,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="seven"
+                android:fontFamily="@font/montserrat"
                 android:text="settings" />
 
 
@@ -324,24 +325,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
                 android:text="refresh" />
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/mainloader"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:layout_below="@id/dashboard3">
+            android:layout_height="match_parent"
+            android:layout_below="@id/dashboard3"
+            >
 
-            <com.revolve44.firebird5.animation.MovingCircleLoader
-                android:id="@+id/circleLoader"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:foregroundGravity="center" />
-
+                android:layout_height="400dp"
+                />
         </LinearLayout>
+
     </RelativeLayout>
 </ScrollView>

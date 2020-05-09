@@ -38,16 +38,44 @@
 
                 </TextView>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:fontFamily="@font/montserrat"
-                    android:gravity="center"
-                    android:text="The calculation takes into account the rated power of the solar station that you specified in the settings"
-                    android:textSize="12sp"
-                    android:textStyle="bold">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="The calculation takes into account the rated power of the solar station that you specified in the settings"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:textStyle="bold">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/NominalView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:fontFamily="@font/montserrat"
+                        android:singleLine="true"
+                        android:ellipsize="marquee"
+                        android:marqueeRepeatLimit ="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:onClick="toast4">
+
+                    </TextView>
+                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -89,17 +117,34 @@
                     android:layout_height="90sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:hint="the cost of your solar station, $"
+                    android:hint="the cost of your solar station"
                     android:inputType="number">
 
                 </EditText>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <Switch
+                        android:id="@+id/checkgrid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="Do you have connection to the power grid?"
+                        android:visibility="visible">
+
+                    </Switch>
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="100sp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
-                    android:text="how often do you turn off the electricity the central network     (per year)↓ "
+                    android:text="How often do you have a sudden power outage?     (per year)↓ "
                     android:textStyle="bold">
 
                 </TextView>
