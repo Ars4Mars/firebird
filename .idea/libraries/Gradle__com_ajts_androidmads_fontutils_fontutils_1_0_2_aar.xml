@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.ajts.androidmads.fontutils:fontutils:1.0.2@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8633e4845d81d1bce769766031a97d0/jetified-fontutils-1.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f8633e4845d81d1bce769766031a97d0/jetified-fontutils-1.0.2/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ajts.androidmads.fontutils/fontutils/1.0.2/363fb3970f42130502d4af57c4e4331e3bba5790/fontutils-1.0.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.ajts.androidmads.fontutils/fontutils/1.0.2/259798c5c4ab4d9ba2959fe374a925ecc0a1667c/fontutils-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

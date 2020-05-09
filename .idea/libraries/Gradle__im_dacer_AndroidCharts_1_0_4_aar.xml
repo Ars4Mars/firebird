@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: im.dacer:AndroidCharts:1.0.4@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c78b365ef4c30eb2222242c5c99b5c64/jetified-AndroidCharts-1.0.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c78b365ef4c30eb2222242c5c99b5c64/jetified-AndroidCharts-1.0.4/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/im.dacer/AndroidCharts/1.0.4/f9d64c26c3fc61461077781821ac0bbce7c944ab/AndroidCharts-1.0.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/im.dacer/AndroidCharts/1.0.4/f03a4685c10dcbd397a81c37b1c4e7d712a0a12/AndroidCharts-1.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
