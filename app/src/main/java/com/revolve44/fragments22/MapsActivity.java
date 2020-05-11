@@ -51,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     EditText inputnominalpower;
 
+
     boolean tempFahrenheit;
     CheckBox checkImperial;
 
@@ -61,6 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         checkImperial = findViewById(R.id.checkImperial);
+        //Loader = (LinearLayout) findViewById(R.id.loader);
+        inputnominalpower = findViewById(R.id.nominalpower);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -71,7 +74,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SharedPreferences.Editor editor = sharedPreferences.edit();
         tempFahrenheit = sharedPreferences.getBoolean("tempFahrenheit",tempFahrenheit);
 
+        try {
+            NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
+        }catch(Exception e){
+            Toast.makeText(MapsActivity.this, "Maybe  error. NM is "+ NominalPower, Toast.LENGTH_SHORT).show();
+        }
+
         if (!sharedPreferences.getBoolean("firstTime", false)) {
+            editor.putBoolean("firstTime", true);
+            editor.apply();
             // <---- run your one time code here
             AlertDialog alertDialog = new AlertDialog.Builder(MapsActivity.this).create();
             alertDialog.setTitle("Before starting");
@@ -85,10 +96,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             alertDialog.show();
             // mark first time has ran.
 
-            editor.putBoolean("firstTime", true);
-            editor.apply();
+
 
         }
+        inputnominalpower.setText(""+Math.round(NominalPower));
 
 
 
@@ -106,35 +117,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
-
         checkImperial.setChecked(tempFahrenheit);
 
-
-
-
-
-
-//        SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //tempFahrenheit = sharedPreferences.getBoolean("tempFahrenheit",tempFahrenheit);
         Log.d("after Sh pref CHECKBOX ", tempFahrenheit+ " ");
-        //checkImperial.setChecked(tempFahrenheit);
 
-
-        try {
-
-            NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
-        }catch(Exception e){
-            Toast.makeText(MapsActivity.this, "Maybe  error. NM is "+ NominalPower, Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
-
-        //Loader = (LinearLayout) findViewById(R.id.loader);
-        inputnominalpower = findViewById(R.id.nominalpower);
     }
 
     @Override
@@ -260,6 +246,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         textView.setText(lol+"");
         Toast.makeText(MapsActivity.this, ""+lol, Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+        if (NominalPower<=0){
+            Toast.makeText(MapsActivity.this, "Please input NOMINAL POWER of your solar panels ", Toast.LENGTH_SHORT).show();
+        }
+        if (NominalPower>0){
+            super.onBackPressed(); // default method to back
+        }
+    }
 
     public void ClickButton(View view) {
 
@@ -276,16 +272,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //////////////////Cut variable
 
         Latitude = String.valueOf(latitude);
+        Longitude = String.valueOf(longitude);
         try{
             Latitude = Latitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
-        }catch (Exception q){
-
-        }
-
-        Longitude = String.valueOf(longitude);
-
-
-        try {
             Longitude = Longitude.substring(0,6); // cutting symbols on veeeeeryyy loooong simbols of coordination
         }catch (Exception q){
 
@@ -313,6 +302,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intent.putExtra("CHECK_SAVINGS",check);
                 startActivity(intent);
             }
+            if (NominalPower==0){
+                Toast.makeText(MapsActivity.this, "Please input NOMINAL POWER of your solar panels ", Toast.LENGTH_SHORT).show();
+            }
+
 
         }catch (Exception e1){
             if (NominalPower > 0){
@@ -434,6 +427,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    public void twitter(View view) {
+        goToUrl ( "https://twitter.com/arstagaev");
+    }
 }
 
 

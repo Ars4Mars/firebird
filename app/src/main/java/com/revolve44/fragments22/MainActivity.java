@@ -112,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
     public String city;
     public String country;
 
-    //public String
-
     public boolean isDataAvailable = false;
     public LinkedHashMap<Long, Float> dataMap = new LinkedHashMap<>();
     public LinkedHashMap<String, Float> corvette = new LinkedHashMap<>();
@@ -154,9 +152,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = this.getSharedPreferences("MasterSave", MODE_PRIVATE);
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             // <---- run your one time code here
-            Intent intent2 = new Intent(this, MapsActivity.class);
-            startActivity(intent2);
-
+            if (NominalPower==0){
+                Intent intent2 = new Intent(this, MapsActivity.class);
+                startActivity(intent2);
+            }
         }
 
         //setContentView(R.layout.activity_main);
@@ -231,9 +230,17 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////
         Log.d("Lifecycle -> method "," runforecast ");
         LoadData();
-        getCurrentData();
-        TimeManipulations();
-        SaveData();
+        try {
+            getCurrentData();
+            TimeManipulations();
+            SaveData();
+        }catch (Exception e){
+            Toast.makeText(MainActivity.this, "Please input NOMINAL POWER of your solar panels or check Internet connection", Toast.LENGTH_SHORT).show();
+        }
+        if (NominalPower<=0){
+            Intent intent2 = new Intent(this, MapsActivity.class);
+            startActivity(intent2);
+        }
        // OtherManipulations();
 
     }
@@ -352,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<WeatherForecastResponse> forecastCall, @NonNull Throwable t) {
                 Context context = getApplicationContext();
-                CharSequence text = "Fail in Response"+t.getMessage();
+                CharSequence text = "CHECK INTERNET CONNECTION"+t.getMessage();
                 int duration = Toast.LENGTH_SHORT;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -374,9 +381,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("From retrofit         ",  "Sunrise and sunset " + unixSunrise+ " "+ unixSunset);
         Log.d("From retrofit          ", GMT +"GMT now ");
         Log.d("From retrofit          ", UnixCurrentTime +"current time ");
-        Log.d("$$$$$$$$$$", GMT +"Responce: " +city+country);
-        Log.d("$$$$$$$$$$", GMT +"Responce: " +city+country+ "Current power "+ CurrentPower + " cloud " + cloud);
-        Log.d("%%%%%%%%%%%%%%", " "+ dataMap);
+        Log.d("From retrofit          ", "Current power >"+ CurrentPower);
         //TimeManipulations();
     }
 
@@ -384,44 +389,76 @@ public class MainActivity extends AppCompatActivity {
 
     public void TimeManipulations(){
         Log.d("Lifecycle -> method "," timemanipulations ");
+        Log.d("Timemaipulation method "," UTC -> "+ UnixCurrentTime+ " unixSunrise "+ unixSunrise+ " unixSet "+ unixSunset + "GMT "+ GMT);
         ////////////////////////////////////////////////////
         //     Time zone & unix sunrise/sunset            //
-        //                                                //
+        //      Here we define human time                 //
         ////////////////////////////////////////////////////
-        UTCtime = System.currentTimeMillis(); // Here i have been problem coz i multipled on 1000L UTC time:(
-        UnixCurrentTime = UTCtime;
+        long timestamp = UnixCurrentTime+GMT;
+        long timestamp2 = unixSunrise+GMT;
+        long timestamp3 = unixSunset+GMT;
 
-        unixSunrise = unixSunrise* 1000L;
-        unixSunset = unixSunset* 1000L;
-        String hours = String.valueOf((GMT/3600));
-        String blankGMT = "GMT";
-        String finalblank;
-        if (GMT>0){
-            finalblank= blankGMT+"+"+hours;
-        }else{
-            finalblank= blankGMT+hours;
+        //UTCtime = System.currentTimeMillis(); // Here i have been problem coz i multipled on 1000L UTC time:(
+        String zeroPlace1="";
+        String zeroPlace2="";
+        String zeroPlace3="";
+        String zeroPlace4="";
+
+        /////////////////////////////
+        /////////////////////////////
+        long day = timestamp / 86400;
+        //
+        long hourinSec = (timestamp - day*86400); //hours in sec
+        long hour= hourinSec / 3600; // hr
+        //
+        long minutesinSec = hourinSec - hour* 3600; // minutes in sec
+        long minutes = minutesinSec / 60;
+        //
+        hournowStr = String.valueOf(hour);
+        /////////////////////////////////
+        /////////////////////////////////
+        long day2 = timestamp2 / 86400;
+
+        //
+        long hourinSec2 = (timestamp2 - day2*86400); //hours in sec
+        long hour2= hourinSec2 / 3600; // hr
+        if (hour2<10){
+            zeroPlace1 = "0";
         }
+        //
+        long minutesinSec2 = hourinSec2 - hour2* 3600; // minutes in sec
+        long minutes2 = minutesinSec2 / 60;
+        if (minutes2<10){
+            zeroPlace2 = "0";
+        }
+        //
+        sunrise = zeroPlace1+hour2+":"+zeroPlace2+minutes2;
+        /////////////////////////////////////
+        ////////////////////////////////////
+        long day3 = timestamp3 / 86400;
 
-        TimeZone tz = TimeZone.getTimeZone(finalblank);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        sdf.setTimeZone(tz);
-        Date netDate = (new Date(unixSunrise));
-        sunrise = sdf.format(netDate);
+        //
+        long hourinSec3 = (timestamp3 - day3*86400); //hours in sec
+        long hour3= hourinSec3 / 3600; // hr
+        if (hour3<10){
+            zeroPlace3 = "0";
+        }
+        //
+        long minutesinSec3 = hourinSec3 - hour3* 3600; // minutes in sec
+        long minutes3 = minutesinSec3 / 60;
+        if (minutes3<10){
+            zeroPlace4 = "0";
+        }
+        //
+        sunset = zeroPlace3+hour3+":"+zeroPlace4+minutes3;
 
-        Date netDate2 = (new Date(unixSunset));
-        sunset = sdf.format(netDate2);
+        Log.d("TIMEST >", sunrise+ "and sunset "+ sunset);
+        Log.d("TIMEST >", timestamp+ "and  "+ timestamp2);
 
-
-        SimpleDateFormat sd = new SimpleDateFormat("HH:mm");
-        sd.setTimeZone(tz);
-        Date netDate3 = (new Date(UnixCurrentTime));
-        hournowStr = (sd.format(netDate3));
-
-        int hournow = Integer.parseInt(hournowStr.substring(0, hournowStr.length() - 3));
-        int hourRise = Integer.parseInt(sunrise.substring(0, sunrise.length() - 3));
-        int hourSet = Integer.parseInt(sunset.substring(0, sunset.length() - 3));
-
-        Log.d("?????????????????", "UTC -> "+UTCtime +" \\// "+UnixCurrentTime+ " UnixVar ->" + " hour now -> " + hournow+" and hournow str -> "+ hournowStr+ " ... ... "+hourRise+" "+ hourSet +" gmt -> "+ finalblank);
+//////////////////////////////////////////
+        int hournow = (int) hour;
+        int hourRise = (int) hour2;
+        int hourSet = (int) hour3;
 
         int sector = (hourSet - hourRise)/5;
 
@@ -453,28 +490,47 @@ public class MainActivity extends AppCompatActivity {
             SunPeriod=0;
 //            Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
         }
+
         CurrentPowerInt = Math.round(CurrentPower);
         if (SunPeriod==0){
             CurrentPowerInt = 0;
         }
+        Log.d("Timemanipulations END> ", "Sunperiod ->"+SunPeriod+" hournow "+ hournow);
 
 
+
+        ////////////////////////////////////////////////////
         solarhoursString = String.valueOf(hourSet-hourRise);
-        Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
-
+        //Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
+        String zeroPlace5 = "";
+        String zeroPlace6 = "";
         int a = 0;
         for(Map.Entry<Long, Float> entry : dataMap.entrySet()) {
-            long key = (entry.getKey());
+            long key = ((entry.getKey())/1000L)+GMT;
             float value = (entry.getValue());
+            zeroPlace5 = "";
+            zeroPlace6 = "";
 
 
-            SimpleDateFormat sd4 = new SimpleDateFormat("HH:mm yyyy-MM-dd");
-            sd4.setTimeZone(tz);
-            Date netDate4 = (new Date(key));
-            String ModernTime = (sd4.format(netDate4));
+            long day4 = key / 86400;
+
+            //
+            long hourinSec4 = (key - day4*86400); //hours in sec
+            long hour4= hourinSec4 / 3600; // hr
+            if (hour4<10){
+                zeroPlace5 = "0";
+            }
+            //
+            long minutesinSec4 = hourinSec4 - hour4* 3600; // minutes in sec
+            long minutes4 = minutesinSec4 / 60;
+            if (minutes4<10){
+                zeroPlace6 = "0";
+            }
+            //-2:-59 > 21:00
+            String ModernTime = zeroPlace5+hour4+":"+zeroPlace6+minutes4;
 
             //Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
-            int transitTime = Integer.parseInt(ModernTime.substring(0, ModernTime.length() - 14));
+            int transitTime = (int) hour4;
             Log.d("Hashmap test loop -> ", "transittime : "+ transitTime + " hoursunset : "+ hourSet);
 
             if (transitTime>hourSet){
@@ -524,19 +580,9 @@ public class MainActivity extends AppCompatActivity {
         editor.putFloat("temp",temp);
         editor.putFloat("pressure",pressure);
         editor.putFloat("humidity",humidity);
-        if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))!=0){
-            editor.putString("sunrise",sunrise);
-        }
-        if (Integer.parseInt(sunset.substring(0, sunset.length() - 3))!=0){
-            editor.putString("sunset",sunset);
-        }
-
-        //editor.putString("map", jsonString); // this hashmap
+        editor.putString("sunrise",sunrise);
+        editor.putString("sunset",sunset);
         editor.putString("MyCity",city);
-//        if (!city.equals("null")){
-//
-//        }
-
         editor.apply();
         Log.d("@@@@@@@@@@@@", "GMT:  "+GMT);
         Log.d("@@@@@@@@@@@@", "temp:  "+temp);

@@ -159,7 +159,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         //                  initialization                      //
                         //////////////////////////////////////////////////////////
                         Log.d("Recycler view ->Linked", "HashMap"+linked);
-                        ArrayList<String> bottomStringList = new ArrayList<String>();
+                        ArrayList<String> bottomStringList = new ArrayList<>();
                         ArrayList<ArrayList<Integer>> dataLists = new ArrayList<>();
 
                         ArrayList<Integer> ints = new ArrayList<Integer>();
@@ -200,16 +200,14 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             String key = (entry.getKey());
                             float value = Float.parseFloat(entry.getValue());
 
-
-
 //                            long time = (key+GMT); //???????????
 //                            String ModernTime = DateFormat.format("HH:mm", time).toString();
-
+                            bottomStringList.add(key);// add to bottom Legend or X axis **hard bug solved here
                             ints.add(Math.round(value)); // add to Y axis
-                            bottomStringList.add(key.substring(0, key.length() - 11));// add to bottom Legend or X axis **hard bug solved here
                         }
-
                         dataLists.add(ints);
+
+                        Log.d("arraylist confuse", String.valueOf(dataLists));
                         //////////////////////////////////////////////////////////
                         //              settings of graphic                     //
                         //////////////////////////////////////////////////////////

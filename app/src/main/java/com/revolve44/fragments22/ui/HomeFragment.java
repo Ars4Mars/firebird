@@ -297,14 +297,18 @@ public class HomeFragment extends Fragment {
                         amortization++;
                     }
                 }
+                try {
+                    if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))>8 ){
 
-                if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))>8 ){
-
-                    if (amortization<2){
-                        LaunchForecast();
-                        amortization++;
+                        if (amortization<2){
+                            LaunchForecast();
+                            amortization++;
+                        }
                     }
+                }catch (Exception e){
+
                 }
+
                 CurrentPower.setText(""+currentPower);
                 NominalPower.setText(nominalpower+" W");
                 CityView.setText(""+city);

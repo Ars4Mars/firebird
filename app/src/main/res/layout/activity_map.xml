@@ -12,37 +12,26 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:focusableInTouchMode="true">
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:clickable="true"
-            android:focusable="true"
-            tools:context=".MapsActivity"
-            />
-
-        <EditText
-            android:id="@+id/nominalpower"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:inputType="number"
-            android:hint="Max output of my solar panels (Watts)">
-
-        </EditText>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/setvar"
-            android:text="Save settings!"
-            android:onClick="ClickButton">
-
-        </Button>
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                tools:context=".MapsActivity"
+                />
+        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_weight="7">
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -50,6 +39,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="8">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/solar12"
+                                android:layout_weight="10">
+
+                            </ImageView>
+                            <EditText
+                                android:id="@+id/nominalpower"
+                                android:layout_width="match_parent"
+                                android:layout_height="70dp"
+                                android:layout_weight="5"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:inputType="number"
+                                android:hint="Max output of my solar panels (Watts)">
+                            </EditText>
+                            <TextView
+                                android:layout_gravity="center"
+                                android:layout_weight="9"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="26sp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="[Watts]">
+
+                            </TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="60dp"
+                                android:id="@+id/setvar"
+                                android:text="Save settings!"
+                                android:onClick="ClickButton">
+
+                            </Button>
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -101,8 +142,9 @@
                         <Button
                             android:id="@+id/site"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="our site"
+                            android:textSize="10sp"
                             android:layout_weight="1"
                             android:onClick="gosite">
 
@@ -110,17 +152,27 @@
                         <Button
                             android:id="@+id/instagram"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="instagram"
                             android:layout_weight="1"
+                            android:textSize="10sp"
                             android:onClick="goinstagram">
 
                         </Button>
                         <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="twitter"
+                            android:textSize="10sp"
+                            android:onClick="twitter"
+                            android:layout_weight="1">
+                        </Button>
+                        <Button
                             android:id="@+id/telegram"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="telegram"
+                            android:textSize="10sp"
                             android:layout_weight="1"
                             android:onClick="gotelegram">
 
@@ -131,7 +183,8 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Version: 0.2"
+                        android:text="Firebird 0.2.1 Mayanga"
+                        android:fontFamily="@font/montserrat"
                         android:gravity="center">
                     </TextView>
 
