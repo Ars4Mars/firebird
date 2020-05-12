@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -138,6 +139,16 @@ public class MainActivity extends AppCompatActivity {
 
     public String jsonString;
 
+    LinkedList<String> Legendzero = new LinkedList<>();
+    LinkedList<Float> Valuezero = new LinkedList<>();
+
+    String json;
+    String json2;
+
+    int z = 0; // for retrofit -
+    int w =0; // for timemanipulations
+    int p = 0; // for retrofit
+
 
     //Context context;
 
@@ -208,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("Lifecycle ->"," onPause launch ");
+        p=0;
+        z=0;
         SaveData();
     }
 
@@ -332,16 +345,24 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<WeatherResponse> list = weatherResponse.list;
 
                     if (dataMap.size() == 0){
+
+                        Log.d("z -1 ", z+" ");
+
                         for(WeatherResponse wr: list){
                             // .put (Key, Clouds.all)
 
-                            CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100) * 0.8f;
+                            if (z<=20){
+                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100) * 0.8f;
 
-                            TimeHashMap = (long) wr.dt * 1000;
+                                TimeHashMap = (long) wr.dt * 1000;
                                 //if (unixSunrise )
 
-                            dataMap.put(TimeHashMap, CurrentPowerHashMap);
-                            Log.d("Datamap ->", TimeHashMap+" "+ CurrentPowerHashMap);
+                                dataMap.put(TimeHashMap, CurrentPowerHashMap);
+                                Log.d("Datamap 1->", TimeHashMap+" "+ CurrentPowerHashMap);
+                                z++;
+                            }
+
+
 
 
 //                            try {
@@ -352,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(), (CharSequence) dataMap, Toast.LENGTH_LONG).show();
 
                         }
+                        Log.d("Datamap 1>>>>>", ""+dataMap);
                     }
                 }
             }
@@ -383,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("From retrofit          ", UnixCurrentTime +"current time ");
         Log.d("From retrofit          ", "Current power >"+ CurrentPower);
         //TimeManipulations();
+        Log.d("z -2 ", z+" ");
     }
 
 
@@ -390,184 +413,212 @@ public class MainActivity extends AppCompatActivity {
     public void TimeManipulations(){
         Log.d("Lifecycle -> method "," timemanipulations ");
         Log.d("Timemaipulation method "," UTC -> "+ UnixCurrentTime+ " unixSunrise "+ unixSunrise+ " unixSet "+ unixSunset + "GMT "+ GMT);
-        ////////////////////////////////////////////////////
-        //     Time zone & unix sunrise/sunset            //
-        //      Here we define human time                 //
-        ////////////////////////////////////////////////////
-        long timestamp = UnixCurrentTime+GMT;
-        long timestamp2 = unixSunrise+GMT;
-        long timestamp3 = unixSunset+GMT;
+        if (UnixCurrentTime>1 & unixSunrise>1& w<=1) {
+            ////////////////////////////////////////////////////
+            //     Time zone & unix sunrise/sunset            //
+            //      Here we define human time                 //
+            ////////////////////////////////////////////////////
+            long timestamp = UnixCurrentTime + GMT;
+            long timestamp2 = unixSunrise + GMT;
+            long timestamp3 = unixSunset + GMT;
 
-        //UTCtime = System.currentTimeMillis(); // Here i have been problem coz i multipled on 1000L UTC time:(
-        String zeroPlace1="";
-        String zeroPlace2="";
-        String zeroPlace3="";
-        String zeroPlace4="";
+            //UTCtime = System.currentTimeMillis(); // Here i have been problem coz i multipled on 1000L UTC time:(
+            String zeroPlace1 = "";
+            String zeroPlace2 = "";
+            String zeroPlace3 = "";
+            String zeroPlace4 = "";
 
-        /////////////////////////////
-        /////////////////////////////
-        long day = timestamp / 86400;
-        //
-        long hourinSec = (timestamp - day*86400); //hours in sec
-        long hour= hourinSec / 3600; // hr
-        //
-        long minutesinSec = hourinSec - hour* 3600; // minutes in sec
-        long minutes = minutesinSec / 60;
-        //
-        hournowStr = String.valueOf(hour);
-        /////////////////////////////////
-        /////////////////////////////////
-        long day2 = timestamp2 / 86400;
+            /////////////////////////////
+            /////////////////////////////
+            long day = timestamp / 86400;
+            //
+            long hourinSec = (timestamp - day * 86400); //hours in sec
+            long hour = hourinSec / 3600; // hr
+            //
+            long minutesinSec = hourinSec - hour * 3600; // minutes in sec
+            long minutes = minutesinSec / 60;
+            //
+            hournowStr = String.valueOf(hour);
+            /////////////////////////////////
+            /////////////////////////////////
+            long day2 = timestamp2 / 86400;
 
-        //
-        long hourinSec2 = (timestamp2 - day2*86400); //hours in sec
-        long hour2= hourinSec2 / 3600; // hr
-        if (hour2<10){
-            zeroPlace1 = "0";
-        }
-        //
-        long minutesinSec2 = hourinSec2 - hour2* 3600; // minutes in sec
-        long minutes2 = minutesinSec2 / 60;
-        if (minutes2<10){
-            zeroPlace2 = "0";
-        }
-        //
-        sunrise = zeroPlace1+hour2+":"+zeroPlace2+minutes2;
-        /////////////////////////////////////
-        ////////////////////////////////////
-        long day3 = timestamp3 / 86400;
+            //
+            long hourinSec2 = (timestamp2 - day2 * 86400); //hours in sec
+            long hour2 = hourinSec2 / 3600; // hr
+            if (hour2 < 10) {
+                zeroPlace1 = "0";
+            }
+            //
+            long minutesinSec2 = hourinSec2 - hour2 * 3600; // minutes in sec
+            long minutes2 = minutesinSec2 / 60;
+            if (minutes2 < 10) {
+                zeroPlace2 = "0";
+            }
+            //
+            sunrise = zeroPlace1 + hour2 + ":" + zeroPlace2 + minutes2;
+            /////////////////////////////////////
+            ////////////////////////////////////
+            long day3 = timestamp3 / 86400;
 
-        //
-        long hourinSec3 = (timestamp3 - day3*86400); //hours in sec
-        long hour3= hourinSec3 / 3600; // hr
-        if (hour3<10){
-            zeroPlace3 = "0";
-        }
-        //
-        long minutesinSec3 = hourinSec3 - hour3* 3600; // minutes in sec
-        long minutes3 = minutesinSec3 / 60;
-        if (minutes3<10){
-            zeroPlace4 = "0";
-        }
-        //
-        sunset = zeroPlace3+hour3+":"+zeroPlace4+minutes3;
+            //
+            long hourinSec3 = (timestamp3 - day3 * 86400); //hours in sec
+            long hour3 = hourinSec3 / 3600; // hr
+            if (hour3 < 10) {
+                zeroPlace3 = "0";
+            }
+            //
+            long minutesinSec3 = hourinSec3 - hour3 * 3600; // minutes in sec
+            long minutes3 = minutesinSec3 / 60;
+            if (minutes3 < 10) {
+                zeroPlace4 = "0";
+            }
+            //
+            sunset = zeroPlace3 + hour3 + ":" + zeroPlace4 + minutes3;
 
-        Log.d("TIMEST >", sunrise+ "and sunset "+ sunset);
-        Log.d("TIMEST >", timestamp+ "and  "+ timestamp2);
+            Log.d("TIMEST >", sunrise + "and sunset " + sunset);
+            Log.d("TIMEST >", timestamp + "and  " + timestamp2);
 
 //////////////////////////////////////////
-        int hournow = (int) hour;
-        int hourRise = (int) hour2;
-        int hourSet = (int) hour3;
+            int hournow = (int) hour;
+            int hourRise = (int) hour2;
+            int hourSet = (int) hour3;
 
-        int sector = (hourSet - hourRise)/5;
+            int sector = (hourSet - hourRise) / 5;
 
-        //set Sun Position
-        if (hournow >hourSet){
-            SunPeriod=0;
-            //Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
-        }else if (hournow >hourSet - sector){
-            //Toast.makeText(this, "sunset", Toast.LENGTH_SHORT).show();
-            SunPeriod=5;
+            //set Sun Position
+            if (hournow > hourSet) {
+                SunPeriod = 0;
+                //Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
+            } else if (hournow > hourSet - sector) {
+                //Toast.makeText(this, "sunset", Toast.LENGTH_SHORT).show();
+                SunPeriod = 5;
 
-        }else if (hournow >hourSet - 2*sector){
-            //Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
-            SunPeriod=4;
+            } else if (hournow > hourSet - 2 * sector) {
+                //Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
+                SunPeriod = 4;
 
-        }else if (hournow >hourSet - 3*sector){
-            //Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
-            SunPeriod=3;
+            } else if (hournow > hourSet - 3 * sector) {
+                //Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
+                SunPeriod = 3;
 
-        }else if (hournow >hourSet - 4*sector){
-            //Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
-            SunPeriod=2;
+            } else if (hournow > hourSet - 4 * sector) {
+                //Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
+                SunPeriod = 2;
 
-        }else if (hournow >hourRise){
-            //Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
-            SunPeriod=1;
+            } else if (hournow > hourRise) {
+                //Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
+                SunPeriod = 1;
 
-        }else {
-            SunPeriod=0;
+            } else {
+                SunPeriod = 0;
 //            Toast.makeText(this, "NIGHT", Toast.LENGTH_SHORT).show();
-        }
-
-        CurrentPowerInt = Math.round(CurrentPower);
-        if (SunPeriod==0){
-            CurrentPowerInt = 0;
-        }
-        Log.d("Timemanipulations END> ", "Sunperiod ->"+SunPeriod+" hournow "+ hournow);
-
-
-
-        ////////////////////////////////////////////////////
-        solarhoursString = String.valueOf(hourSet-hourRise);
-        //Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
-        String zeroPlace5 = "";
-        String zeroPlace6 = "";
-        int a = 0;
-        for(Map.Entry<Long, Float> entry : dataMap.entrySet()) {
-            long key = ((entry.getKey())/1000L)+GMT;
-            float value = (entry.getValue());
-            zeroPlace5 = "";
-            zeroPlace6 = "";
-
-
-            long day4 = key / 86400;
-
-            //
-            long hourinSec4 = (key - day4*86400); //hours in sec
-            long hour4= hourinSec4 / 3600; // hr
-            if (hour4<10){
-                zeroPlace5 = "0";
             }
-            //
-            long minutesinSec4 = hourinSec4 - hour4* 3600; // minutes in sec
-            long minutes4 = minutesinSec4 / 60;
-            if (minutes4<10){
-                zeroPlace6 = "0";
-            }
-            //-2:-59 > 21:00
-            String ModernTime = zeroPlace5+hour4+":"+zeroPlace6+minutes4;
 
-            //Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
-            int transitTime = (int) hour4;
-            Log.d("Hashmap test loop -> ", "transittime : "+ transitTime + " hoursunset : "+ hourSet);
-
-            if (transitTime>hourSet){
-                //0
-                corvette.put(ModernTime, value*0f);
-            }else if (transitTime>hourSet-sector){
-                //0.6
-                corvette.put(ModernTime, value*0.6f);
-            }else if (transitTime>hourSet-2*sector){
-                //0.8
-                corvette.put(ModernTime, value*0.8f);
-            }else if (transitTime>hourSet-3*sector){
-                //1
-                corvette.put(ModernTime, value);
-            }else if (transitTime>hourSet-4*sector){
-                //0.8
-                corvette.put(ModernTime, value*0.8f);
-            }else if (transitTime>hourSet-5*sector){
-                //0.6
-                corvette.put(ModernTime, value*0.6f);
-            }else{
-                //0
-                corvette.put(ModernTime, value*0f);
+            CurrentPowerInt = Math.round(CurrentPower);
+            if (SunPeriod == 0) {
+                CurrentPowerInt = 0;
             }
-            a++;
-            Log.d(" loop ", a+" times ");
+            Log.d("Timemanipulations END> ", "Sunperiod ->" + SunPeriod + " hournow " + hournow);
+
+            Log.d("Datamap 2>>>>>", "" + dataMap);
+
+
+            ////////////////////////////////////////////////////
+            solarhoursString = String.valueOf(hourSet - hourRise);
+            //Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
+            String zeroPlace5 = "";
+            String zeroPlace6 = "";
+
+            int a = 0;
+            for (Map.Entry<Long, Float> entry : dataMap.entrySet()) {
+                long key = ((entry.getKey()) / 1000L) + GMT;
+                float value = (entry.getValue());
+                zeroPlace5 = "";
+                zeroPlace6 = "";
+
+
+                long day4 = key / 86400;
+
+                //
+                long hourinSec4 = (key - day4 * 86400); //hours in sec
+                long hour4 = hourinSec4 / 3600; // hr
+                if (hour4 < 10) {
+                    zeroPlace5 = "0";
+                }
+                //
+                long minutesinSec4 = hourinSec4 - hour4 * 3600; // minutes in sec
+                long minutes4 = minutesinSec4 / 60;
+                if (minutes4 < 10) {
+                    zeroPlace6 = "0";
+                }
+                //-2:-59 > 21:00
+                String ModernTime = zeroPlace5 + hour4 + ":" + zeroPlace6 + minutes4;
+
+                //Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
+                int transitTime = (int) hour4;
+                Log.d("Hashmap test loop -> ", "transittime : " + transitTime + " hoursunset : " + hourSet);
+
+                if (transitTime > hourSet) {
+                    //0
+                    //corvette.put(ModernTime, value*0f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else if (transitTime > hourSet - sector) {
+                    //0.6
+                    //corvette.put(ModernTime, value*0.6f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else if (transitTime > hourSet - 2 * sector) {
+                    //0.8
+                    //corvette.put(ModernTime, value*0.8f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else if (transitTime > hourSet - 3 * sector) {
+                    //1
+                    //corvette.put(ModernTime, value);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else if (transitTime > hourSet - 4 * sector) {
+                    //0.8
+                    //corvette.put(ModernTime, value*0.8f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else if (transitTime > hourSet - 5 * sector) {
+                    //0.6
+                    //corvette.put(ModernTime, value*0.6f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                } else {
+                    //0
+                    //corvette.put(ModernTime, value*0f);
+                    Legendzero.add(ModernTime);
+                    Valuezero.add(value);
+                }
+                a++;
+                Log.d(" loop ", a + " times ");
+
+            }
+            w++;
         }
+        Log.d("Value and legend 3>>>>>", ""+Legendzero+ "< ][ >"+Valuezero);
         //////////////////////////////////////////////////////////////////////////
         //                    convert to gson and save                          //
         //////////////////////////////////////////////////////////////////////////
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (corvette.size()>1){
-            jsonString = new Gson().toJson(corvette);
-            editor.putString("map", jsonString); // this hashmap
-            editor.apply(); // added apply and this works!
+        if (Legendzero.size()>1){
+            Gson gson = new Gson();
+            json = gson.toJson(Legendzero);
+            json2 = gson.toJson(Valuezero);
+            editor.putString("legend", json);
+            editor.putString("value", json2);
+            editor.apply();
+//            jsonString = new Gson().toJson(corvette);
+//            editor.putString("map", jsonString); // this hashmap
+//            editor.apply(); // added apply and this works!
             Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
+            Log.d("json 4>>>>>", ""+jsonString);
         }
     }
     public void SaveData(){

@@ -51,6 +51,7 @@ dependencies {
 
     //graph
     implementation 'im.dacer:AndroidCharts:1.0.4'
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
 
     //recyclerview
     implementation 'androidx.cardview:cardview:1.0.0'
