@@ -64,7 +64,7 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:inputType="number"
-                                android:hint="Max output of my solar panels (Watts)">
+                                android:hint="@string/max_output_of_my_solar_panels_watts">
                             </EditText>
                             <TextView
                                 android:layout_gravity="center"
@@ -74,7 +74,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="26sp"
                                 android:fontFamily="@font/montserrat"
-                                android:text="[Watts]">
+                                android:text="@string/wattsMap">
 
                             </TextView>
                         </LinearLayout>
@@ -85,7 +85,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="60dp"
                                 android:id="@+id/setvar"
-                                android:text="Save settings!"
+                                android:text="@string/save_settings"
                                 android:onClick="ClickButton">
 
                             </Button>
@@ -98,7 +98,7 @@
                         android:gravity="center"
                         android:paddingTop="20dp"
                         android:paddingBottom="20dp"
-                        android:text="Before starting - make sure correct you setted time zone, and current date in your phone"
+                        android:text="@string/before_starting_make_sure_correct_you_setted_time_zone_and_current_date_in_your_phone"
                         android:textStyle="bold"></TextView>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Imperial units (°F)"
+                            android:text="@string/imperial_units_f"
                             >
                         </CheckBox>
                     </LinearLayout>
@@ -122,7 +122,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=" This application make use of solar stations any size more comfortable and efficiency. Due to the convenient design, specially developed formulas for solar forecasting, which are constantly being developed, stay tuned for application updates!">
+                        android:text="@string/this_application_make_use_of_solar_stations_any_size_more_comfortable_and_efficiency_due_to_the_convenient_design_specially_developed_formulas_for_solar_forecasting_which_are_constantly_being_developed_stay_tuned_for_application_updates">
 
                     </TextView>
 
@@ -130,7 +130,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text=" \nThe next version is scheduled for late may-june . In the next updates will be added: forecast on 2 or more days"
+                        android:text="@string/nthe_next_version_is_scheduled_for_late_may_june_in_the_next_updates_will_be_added_forecast_on_2_or_more_days"
                         android:gravity="center">
                     </TextView>
 
@@ -183,7 +183,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:text="Firebird 0.2.1 Mayanga"
+                        android:text="@string/firebird_0_2_1_mayanga"
                         android:fontFamily="@font/montserrat"
                         android:gravity="center">
                     </TextView>

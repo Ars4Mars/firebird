@@ -137,10 +137,10 @@ public class MainActivity extends AppCompatActivity {
     public long UTCtime;
     public long UnixCurrentTime;
 
-    public String jsonString;
+    //public String jsonString;
 
     LinkedList<String> Legendzero = new LinkedList<>();
-    LinkedList<Float> Valuezero = new LinkedList<>();
+    LinkedList<Integer> Valuezero = new LinkedList<>();
 
     String json;
     String json2;
@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
     int z = 0; // for retrofit -
     int w =0; // for timemanipulations
     int p = 0; // for retrofit
+    int s = 0;
 
 
     //Context context;
@@ -316,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 
                     if (cloud >-1 ){
-                        CurrentPower = NominalPower - NominalPower*(cloud/100)*0.8f;
+                        CurrentPower = NominalPower - NominalPower*(cloud/100);
                     }else{
                         CurrentPower = 404;
                     }
@@ -352,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
                             // .put (Key, Clouds.all)
 
                             if (z<=20){
-                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100) * 0.8f;
+                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100);
 
                                 TimeHashMap = (long) wr.dt * 1000;
                                 //if (unixSunrise )
@@ -361,10 +362,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("Datamap 1->", TimeHashMap+" "+ CurrentPowerHashMap);
                                 z++;
                             }
-
-
-
-
 //                            try {
 //                            }catch (Exception e){
 //                                Log.d("my Error", "in retrofit array");
@@ -421,6 +418,8 @@ public class MainActivity extends AppCompatActivity {
             long timestamp = UnixCurrentTime + GMT;
             long timestamp2 = unixSunrise + GMT;
             long timestamp3 = unixSunset + GMT;
+
+
 
             //UTCtime = System.currentTimeMillis(); // Here i have been problem coz i multipled on 1000L UTC time:(
             String zeroPlace1 = "";
@@ -493,22 +492,31 @@ public class MainActivity extends AppCompatActivity {
             } else if (hournow > hourSet - sector) {
                 //Toast.makeText(this, "sunset", Toast.LENGTH_SHORT).show();
                 SunPeriod = 5;
+                //0.6
+                CurrentPower = (float) (CurrentPower*0.6);
 
             } else if (hournow > hourSet - 2 * sector) {
                 //Toast.makeText(this, "135", Toast.LENGTH_SHORT).show();
                 SunPeriod = 4;
+                //0.8
+                CurrentPower = (float) (CurrentPower*0.8);
 
             } else if (hournow > hourSet - 3 * sector) {
                 //Toast.makeText(this, "90", Toast.LENGTH_SHORT).show();
                 SunPeriod = 3;
+                //1
 
             } else if (hournow > hourSet - 4 * sector) {
                 //Toast.makeText(this, "45", Toast.LENGTH_SHORT).show();
                 SunPeriod = 2;
+                //0.8
+                CurrentPower = (float) (CurrentPower*0.8);
 
             } else if (hournow > hourRise) {
                 //Toast.makeText(this, "sunrise", Toast.LENGTH_SHORT).show();
                 SunPeriod = 1;
+                //0.6
+                CurrentPower = (float) (CurrentPower*0.6);
 
             } else {
                 SunPeriod = 0;
@@ -519,6 +527,7 @@ public class MainActivity extends AppCompatActivity {
             if (SunPeriod == 0) {
                 CurrentPowerInt = 0;
             }
+
             Log.d("Timemanipulations END> ", "Sunperiod ->" + SunPeriod + " hournow " + hournow);
 
             Log.d("Datamap 2>>>>>", "" + dataMap);
@@ -529,6 +538,9 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
             String zeroPlace5 = "";
             String zeroPlace6 = "";
+            //set GMT in human view
+            int timeGMT = (int) (GMT/ 3600);
+            TimeZone tz = TimeZone.getTimeZone("GMT"+timeGMT);
 
             int a = 0;
             for (Map.Entry<Long, Float> entry : dataMap.entrySet()) {
@@ -536,6 +548,17 @@ public class MainActivity extends AppCompatActivity {
                 float value = (entry.getValue());
                 zeroPlace5 = "";
                 zeroPlace6 = "";
+
+                // Set current GMT
+                /* debug: is it local time? */
+                Log.d("Time zone: ", tz.getDisplayName());
+                /* date formatter in local timezone */
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM");
+                sdf.setTimeZone(tz);
+                /* print your timestamp and double check it's the date you expect */
+                String date = sdf.format(new Date(key * 1000));
+
+                //String date = DateFormat.format("dd-MMMM", key*1000L).toString();
 
 
                 long day4 = key / 86400;
@@ -562,38 +585,38 @@ public class MainActivity extends AppCompatActivity {
                 if (transitTime > hourSet) {
                     //0
                     //corvette.put(ModernTime, value*0f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0f));
                 } else if (transitTime > hourSet - sector) {
                     //0.6
                     //corvette.put(ModernTime, value*0.6f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0.6f));
                 } else if (transitTime > hourSet - 2 * sector) {
                     //0.8
                     //corvette.put(ModernTime, value*0.8f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0.8f));
                 } else if (transitTime > hourSet - 3 * sector) {
                     //1
                     //corvette.put(ModernTime, value);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) value);
                 } else if (transitTime > hourSet - 4 * sector) {
                     //0.8
                     //corvette.put(ModernTime, value*0.8f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0.8f));
                 } else if (transitTime > hourSet - 5 * sector) {
                     //0.6
                     //corvette.put(ModernTime, value*0.6f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0.6f));
                 } else {
                     //0
                     //corvette.put(ModernTime, value*0f);
-                    Legendzero.add(ModernTime);
-                    Valuezero.add(value);
+                    Legendzero.add(ModernTime+" "+date);
+                    Valuezero.add((int) (value*0f));
                 }
                 a++;
                 Log.d(" loop ", a + " times ");
@@ -607,18 +630,21 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////////////////////////////////
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if (Legendzero.size()>1){
+        if (Legendzero.size()>1 & s<1){
             Gson gson = new Gson();
             json = gson.toJson(Legendzero);
             json2 = gson.toJson(Valuezero);
+            Log.d("Datamap 2,5>>>>>", ""+json);
             editor.putString("legend", json);
             editor.putString("value", json2);
             editor.apply();
+            s++;
+
 //            jsonString = new Gson().toJson(corvette);
 //            editor.putString("map", jsonString); // this hashmap
 //            editor.apply(); // added apply and this works!
-            Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
-            Log.d("json 4>>>>>", ""+jsonString);
+//            Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
+//            Log.d("json 4>>>>>", ""+jsonString);
         }
     }
     public void SaveData(){
@@ -637,7 +663,7 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
         Log.d("@@@@@@@@@@@@", "GMT:  "+GMT);
         Log.d("@@@@@@@@@@@@", "temp:  "+temp);
-        Log.d("@@@@@@@@@@@@", "JSON:  "+jsonString);
+        //Log.d("@@@@@@@@@@@@", "JSON:  "+jsonString);
         Log.d("@@@@@@@@@@@@", "CITY:  "+city);
 
     }
@@ -666,7 +692,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("************", "LAT LOT:  "+lat+ " and " + lon);
         Log.d("************", "GMT:  "+GMT);
         Log.d("************", "temp:  "+temp);
-        Log.d("************", "JSON:  "+jsonString);
+        //Log.d("************", "JSON:  "+jsonString);
         Log.d("************", "CITY:  "+city);
 
 
@@ -741,15 +767,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toast1(View view) {
-        Toast.makeText(this, " Its time of sunrise ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.sunriseduration, Toast.LENGTH_SHORT).show();
     }
 
     public void toast2(View view) {
-        Toast.makeText(this, " Its sunshine duration ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.sunshineduration, Toast.LENGTH_SHORT).show();
     }
 
     public void toast3(View view) {
-        Toast.makeText(this, " Its time of sunset ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.sunsetduration, Toast.LENGTH_SHORT).show();
     }
 
 

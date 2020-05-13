@@ -24,7 +24,7 @@
                 android:background="#0021AC"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:text="solar station \n constructor mk.1"
+                android:text="@string/solar_station_n_constructor_mk_1"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"
@@ -37,7 +37,7 @@
                 android:layout_height="60dp"
                 android:fontFamily="@font/montserrat"
                 android:gravity="center"
-                android:text="Choose your electric devices in home,\n and we will offer how many solar panels are needed"
+                android:text="@string/choose_your_electric_devices_in_home_n_and_we_will_offer_how_many_solar_panels_are_needed"
                 android:textSize="12sp"
                 android:textStyle="bold">
 
@@ -139,7 +139,7 @@
                 android:fontFamily="@font/montserrat"
                 android:buttonTint="@color/FireBirdtheme"
                 android:layout_weight="1"
-                android:text="do you have connection to central grid?" />
+                android:text="@string/do_you_have_connection_to_central_grid" />
 
             <CheckBox
                 android:id="@+id/checkbattery"
@@ -150,7 +150,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:buttonTint="@color/FireBirdtheme"
-                android:text="will energy be consumed at night?" />
+                android:text="@string/will_energy_be_consumed_at_night" />
 
         </LinearLayout>
 
@@ -163,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="total power consumption of other devices, Watt">
+                android:text="@string/total_power_consumption_of_other_devices_watt">
 
             </TextView>
 
@@ -171,7 +171,7 @@
                 android:id="@+id/inputAdditional"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="e.g. 2500"
+                android:hint="@string/e_g_2500"
                 android:inputType="number"
                 >
 
@@ -199,7 +199,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/TextOnDashboard"
                 android:background="@color/MiddleBLue"
-                android:text="to construct!">
+                android:text="@string/to_construct">
 
             </Button>
 

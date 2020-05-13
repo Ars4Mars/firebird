@@ -157,7 +157,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="194dp"
-            android:text="Watts"
+            android:text="@string/watts"
             android:textColor="#5A7D98" />
 
         <TextView
@@ -244,7 +244,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Now you may use:"
+                    android:text="@string/now_you_may_use"
                     android:fontFamily="@font/montserrat"
                     android:textColor="#3F4DCA">
                 </TextView>
@@ -261,7 +261,9 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/mobile"
                     android:visibility="invisible"
-                    android:layout_weight="1">
+                    android:tooltipText="~10 watts needed for the phone"
+                    android:layout_weight="1"
+                    tools:targetApi="o">
                 </ImageView>
 
                 <ImageView
@@ -270,6 +272,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/lamp1"
                     android:visibility="invisible"
+                    android:tooltipText="~60 watts needed for the lamp, average"
                     android:layout_weight="1">
                 </ImageView>
                 <ImageView
@@ -278,6 +281,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/tv2"
                     android:visibility="invisible"
+                    android:tooltipText="~300 watts needed for the TV, average"
                     android:layout_weight="1">
                 </ImageView>
                 <ImageView
@@ -286,6 +290,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/kettle1"
                     android:visibility="invisible"
+                    android:tooltipText="~1500 watts needed for the teapot, average"
                     android:layout_weight="1">
                 </ImageView>
 
@@ -295,6 +300,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/oven1"
                     android:visibility="invisible"
+                    android:tooltipText="~2000 watts needed for the oven, average"
                     android:layout_weight="1">
 
                 </ImageView>
@@ -316,7 +322,7 @@
                 android:layout_weight="1"
                 android:onClick="seven"
                 android:fontFamily="@font/montserrat"
-                android:text="settings" />
+                android:text="@string/settings" />
 
 
 
@@ -325,8 +331,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:tooltipText="refresh forecast"
                 android:fontFamily="@font/montserrat"
-                android:text="refresh" />
+                android:text="@string/refresh" />
 
         </LinearLayout>
         <LinearLayout

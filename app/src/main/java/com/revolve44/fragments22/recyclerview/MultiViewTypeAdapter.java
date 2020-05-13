@@ -169,7 +169,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         LinkedList<String> Legend = new LinkedList<>();
                         LinkedList<Integer> Value = new LinkedList<>();
                         //SharedPreferences sharedPreferences = getSharedPreferences("HashMap", MODE_PRIVATE);
-                        String defValue = new Gson().toJson(new LinkedHashMap<String,String>());
+                        //String defValue = new Gson().toJson(new LinkedHashMap<String,String>());
                         SharedPreferences sharedPreferences = itemView.getContext().getSharedPreferences("MasterSave", MODE_PRIVATE);
 //                        String json=sharedPreferences.getString("map",defValue);
 //                        TypeToken<LinkedHashMap<String,String>> token = new TypeToken<LinkedHashMap<String,String>>() {};
@@ -183,6 +183,8 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Type type2 = new TypeToken<LinkedList<Integer>>() {}.getType();
                         Legend = gson.fromJson(json, type);
                         Value = gson.fromJson(json2, type2);
+
+                        Log.d("Datamap 3>>>>>", ""+Legend);
 
 
                         //////////////////////////////////////////////////////////
@@ -198,6 +200,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                             getAxisPoints();//获取坐标点
                             initLineChart();//初始化
                             q++;
+                            Log.d("Datamap 4>>>>>", ""+date2);
                         }
 
 

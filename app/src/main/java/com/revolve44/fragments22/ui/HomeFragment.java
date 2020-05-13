@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment {
         //CurrentPower.setText(""+currentPower2);
         //mainLoader.setVisibility(View.VISIBLE);
         final ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
-                "Loading ... Please wait...", true);
+                getString(R.string.DialogLoad), true);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -315,7 +315,7 @@ public class HomeFragment extends Fragment {
                 CityView.setSelected(true);
                 SunriseView.setText(""+sunrise);
                 SunsetView.setText(""+sunset);
-                SolarHoursView.setText(solarhoursString+ " hr");
+                SolarHoursView.setText(solarhoursString+ getString(R.string.hours));
                 WindView.setText(wind+ "");
 
                 Log.d("Fragment currentpower>", " "+ currentPower);
@@ -364,7 +364,7 @@ public class HomeFragment extends Fragment {
                 //Restart recyclerview
                 ArrayList<Model> list2= new ArrayList<>();
                 //list2.add(new Model())
-                list2.add(new Model(Model.TEXT_TYPE,"24 hour power generation forecast  ->",0));
+                list2.add(new Model(Model.TEXT_TYPE,getString(R.string._48_hour_power_generation_forecast_from_solar_panels),0));
                 list2.add(new Model(Model.GRAPH_TYPE,"",0));
                 //list.add(new Model(Model.GRAPH_TYPE,"",0 ));
                 //list.add(new Model(Model.GRAPH_TYPE,"IRON MAN",0 ));
@@ -644,8 +644,6 @@ public class HomeFragment extends Fragment {
         }catch(Exception e){
             Log.d("myError", "from Load nominal Frag");
         }
-
-
-
     }
+
 }

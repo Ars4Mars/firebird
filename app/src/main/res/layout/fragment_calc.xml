@@ -30,7 +30,7 @@
                     android:background="#0021AC"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
-                    android:text="efficiency \ncalculator mk.1"
+                    android:text="@string/efficiency_ncalculator_mk_1"
                     android:textAllCaps="true"
                     android:textColor="#FFFFFF"
                     android:textSize="30sp"
@@ -49,7 +49,7 @@
                         android:fontFamily="@font/montserrat"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="The calculation takes into account the rated power of the solar station that you specified in the settings"
+                        android:text="@string/the_calculation_takes_into_account_the_rated_power_of_the_solar_station_that_you_specified_in_the_settings"
                         android:textSize="12sp"
                         android:layout_weight="1"
                         android:textStyle="bold">
@@ -92,7 +92,7 @@
                     android:layout_height="90dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:hint="Price per kWh in your region, ¢"
+                    android:hint="@string/price_per_kwh_in_your_region"
                     android:inputType="number">
 
                 </EditText>
@@ -117,7 +117,7 @@
                     android:layout_height="90sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:hint="the cost of your solar station"
+                    android:hint="@string/the_cost_of_your_solar_station"
                     android:inputType="number">
 
                 </EditText>
@@ -133,7 +133,7 @@
                         android:layout_gravity="center"
                         android:checked="false"
                         android:gravity="center"
-                        android:text="Do you have connection to the power grid?"
+                        android:text="@string/do_you_have_connection_to_the_power_grid"
                         android:visibility="visible">
 
                     </Switch>
@@ -144,7 +144,7 @@
                     android:layout_height="100sp"
                     android:fontFamily="@font/montserrat"
                     android:gravity="center"
-                    android:text="How often do you have a sudden power outage?     (per year)↓ "
+                    android:text="@string/how_often_do_you_have_a_sudden_power_outage_per_year"
                     android:textStyle="bold">
 
                 </TextView>
@@ -155,7 +155,7 @@
                     android:layout_height="90sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:hint="how many times per year"
+                    android:hint="@string/how_many_times_per_year"
                     android:inputType="number">
 
                 </EditText>
@@ -165,7 +165,7 @@
                     android:layout_height="100sp"
                     android:gravity="center"
                     android:fontFamily="@font/montserrat"
-                    android:text="the average cost of products that can go bad during a power outage. For example: average cost food in the refrigerator ↓"
+                    android:text="@string/the_average_cost_of_products_that_can_go_bad_during_a_power_outage_for_example_average_cost_food_in_the_refrigerator"
                     android:textStyle="bold">
 
                 </TextView>
@@ -176,7 +176,7 @@
                     android:layout_height="90sp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:hint="e.g. cost of food"
+                    android:hint="@string/e_g_cost_of_food"
                     android:inputType="number"
                     android:textAlignment="viewStart">
 
@@ -189,7 +189,7 @@
                     android:background="@color/MiddleBLue"
                     android:fontFamily="@font/montserrat"
                     android:textSize="30dp"
-                    android:text="calculate!"
+                    android:text="@string/calculate"
                     android:textColor="@color/TextOnDashboard"
                     >
 
@@ -214,7 +214,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat"
                         android:textSize="20sp"
-                        android:text="Payback period:">
+                        android:text="@string/payback_period">
 
                     </TextView>
 
@@ -224,7 +224,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:fontFamily="@font/montserrat"
-                        android:hint="press calc"
+                        android:hint="@string/press_calc"
                         android:textSize="34sp"
                         android:textStyle="bold"
                         android:gravity="center">
@@ -245,7 +245,7 @@
                         android:layout_height="match_parent"
                         android:textSize="17sp"
                         android:layout_weight="5"
-                        android:text="Emotional experience:"
+                        android:text="@string/emotional_experience"
                         android:fontFamily="@font/montserrat">
 
                     </TextView>
@@ -254,7 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Coming soon"
+                        android:text="@string/coming_soon"
                         android:gravity="center">
 
                     </TextView>

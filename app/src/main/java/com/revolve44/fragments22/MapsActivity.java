@@ -85,8 +85,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             editor.apply();
             // <---- run your one time code here
             AlertDialog alertDialog = new AlertDialog.Builder(MapsActivity.this).create();
-            alertDialog.setTitle("Before starting");
-            alertDialog.setMessage("Please set location and nominal power (theoretical max power) of your solar station");
+            alertDialog.setTitle(getString(R.string.DialogMap1));
+            alertDialog.setMessage(getString(R.string.DialogMap2));
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
