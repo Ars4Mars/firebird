@@ -19,7 +19,7 @@
     <string name="the_calculation_takes_into_account_the_rated_power_of_the_solar_station_that_you_specified_in_the_settings">The calculation takes into account the rated power of the solar station that you specified in the settings</string>
     <string name="price_per_kwh_in_your_region">Price per kWh in your region, ¢</string>
     <string name="the_cost_of_your_solar_station">the cost of your solar station</string>
-    <string name="do_you_have_connection_to_the_power_grid">Do you have connection to the power grid?</string>
+    <string name="do_you_have_connection_to_the_power_grid">"Do you have connection to the power grid? When you dont connection - payback period may significantly reduce.  "</string>
     <string name="how_often_do_you_have_a_sudden_power_outage_per_year">How often do you have a sudden power outage? (per year)↓</string>
     <string name="how_many_times_per_year">how many times per year</string>
     <string name="the_average_cost_of_products_that_can_go_bad_during_a_power_outage_for_example_average_cost_food_in_the_refrigerator">the average cost of products that can go bad during a power outage. For example: average cost food in the refrigerator ↓</string>
@@ -31,7 +31,7 @@
     <string name="coming_soon">Coming soon</string>
     <string name="_48_hour_power_generation_forecast_from_solar_panels">Solar Power Generation Forecast 48 hr Ahead</string>
     <string name="DialogLoad">Loading ... Please wait...</string>
-    <string name="hours">\" hr\"</string>
+    <string name="hours">" hr"</string>
     <string name="max_output_of_my_solar_panels_watts">Max output of my solar panels (Watts)</string>
     <string name="DialogMap2">Please set location and nominal power (theoretical max power) of your solar station</string>
     <string name="DialogMap1">Before starting</string>
@@ -41,7 +41,7 @@
     <string name="imperial_units_f">Imperial units (°F)</string>
     <string name="this_application_make_use_of_solar_stations_any_size_more_comfortable_and_efficiency_due_to_the_convenient_design_specially_developed_formulas_for_solar_forecasting_which_are_constantly_being_developed_stay_tuned_for_application_updates">This application make use of solar stations any size more comfortable and efficiency. Due to the convenient design, specially developed formulas for solar forecasting, which are constantly being improved , stay tuned for application updates!</string>
     <string name="nthe_next_version_is_scheduled_for_late_may_june_in_the_next_updates_will_be_added_forecast_on_2_or_more_days">" The next version is scheduled for late may-june . In the next updates will be improved: forecast formula, calculator, animation"</string>
-    <string name="firebird_0_2_1_mayanga">"Firebird 0.2.2 "</string>
+    <string name="firebird_0_2_1_mayanga">Firebird 0.2.3</string>
     <string name="solar_station_n_constructor_mk_1">solar station \n constructor mk.1</string>
     <string name="choose_your_electric_devices_in_home_n_and_we_will_offer_how_many_solar_panels_are_needed">Choose your electric devices in home,  and we will offer how many solar panels are needed</string>
     <string name="do_you_have_connection_to_central_grid">do you have connection to central grid?</string>

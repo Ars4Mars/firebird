@@ -117,12 +117,11 @@
                     </LinearLayout>
 
 
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/this_application_make_use_of_solar_stations_any_size_more_comfortable_and_efficiency_due_to_the_convenient_design_specially_developed_formulas_for_solar_forecasting_which_are_constantly_being_developed_stay_tuned_for_application_updates">
+                        android:text="@string/this_application_make_use_of_solar_stations_any_size_more_comfortable_and_efficiency_due_to_the_convenient_design_specially_developed_formulas_for_solar_forecasting_which_are_constantly_being_developed_stay_tuned_for_application_updates"
+                        android:textAlignment="center">
 
                     </TextView>
 

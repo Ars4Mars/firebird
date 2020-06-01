@@ -184,7 +184,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Legend = gson.fromJson(json, type);
                         Value = gson.fromJson(json2, type2);
 
-                        Log.d("Datamap 3>>>>>", ""+Legend);
+                        Log.d("Datamap 3>>>>>", ""+Legend + " and Value >>>" +Value);
 
 
                         //////////////////////////////////////////////////////////

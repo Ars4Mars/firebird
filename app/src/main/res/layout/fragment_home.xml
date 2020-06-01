@@ -18,11 +18,15 @@
 
         <ImageView
             android:id="@+id/ivSun"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:visibility="invisible"
             android:contentDescription="@string/sun"
-            android:src="@drawable/sun" />
+            android:src="@drawable/sun"
+            android:background="@drawable/shadow"
+            android:scaleType="centerInside"
+
+            />
 
         <ImageView
             android:id="@+id/cloud1"

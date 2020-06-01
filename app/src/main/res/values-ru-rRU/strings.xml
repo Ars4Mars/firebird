@@ -9,7 +9,7 @@
     <string name="the_calculation_takes_into_account_the_rated_power_of_the_solar_station_that_you_specified_in_the_settings">В расчете учитывается номинальная мощность солнечной станции, которую вы указали в настройках</string>
     <string name="price_per_kwh_in_your_region">Цена за кВтч в вашем регионе</string>
     <string name="the_cost_of_your_solar_station">стоимость вашей солнечной станции</string>
-    <string name="do_you_have_connection_to_the_power_grid">Есть ли у вас подключение к горсети?</string>
+    <string name="do_you_have_connection_to_the_power_grid">Есть ли у вас подключение к электросети? При отсутствии подключения срок окупаемости может значительно сократиться.</string>
     <string name="how_often_do_you_have_a_sudden_power_outage_per_year">Как часто у вас внезапно отключают электричество? (в год) ↓</string>
     <string name="how_many_times_per_year">сколько раз за год</string>
     <string name="the_average_cost_of_products_that_can_go_bad_during_a_power_outage_for_example_average_cost_food_in_the_refrigerator">средняя стоимость продуктов, которые могут испортиться во время отключения электроэнергии. Например: средняя стоимость еды в холодильнике ↓</string>
@@ -21,7 +21,7 @@
     <string name="coming_soon">Добавим в 2-3ем квартале года</string>
     <string name="_48_hour_power_generation_forecast_from_solar_panels">Прогноз выработки электроэнергии солнечными батареями на 48 часов вперед</string>
     <string name="DialogLoad">Загрузка ...</string>
-    <string name="hours">ч</string>
+    <string name="hours">" ч"</string>
     <string name="max_output_of_my_solar_panels_watts">Макс. возможная мощность сол. батарей</string>
     <string name="DialogMap2">Пожалуйста, установите местоположение и номинальную мощность (теоретическая максимальная мощность) вашей солнечной станции</string>
     <string name="DialogMap1">Для начала:</string>
@@ -31,7 +31,7 @@
     <string name="imperial_units_f">Imperial units (°F)</string>
     <string name="this_application_make_use_of_solar_stations_any_size_more_comfortable_and_efficiency_due_to_the_convenient_design_specially_developed_formulas_for_solar_forecasting_which_are_constantly_being_developed_stay_tuned_for_application_updates">Это приложение делает использование солнечных станций любого размера более удобным и эффективным. Благодаря удобному дизайну, специально разработанным формулам солнечного прогнозирования, которые постоянно совершенствуются, следите за обновлениями приложений!</string>
     <string name="nthe_next_version_is_scheduled_for_late_may_june_in_the_next_updates_will_be_added_forecast_on_2_or_more_days">Следующая версия запланирована на конец мая-июнь. В следующих обновлениях будут улучшены: формула прогноза, калькулятор, анимация</string>
-    <string name="firebird_0_2_1_mayanga">"Firebird 0.2.2 "</string>
+    <string name="firebird_0_2_1_mayanga">Firebird 0.2.3</string>
     <string name="solar_station_n_constructor_mk_1">Конструктор солнечной станции</string>
     <string name="choose_your_electric_devices_in_home_n_and_we_will_offer_how_many_solar_panels_are_needed">Выберите ваши электроприборы дома, и мы предложим, сколько солнечных батарей необходимо</string>
     <string name="do_you_have_connection_to_central_grid">у вас есть подключение к горсети?</string>

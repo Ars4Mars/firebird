@@ -93,7 +93,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/price_per_kwh_in_your_region"
-                    android:inputType="number">
+                    android:inputType="numberDecimal">
 
                 </EditText>
 

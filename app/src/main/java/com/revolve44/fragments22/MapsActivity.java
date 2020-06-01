@@ -279,8 +279,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }catch (Exception q){
 
         }
-        editor.putString("lati",Latitude);
-        editor.putString("long",Longitude);
+//        editor.putString("lati",Latitude);
+//        editor.putString("long",Longitude);
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         //                       Start savings
         //////////////////////////////////////////////////////////////////////////////////////////////////////////

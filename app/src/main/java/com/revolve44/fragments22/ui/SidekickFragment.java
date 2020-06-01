@@ -44,15 +44,6 @@ public class SidekickFragment extends Fragment {
 
         final Button tocontruct = root.findViewById(R.id.toconstruct);
 
-
-
-
-//        CalcFragment frag1 = (CalcFragment) getChildFragmentManager()
-//                .findFragmentById(R.id.map);
-
-//        Fragment fragment = new SettingsFragment();
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        transaction.add(map, fragment).commit();
         inputAdditional.setText("0");
         tocontruct.setOnClickListener(new View.OnClickListener() {
             @Override

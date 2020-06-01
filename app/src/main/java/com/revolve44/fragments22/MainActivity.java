@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public static String AppId = "4e78fa71de97f97aa376e42f2f1c99cf";
     public static String MC = "&units=metric&appid=";
 
-    public TextView temperatureText;
-    public TextView windText;
+
 
     public static String lat;
     public static String lon;
@@ -178,21 +177,9 @@ public class MainActivity extends AppCompatActivity {
         ///////////////////////////////////////////////////////////////////////////////////////////
         //                      Launch Pad                                                       //
         ///////////////////////////////////////////////////////////////////////////////////////////
-//        Log.d("       Launch method ", " loaddata() ");
-//        LoadData();
-//        Log.d("       Launch method ", " getcurrentdata() ");
-//        getCurrentData();
-//        Log.d("       Launch method ", " loaddata() ");
-//        TimeManipulations();
-//        Log.d("         Launch method ", " othermainupulations() ");
-//        //OtherManipulations();
-//        Log.d("       Launch method ", " savedata() ");
-//        SaveData();
 
         RelativeLayout SkyLayout = (RelativeLayout) findViewById(R.id.SkyLayout);
 
-//        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-//        bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -244,12 +231,16 @@ public class MainActivity extends AppCompatActivity {
         //////////////////////////////////////////////
         Log.d("Lifecycle -> method "," runforecast ");
         LoadData();
+        getCurrentData();
+        TimeManipulations();
+        SaveData();
+
         try {
-            getCurrentData();
-            TimeManipulations();
-            SaveData();
+
+
         }catch (Exception e){
-            Toast.makeText(MainActivity.this, "Please input NOMINAL POWER of your solar panels or check Internet connection", Toast.LENGTH_SHORT).show();
+            Log.e("my ERROR ","exceptions"+e);
+            Toast.makeText(MainActivity.this, "Check input NOMINAL POWER of your solar panels or check Internet connection", Toast.LENGTH_SHORT).show();
         }
         if (NominalPower<=0){
             Intent intent2 = new Intent(this, MapsActivity.class);
@@ -263,15 +254,17 @@ public class MainActivity extends AppCompatActivity {
     void getCurrentData() {
         Log.d("Lifecycle -> method "," getCurrentdata ");
 
-//        // Before all, we load coordinations and nominal power of station
+        // Before all, we load coordinations and nominal power of station
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         lat = sharedPreferences.getString("lati",lat);
         lon = sharedPreferences.getString("long",lon);
-//        NominalPower = sharedPreferences.getFloat("Nominal_Power", (float) NominalPower);
-        //city = sharedPreferences.getString("MyCity",city);
-        //NominalPower = 1000;
-        //CITY = "Mexico";
-        //NominalPower = 29000;
+
+        lat = String.valueOf(sharedPreferences.getFloat("latitudeF",7f));
+        lon = String.valueOf(sharedPreferences.getFloat("longitudeF",7f));
+
+
+
+        Log.d("Lifecycle -> method "," latitude " + lat + lon);
         OkHttpClient.Builder  okhttpClientBuilder = new OkHttpClient.Builder();//for create a LOGs
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(); //for create a LOGs
         logging.setLevel(HttpLoggingInterceptor.Level.BODY); //for create a LOGs
@@ -292,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
                     WeatherResponse weatherResponse = response.body();
                     assert weatherResponse != null;
                     isDataAvailable = true;
-//                    Log.d("RETROFITTTTTTTT    ", weatherResponse+" ");
 
                     //main variables
                     cloud = weatherResponse.clouds.all;
@@ -308,16 +300,8 @@ public class MainActivity extends AppCompatActivity {
                     UnixCurrentTime = (long) weatherResponse.dt;
                     Log.d("From retrofit         ",  "Temp and press " + temp+ " "+ pressure);
 
-//                    unixSunrise = weatherResponse.sunrise;
-//                    unixSunset = weatherResponse.sunset; // time of sunrise and sunset
-//                    try {
-//                        desription = weatherResponse.weather.description;
-//                    }catch (Exception e){
-//                        Log.d("################DEPLOY", "descript dont work");
-//                    }
-
                     if (cloud >-1 ){
-                        CurrentPower = NominalPower - NominalPower*(cloud/100);
+                        CurrentPower = NominalPower - NominalPower*(cloud/100)*0.8f;
                     }else{
                         CurrentPower = 404;
                     }
@@ -353,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                             // .put (Key, Clouds.all)
 
                             if (z<=20){
-                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100);
+                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100)*0.8f; // чисто разницу лучше не оставлять, а домножанать на 0.8 например чтобы при макс. облач. не было нуля
 
                                 TimeHashMap = (long) wr.dt * 1000;
                                 //if (unixSunrise )
@@ -362,13 +346,6 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("Datamap 1->", TimeHashMap+" "+ CurrentPowerHashMap);
                                 z++;
                             }
-//                            try {
-//                            }catch (Exception e){
-//                                Log.d("my Error", "in retrofit array");
-//                            }
-                            //list.dt -- is Time of data forecasted, unix, UTC
-                            //Toast.makeText(getApplicationContext(), (CharSequence) dataMap, Toast.LENGTH_LONG).show();
-
                         }
                         Log.d("Datamap 1>>>>>", ""+dataMap);
                     }
@@ -391,12 +368,6 @@ public class MainActivity extends AppCompatActivity {
             HotCheck = true;
         }
 
-
-        //SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        //SharedPreferences.Editor editor = sharedPreferences.edit();
-
-//        editor.putString("MyCity",city);
-//        editor.apply();
         Log.d("From retrofit         ",  "Sunrise and sunset " + unixSunrise+ " "+ unixSunset);
         Log.d("From retrofit          ", GMT +"GMT now ");
         Log.d("From retrofit          ", UnixCurrentTime +"current time ");
@@ -410,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
     public void TimeManipulations(){
         Log.d("Lifecycle -> method "," timemanipulations ");
         Log.d("Timemaipulation method "," UTC -> "+ UnixCurrentTime+ " unixSunrise "+ unixSunrise+ " unixSet "+ unixSunset + "GMT "+ GMT);
-        if (UnixCurrentTime>1 & unixSunrise>1& w<=1) {
+        if (UnixCurrentTime>1 & unixSunrise>1) {
             ////////////////////////////////////////////////////
             //     Time zone & unix sunrise/sunset            //
             //      Here we define human time                 //
@@ -478,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TIMEST >", sunrise + "and sunset " + sunset);
             Log.d("TIMEST >", timestamp + "and  " + timestamp2);
 
-//////////////////////////////////////////
+            //////////////////////////////////
             int hournow = (int) hour;
             int hourRise = (int) hour2;
             int hourSet = (int) hour3;
@@ -535,6 +506,8 @@ public class MainActivity extends AppCompatActivity {
 
             ////////////////////////////////////////////////////
             solarhoursString = String.valueOf(hourSet - hourRise);
+            Log.d("@@@@@@@@@@@@", "0 Solarhour:  "+solarhoursString);
+
             //Log.d("##########", " "+sunrise+" "+sunset + " unix -> " +unixSunrise + " GMT is ->" + GMT +" TZ is -> "+ finalblank);
             String zeroPlace5 = "";
             String zeroPlace6 = "";
@@ -553,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
                 /* debug: is it local time? */
                 Log.d("Time zone: ", tz.getDisplayName());
                 /* date formatter in local timezone */
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MMMM");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM");
                 sdf.setTimeZone(tz);
                 /* print your timestamp and double check it's the date you expect */
                 String date = sdf.format(new Date(key * 1000));
@@ -581,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("Hashmap test loop -> ", "key : "+ key + " value : "+ value);
                 int transitTime = (int) hour4;
                 Log.d("Hashmap test loop -> ", "transittime : " + transitTime + " hoursunset : " + hourSet);
-
+                Log.d("Loopz ", ModernTime+ " and value " + value);
                 if (transitTime > hourSet) {
                     //0
                     //corvette.put(ModernTime, value*0f);
@@ -620,7 +593,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 a++;
                 Log.d(" loop ", a + " times ");
-
+                Log.d("Loop after of this", ModernTime+ " and value " + value);
             }
             w++;
         }
@@ -639,26 +612,25 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("value", json2);
             editor.apply();
             s++;
-
-//            jsonString = new Gson().toJson(corvette);
-//            editor.putString("map", jsonString); // this hashmap
-//            editor.apply(); // added apply and this works!
-//            Log.d("Hash map corvette -> ", " "+ corvette + "json -> "+ jsonString);
-//            Log.d("json 4>>>>>", ""+jsonString);
         }
     }
     public void SaveData(){
+
         Log.d("Lifecycle -> method "," savedata ");
         SharedPreferences sharedPreferences = getSharedPreferences("MasterSave", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("CurPow",CurrentPowerInt);
         editor.putLong("GMT",GMT);
-        editor.putBoolean("tempScale",tempScale);
         editor.putFloat("temp",temp);
         editor.putFloat("pressure",pressure);
         editor.putFloat("humidity",humidity);
         editor.putString("sunrise",sunrise);
         editor.putString("sunset",sunset);
+
+        editor.putString("solarhours",solarhoursString);
+        editor.putBoolean("tempScale",tempScale);
+        Log.d("@@@@@@@@@@@@", "1 Solarhour:  "+solarhoursString);
+
         editor.putString("MyCity",city);
         editor.apply();
         Log.d("@@@@@@@@@@@@", "GMT:  "+GMT);

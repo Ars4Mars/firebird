@@ -234,7 +234,6 @@ public class HomeFragment extends Fragment {
 
         Random r = new Random();
         random_num = r.nextInt(max - min + 1) + min;
-        //Toast.makeText(getActivity(),"Text!"+width,Toast.LENGTH_SHORT).show();
         //Random end
 
         //sunny day
@@ -247,56 +246,55 @@ public class HomeFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void LaunchForecast (){
         Log.d("Lifecycle -> method "," LaunchForecast ");
-        //Toast.makeText(getActivity(),"Loading ...",Toast.LENGTH_SHORT).show();
         ((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
-        //CurrentPower.setText(""+currentPower2);
-        //mainLoader.setVisibility(View.VISIBLE);
         final ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
                 getString(R.string.DialogLoad), true);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
-
                 LoadDataFragment();
-                //((MainActivity) Objects.requireNonNull(getActivity())).TimeManipulations();
-
+                Log.d("@@@@@@@@@@@@", "2 Solarhour:  "+solarhoursString);
                 MainActivity activity = (MainActivity) getActivity();
-                currentPower = activity.getCurrentPowerData();
                 final Float nominalpower = activity.getNominalPower();
                 city = activity.getСityData();
                 sunrise = activity.getSunrisetime();
                 sunset = activity.getSunsetime();
-                solarhoursString = activity.getSolarHours();
+                //solarhoursString = activity.getSolarHours();
                  int SunPeriod = activity.getSunPeriod();
                  wind = activity.getWindSpeed();
                  Boolean HotCheck = activity.HotCheck();
 
-                //dirty hack
-                if (currentPower == 0 & SunPeriod != 0){
+                try {
+                    //dirty hack
+                    if (currentPower == 0 & SunPeriod != 0){
 
-                    if (amortization<2){
-                        LaunchForecast();
-                        amortization++;
+                        if (amortization<2){
+                            LaunchForecast();
+                            amortization++;
+                        }
+
                     }
+                    if (currentPower >0 & SunPeriod ==0){
 
-                }
-                if (currentPower >0 & SunPeriod ==0){
-
-                    if (amortization<2){
-                        LaunchForecast();
-                        amortization++;
+                        if (amortization<2){
+                            LaunchForecast();
+                            amortization++;
+                        }
                     }
-                }
-                if (Integer.parseInt(solarhoursString)<=0 ){
+                    if (Float.parseFloat(solarhoursString)<=0 ){
 
-                    if (amortization<2){
-                        LaunchForecast();
-                        amortization++;
+                        if (amortization<2){
+                            LaunchForecast();
+                            amortization++;
+                        }
                     }
+                }catch (Exception e){
+                    Log.d("ERROR try/catch", "sunshine duration");
                 }
+
                 try {
                     if (Integer.parseInt(sunrise.substring(0, sunrise.length() - 3))>8 ){
 
@@ -306,8 +304,11 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 }catch (Exception e){
+                    Log.d("ERROR try/catch", " sunrise ");
 
                 }
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MasterSave",MODE_PRIVATE);
+                solarhoursString = sharedPreferences.getString("solarhours","7");// here was bug
 
                 CurrentPower.setText(""+currentPower);
                 NominalPower.setText(nominalpower+" W");
@@ -315,7 +316,8 @@ public class HomeFragment extends Fragment {
                 CityView.setSelected(true);
                 SunriseView.setText(""+sunrise);
                 SunsetView.setText(""+sunset);
-                SolarHoursView.setText(solarhoursString+ getString(R.string.hours));
+                Log.d("@@@@@@@@@@@@", "3 Solarhour:  "+solarhoursString);
+                SolarHoursView.setText(solarhoursString+""+ getString(R.string.hours));
                 WindView.setText(wind+ "");
 
                 Log.d("Fragment currentpower>", " "+ currentPower);
@@ -349,7 +351,7 @@ public class HomeFragment extends Fragment {
                 getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
                 height = displaymetrics.heightPixels;
                 width = displaymetrics.widthPixels;
-                //Toast.makeText(getActivity(),"Cur Pow "+currentPower,Toast.LENGTH_SHORT).show();
+
 
 
                 final Handler handler = new Handler();
@@ -363,11 +365,8 @@ public class HomeFragment extends Fragment {
                 }, 4500);
                 //Restart recyclerview
                 ArrayList<Model> list2= new ArrayList<>();
-                //list2.add(new Model())
                 list2.add(new Model(Model.TEXT_TYPE,getString(R.string._48_hour_power_generation_forecast_from_solar_panels),0));
                 list2.add(new Model(Model.GRAPH_TYPE,"",0));
-                //list.add(new Model(Model.GRAPH_TYPE,"",0 ));
-                //list.add(new Model(Model.GRAPH_TYPE,"IRON MAN",0 ));
                 final MultiViewTypeAdapter adapter = new MultiViewTypeAdapter(list2,getActivity());
                 final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
@@ -413,26 +412,14 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d("Lifecycle of Fragment->", " Fragment -> onResume launch ");
-//        dialog = ProgressDialog.show(getActivity(), "",
-//                "Collect data from satellites ... Please wait...", true);
-        //((MainActivity) Objects.requireNonNull(getActivity())).runforecast();
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        LoadDataFragment();
         MainActivity activity = (MainActivity) getActivity();
-        nominalpower = activity.getNominalPower();
         city = activity.getСityData();
-//        NominalPower.setText(""+nominalpower+" W");
-//        CityView.setText(""+city);
-
 
         sunrise = activity.getSunrisetime();
         sunset = activity.getSunsetime();
-        solarhoursString = activity.getSolarHours();
         SunPeriod = activity.getSunPeriod();
-//        SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences("MasterSave",MODE_PRIVATE);
-//
-//        nominalpower = sharedPreferences.getFloat("Nominal_Power", 1f);
-//        city = sharedPreferences.getString("MyCity",city);
+
+        LoadDataFragment(); // load data from sharedpref
         Log.d(" Fragment var", sunrise+ " ");
         NominalPower.setText(nominalpower+" W");
         CityView.setText(""+city);
@@ -441,14 +428,9 @@ public class HomeFragment extends Fragment {
         //SunriseView.setText(""+sunrise);
         SunriseView.setText(sunrise);
         SunsetView.setText(""+sunset);
-        SolarHoursView.setText(solarhoursString+ " hr");
-
-        //CurrentPower.setText(""+currentPower2);
-        //mainLoader.setVisibility(View.VISIBLE);
-
 
         Log.d("###########","in Resume - City is " +city + nominalpower);
-        //dialog.dismiss();
+
     }
 
     public void rotateFan() {
@@ -467,10 +449,6 @@ public class HomeFragment extends Fragment {
         }else if (wind>=11){
             rotate.setDuration(900);
         }
-//        else if (){
-//
-//        }
-//        rotate.setDuration(1500);
         rotate.setRepeatCount(Animation.INFINITE);
 
         rotate.setInterpolator(new LinearInterpolator());
@@ -491,8 +469,6 @@ public class HomeFragment extends Fragment {
                         Color.parseColor(getString(R.string.night)));
 
         skyAnim.setDuration(ANIMATION_DURATION);
-        //skyAnim.setRepeatCount(ValueAnimator.INFINITE);
-        //skyAnim.setRepeatMode(ValueAnimator.REVERSE);
         skyAnim.setEvaluator(new ArgbEvaluator());
         skyAnim.start();
 
@@ -524,7 +500,6 @@ public class HomeFragment extends Fragment {
        // MasterCloud();
 
         //Motion Sun
-        //ImageView sun = (ImageView) findViewById(R.id.ivSun);
         sun.setVisibility(View.VISIBLE);
         //TranslateAnimation animation2 = new TranslateAnimation(a, 200, c, 280);
         TranslateAnimation animation1 = new TranslateAnimation(-220, width/100,250, 200 );
@@ -641,6 +616,8 @@ public class HomeFragment extends Fragment {
             city = sharedPreferences.getString("MyCity"," ");
             sunrise = sharedPreferences.getString("sunrise",sunrise);
             sunset = sharedPreferences.getString("sunset",sunset);
+            solarhoursString = sharedPreferences.getString("solarhours","0");
+
         }catch(Exception e){
             Log.d("myError", "from Load nominal Frag");
         }
