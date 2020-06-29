@@ -1,4 +1,4 @@
-# FireBird-Solar-Forecasting
+# FBS-Forecasting
 :satellite: Retrofit, :earth_africa: Google Maps API, :calling: Fragments. Solar panel forecasting app. version 0.2.3
 
 
