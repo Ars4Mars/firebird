@@ -327,21 +327,9 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     WeatherForecastResponse weatherResponse = response.body();
                     assert weatherResponse != null;
-                    ArrayList<WeatherResponse> list = weatherResponse.list;
-
-                    if (dataMap.size() == 0){
-
+        
                         Log.d("z -1 ", z+" ");
 
-                        for(WeatherResponse wr: list){
-                            // .put (Key, Clouds.all)
-
-                            if (z<=20){
-                                CurrentPowerHashMap = NominalPower - NominalPower *nx
-                                z++;
-                            }
-                        }
-                        Log.d("Datamap 1>>>>>", ""+dataMap);
                     }
                 }
             }
