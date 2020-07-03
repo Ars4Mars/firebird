@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("From retrofit         ",  "Temp and press " + temp+ " "+ pressure);
 
                     if (cloud >-1 ){
-                        CurrentPower = NominalPower - NominalPower*(cloud/100)*0.8f;
+                        CurrentPower = NominalPower*nx;
                     }else{
                         CurrentPower = 404;
                     }
