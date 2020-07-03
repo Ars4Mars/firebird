@@ -337,13 +337,7 @@ public class MainActivity extends AppCompatActivity {
                             // .put (Key, Clouds.all)
 
                             if (z<=20){
-                                CurrentPowerHashMap = NominalPower - NominalPower * (wr.clouds.all / 100)*0.8f; // чисто разницу лучше не оставлять, а домножанать на 0.8 например чтобы при макс. облач. не было нуля
-
-                                TimeHashMap = (long) wr.dt * 1000;
-                                //if (unixSunrise )
-
-                                dataMap.put(TimeHashMap, CurrentPowerHashMap);
-                                Log.d("Datamap 1->", TimeHashMap+" "+ CurrentPowerHashMap);
+                                CurrentPowerHashMap = NominalPower - NominalPower *nx
                                 z++;
                             }
                         }
